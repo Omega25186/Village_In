@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Inn - Modern Hotel Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #d84c7a 100%);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,100 1000,0 1000,100"/></svg>');
+            background-size: cover;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+        }
+
+        .main-layout {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .rooms-section {
+            flex: 1;
+            padding: 40px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .room-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .room-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            z-index: 1;
+        }
+
+        .room-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .room-card.available {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-color: rgba(79, 172, 254, 0.5);
+        }
+
+        .room-card.occupied {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-color: rgba(250, 112, 154, 0.5);
+        }
+
+        .room-card.cleaning {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-color: rgba(168, 237, 234, 0.5);
+        }
+
+        .room-card.trouble {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            border-color: rgba(210, 153, 194, 0.5);
+        }
+
+        .room-card.locked {
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            border-color: rgba(137, 247, 254, 0.5);
+        }
+
+        .room-card.quick-locked {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .room-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .room-emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+            position: relative;
+            z-index: 2;
+        }
+
+        .room-info {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+            line-height: 1.4;
+        }
+
+        .checkout-alert {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                box-shadow: 0 15px 35px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        .sidebar {
+            width: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .report-section {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .report-section h3 {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .report-count {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .report-list {
+            list-style: none;
+        }
+
+        .report-list li {
+            color: white;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .report-list li:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 10px;
+            border-radius: 8px;
+        }
+
+        /* Price Calculator Styles */
+        .calculator-section {
+            flex: 1;
+            padding: 40px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: none;
+        }
+
+        .calculator-container {
+            background: #fff;
+            max-width: 450px;
+            margin: auto;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator-container h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .calculator-container label {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .calculator-container input, .calculator-container select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .calculator-container button {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .calculator-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            background-color: #e6ffed;
+            border: 2px solid #28a745;
+            color: #155724;
+            font-size: 18px;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .copy-btn {
+            background-color: #28a745 !important;
+            margin-top: 10px;
+        }
+
+        .copy-btn:hover {
+            background-color: #1e7e34 !important;
+        }
+
+        .breakdown {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Modal Styles */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .modal h3 {
+            color: #333;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h4 {
+            color: #333;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .required::after {
+            content: ' *';
+            color: #ff4757;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Specific styling for date inputs to make them look more modern */
+        input[type="date"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="%23777"><path d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            cursor: pointer;
+        }
+        input[type="date"]::-webkit-inner-spin-button,
+        input[type="date"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #e1e8ed;
+            color: #333;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .message-modal {
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .message-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .message-text {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .options-modal .btn {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 20px;
+            font-size: 1.1rem;
+        }
+
+        .room-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+            min-width: 120px;
+            margin-right: 15px;
+        }
+
+        .detail-value {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-bar {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .rooms-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .room-card {
+                padding: 20px;
+                min-height: 150px;
+            }
+            
+            .room-number {
+                font-size: 1.5rem;
+            }
+            
+            .room-emoji {
+                font-size: 2.5rem;
+            }
+            
+            .modal {
+                padding: 25px;
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+            
+            .room-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Price field conditional styling */
+        .price-conditional {
+            transition: all 0.3s ease;
+        }
+
+        .price-conditional.required {
+            border-color: #ff4757;
+            background: #fff5f5;
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: #ff4757;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .clean-confirm-input {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .secret-code-input {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+        }
+
+        /* Styles for the dropdown */
+        .dropdown-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .dropdown-search {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+
+        .dropdown-search:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item.highlighted {
+            background-color: #f0f4f7;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-container.open .dropdown-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>🏨 Village Inn</h1>
+            <div class="subtitle">Modern Hotel Management System - Owner: Alpa Patel</div>
+        </div>
+
+        <div class="nav-bar">
+            <button class="nav-btn active" onclick="showSection('rooms')">🏨 Room Management</button>
+            <button class="nav-btn" onclick="showSection('calculator')">💰 Price Calculator</button>
+        </div>
+
+        <div class="main-layout">
+            <div class="rooms-section" id="roomsSection">
+                <div class="rooms-grid" id="roomsGrid"></div>
+            </div>
+
+            <div class="calculator-section" id="calculatorSection">
+                <div class="calculator-container">
+                    <h2>Price Calculator</h2>
+
+                    <label for="basePrice">Base Price ($):</label>
+                    <input type="number" id="basePrice" placeholder="Enter base price" />
+
+                    <label for="taxRate">Choose Tax Rate:</label>
+                    <select id="taxRate">
+                        <option value="0.082" selected>8.2%</option>
+                        <option value="0.06">6%</option>
+                    </select>
+
+                    <button onclick="calculateTotal()">Calculate Total</button>
+
+                    <div class="result" id="totalPrice">Total Price: $0.00</div>
+                    <button class="copy-btn" onclick="copyTotal()">Copy Total Price</button>
+
+                    <div class="breakdown" id="taxBreakdown"></div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <h2>📊 Room Reports</h2>
+                
+                <div class="report-section">
+                    <h3>
+                        🟢 Available Rooms
+                        <span class="report-count" id="availableCount">0</span>
+                    </h3>
+                    <ul class="report-list" id="availableList"></ul>
+                </div>
+
+                <div class="report-section">
+                    <h3>
+                        🧹 Needs Cleaning
+                        <span class="report-count" id="cleaningCount">0</span>
+                    </h3>
+                    <ul class="report-list" id="cleaningList"></ul>
+                </div>
+
+                <div class="report-section">
+                    <h3>
+                        🚨 Trouble Rooms
+                        <span class="report-count" id="troubleCount">0</span>
+                    </h3>
+                    <ul class="report-list" id="troubleList"></ul>
+                </div>
+
+                <div class="report-section">
+                    <h3>
+                        🔒 Locked Rooms
+                        <span class="report-count" id="lockedCount">0</span>
+                    </h3>
+                    <ul class="report-list" id="lockedList"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Check-in Form Modal -->
+    <div class="modal" id="checkinModal">
+        <h3>🏨 Guest Check-In - Room <span id="modalRoomNumber"></span></h3>
+        <form id="checkinForm">
+            <div class="form-grid">
+                <div class="form-section">
+                    <h4>👤 Guest Information</h4>
+                    <div class="form-group">
+                        <label for="firstName" class="required">First Name</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="required">Last Name</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob" class="required">Date of Birth</label>
+                        <input type="date" id="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number</label>
+                        <input type="tel" id="mobile" placeholder="123-456-7890">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>🚗 Vehicle & Booking</h4>
+                    <div class="form-group">
+                        <label for="carMakeModel" class="required">Car Make/Model</label>
+                        <div class="dropdown-container" id="carMakeDropdown">
+                            <input type="text" id="carMakeModel" class="dropdown-search" placeholder="Select or type car make..." required readonly>
+                            <span class="dropdown-arrow">▼</span>
+                            <div class="dropdown-list" id="carMakeList"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="carColor">Car Color</label>
+                        <select id="carColor">
+                            <option value="">Select Color</option>
+                            <option value="Black">Black</option>
+                            <option value="White">White</option>
+                            <option value="Silver">Silver</option>
+                            <option value="Grey">Grey</option>
+                            <option value="Red">Red</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Green">Green</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Orange">Orange</option>
+                            <option value="Brown">Brown</option>
+                            <option value="Purple">Purple</option>
+                            <option value="Gold">Gold</option>
+                            <option value="Beige">Beige</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkInType" class="required">Check-In Type</label>
+                        <select id="checkInType" required>
+                            <option value="">Select Type</option>
+                            <option value="Walk-in">Walk-in</option>
+                            <option value="Booking.com">Booking.com</option>
+                            <option value="Expedia">Expedia</option>
+                            <option value="Stripe">Stripe</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deposit">Deposit Amount</label>
+                        <input type="number" id="deposit" step="0.01" placeholder="0.00" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-section">
+                    <h4>📅 Dates</h4>
+                    <div class="form-group">
+                        <label for="checkInDate" class="required">Check-In Date</label>
+                        <input type="date" id="checkInDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkOutDate" class="required">Check-Out Date</label>
+                        <input type="date" id="checkOutDate" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>💰 Pricing & Notes</h4>
+                    <div class="form-group">
+                        <label for="price" id="priceLabel">Room Price</label>
+                        <input type="number" id="price" step="0.01" placeholder="120.00" class="price-conditional">
+                        <div class="error-message" id="priceError">Price is required for Walk-in bookings</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Service Notes</label>
+                        <textarea id="notes" rows="3" placeholder="Any special requests or notes..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="currentRoomId">
+            <input type="hidden" id="isEditMode" value="false">
+
+            <div class="button-group">
+                <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" id="unlockBtn" style="display: none;">Unlock & Revert</button>
+                <button type="submit" class="btn btn-primary">Submit Check-In</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Room Details Modal -->
+    <div class="modal" id="detailsModal">
+        <h3>🏨 Room <span id="detailsRoomNumber"></span> Details</h3>
+        <div class="room-details-grid" id="detailsGrid"></div>
+        <div class="button-group">
+            <button type="button" class="btn btn-cancel" onclick="closeModal()">Close</button>
+            <button type="button" class="btn btn-danger" id="checkoutBtn">Check Out</button>
+            <button type="button" class="btn btn-warning" id="troubleBtn">Mark Trouble</button>
+            <button type="button" class="btn btn-secondary" id="lockBtn">Lock Room</button>
+            <button type="button" class="btn btn-primary" id="editBtn">Edit Details</button>
+        </div>
+    </div>
+
+    <!-- Options Modal -->
+    <div class="modal options-modal" id="optionsModal">
+        <h3>🏨 Room <span id="optionsRoomNumber"></span> Options</h3>
+        <button type="button" class="btn btn-success" id="fullCheckinBtn">🏨 Full Check-In</button>
+        <button type="button" class="btn btn-secondary" id="manualLockBtn">🔒 Manual Lock / Do Not Rent</button>
+        <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+
+    <!-- Lock Options Modal -->
+    <div class="modal options-modal" id="lockOptionsModal">
+        <h3>🔒 Lock Room <span id="lockRoomNumber"></span></h3>
+        <p style="text-align: center; margin-bottom: 20px; color: #666;">Select a reason to lock this room:</p>
+        <button type="button" class="btn btn-secondary" data-reason="Maintenance">🔧 Maintenance / Working in Room</button>
+        <button type="button" class="btn btn-secondary" data-reason="Do Not Rent">🚫 Do Not Rent</button>
+        <button type="button" class="btn btn-secondary" data-reason="Staff Use">👥 Staff Use</button>
+        <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+
+    <!-- Clean Confirmation Modal -->
+    <div class="modal message-modal" id="cleanModal">
+        <h3>🧹 Confirm Room Cleaning</h3>
+        <div class="message-text">
+            To confirm cleaning and make Room <span id="cleanRoomNumber"></span> available,<br>
+            please type the room number below:
+        </div>
+        <div class="form-group">
+            <input type="text" id="cleanInput" class="clean-confirm-input" placeholder="Enter room number">
+            <div class="error-message" id="cleanError">Incorrect room number. Please try again.</div>
+        </div>
+        <div class="button-group">
+            <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-success" id="confirmCleanBtn">✅ Confirm Cleaning</button>
+        </div>
+    </div>
+
+    <!-- Secret Code Modal -->
+    <div class="modal message-modal" id="secretModal">
+        <h3>🔐 Enter Secret Code</h3>
+        <div class="message-text">Enter the secret code to edit room details:</div>
+        <div class="form-group">
+            <input type="password" id="secretInput" class="secret-code-input" placeholder="••••••" maxlength="6">
+            <div class="error-message" id="secretError">Incorrect code. Please try again.</div>
+        </div>
+        <div class="button-group">
+            <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" id="secretSubmitBtn">Submit</button>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="modal message-modal" id="messageModal">
+        <div class="message-icon" id="messageIcon"></div>
+        <div class="message-text" id="messageText"></div>
+        <div class="button-group">
+            <button type="button" class="btn btn-primary" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div class="modal message-modal" id="confirmModal">
+        <div class="message-icon">⚠️</div>
+        <div class="message-text" id="confirmText"></div>
+        <div class="button-group">
+            <button type="button" class="btn btn-cancel" id="confirmCancelBtn">Cancel</button>
+            <button type="button" class="btn btn-danger" id="confirmOkBtn">Confirm</button>
+        </div>
+    </div>
+
+    <script>
+        // Navigation Functions
+        function showSection(section) {
+            const roomsSection = document.getElementById('roomsSection');
+            const calculatorSection = document.getElementById('calculatorSection');
+            const navButtons = document.querySelectorAll('.nav-btn');
+            
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            
+            if (section === 'rooms') {
+                roomsSection.style.display = 'block';
+                calculatorSection.style.display = 'none';
+                document.querySelector('[onclick="showSection(\'rooms\')"]').classList.add('active');
+            } else if (section === 'calculator') {
+                roomsSection.style.display = 'none';
+                calculatorSection.style.display = 'block';
+                document.querySelector('[onclick="showSection(\'calculator\')"]').classList.add('active');
+            }
+        }
+
+        // Price Calculator Functions
+        function calculateTotal() {
+            const basePrice = parseFloat(document.getElementById("basePrice").value);
+            const taxRate = parseFloat(document.getElementById("taxRate").value);
+            const resultField = document.getElementById("totalPrice");
+            const breakdownField = document.getElementById("taxBreakdown");
+
+            if (!isNaN(basePrice)) {
+                const taxAmount = basePrice * taxRate;
+                const total = basePrice + taxAmount;
+                resultField.innerText = `Total Price: ${total.toFixed(2)}`;
+                resultField.style.backgroundColor = "#e6ffed";
+                resultField.style.color = "#155724";
+                resultField.style.border = "2px solid #28a745";
+                breakdownField.innerText = `Tax (${(taxRate * 100).toFixed(1)}%) = ${taxAmount.toFixed(2)}`;
+            } else {
+                resultField.innerText = "Please enter a valid base price.";
+                resultField.style.backgroundColor = "#fff3cd";
+                resultField.style.color = "#856404";
+                resultField.style.border = "2px solid #ffeeba";
+                breakdownField.innerText = "";
+            }
+        }
+
+        function copyTotal() {
+            const text = document.getElementById("totalPrice").innerText.replace('Total Price: ', '');
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Total Price copied to clipboard!");
+            });
+        }
+
+        // Room configuration
+        const roomRanges = [[100, 103], [116, 129], [200, 229]];
+        const SECRET_CODE = "998877";
+        
+        // Generate room numbers
+        const allRoomNumbers = roomRanges.flatMap(([start, end]) => 
+            Array.from({length: end - start + 1}, (_, i) => String(start + i))
+        ).sort((a, b) => parseInt(a) - parseInt(b));
+
+        // Global variables
+        let roomData = {};
+        let currentConfirmCallback = null;
+        let currentRoomForSecret = null;
+
+        // Car manufacturers list (comprehensive US car companies)
+        const carMakes = [
+            "Acura", "Alfa Romeo", "Aston Martin", "Audi", "Bentley", "BMW", "Buick", "Cadillac", 
+            "Chevrolet", "Chrysler", "Dodge", "Ferrari", "Fiat", "Ford", "Genesis", "GMC", 
+            "Honda", "Hyundai", "Infiniti", "Jaguar", "Jeep", "Kia", "Lamborghini", "Land Rover", 
+            "Lexus", "Lincoln", "Lotus", "Maserati", "Mazda", "McLaren", "Mercedes-Benz", "Mini", 
+            "Mitsubishi", "Nissan", "Porsche", "Ram", "Rolls-Royce", "Subaru", "Tesla", "Toyota", 
+            "Volkswagen", "Volvo", "Hummer", "Pontiac", "Oldsmobile", "Saturn", "Mercury", 
+            "Plymouth", "Eagle", "Saab", "Suzuki", "Isuzu", "Daewoo", "Smart", "Scion", 
+            "Maybach", "Spyker", "Koenigsegg", "Bugatti", "Pagani", "Fisker", "Lucid", "Rivian",
+            "Polestar", "Genesis", "Karma", "Canoo", "Lordstown", "Nikola", "Workhorse"
+        ].sort();
+
+        // DOM elements
+        const roomsGrid = document.getElementById('roomsGrid');
+        const overlay = document.getElementById('overlay');
+        const checkinModal = document.getElementById('checkinModal');
+        const detailsModal = document.getElementById('detailsModal');
+        const optionsModal = document.getElementById('optionsModal');
+        const lockOptionsModal = document.getElementById('lockOptionsModal');
+        const cleanModal = document.getElementById('cleanModal');
+        const secretModal = document.getElementById('secretModal');
+        const messageModal = document.getElementById('messageModal');
+        const confirmModal = document.getElementById('confirmModal');
+
+        // Form elements
+        const checkinForm = document.getElementById('checkinForm');
+        const modalRoomNumberSpan = document.getElementById('modalRoomNumber');
+        const firstNameInput = document.getElementById('firstName');
+        const lastNameInput = document.getElementById('lastName');
+        const dobInput = document.getElementById('dob');
+        const mobileInput = document.getElementById('mobile');
+        const carMakeModelInput = document.getElementById('carMakeModel');
+        const carMakeDropdown = document.getElementById('carMakeDropdown');
+        const carMakeList = document.getElementById('carMakeList');
+        const carColorSelect = document.getElementById('carColor');
+        const checkInTypeSelect = document.getElementById('checkInType');
+        const checkInDateInput = document.getElementById('checkInDate');
+        const checkOutDateInput = document.getElementById('checkOutDate');
+        const priceInput = document.getElementById('price');
+        const depositInput = document.getElementById('deposit');
+        const notesTextarea = document.getElementById('notes');
+        const currentRoomIdInput = document.getElementById('currentRoomId');
+        const isEditModeInput = document.getElementById('isEditMode');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const submitCheckInBtn = document.querySelector('#checkinModal .btn-primary');
+        const priceLabel = document.getElementById('priceLabel');
+        const priceError = document.getElementById('priceError');
+
+        // Room Details elements
+        const detailsRoomNumberSpan = document.getElementById('detailsRoomNumber');
+        const detailsGrid = document.getElementById('detailsGrid');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const troubleBtn = document.getElementById('troubleBtn');
+        const lockBtn = document.getElementById('lockBtn');
+        const editBtn = document.getElementById('editBtn');
+
+        // Options Modal elements
+        const optionsRoomNumberSpan = document.getElementById('optionsRoomNumber');
+        const fullCheckinBtn = document.getElementById('fullCheckinBtn');
+        const manualLockBtn = document.getElementById('manualLockBtn');
+
+        // Lock Options Modal elements
+        const lockRoomNumberSpan = document.getElementById('lockRoomNumber');
+        const lockReasonButtons = lockOptionsModal.querySelectorAll('.btn-secondary');
+
+        // Clean Confirmation Modal elements
+        const cleanRoomNumberSpan = document.getElementById('cleanRoomNumber');
+        const cleanInput = document.getElementById('cleanInput');
+        const cleanError = document.getElementById('cleanError');
+        const confirmCleanBtn = document.getElementById('confirmCleanBtn');
+
+        // Secret Code Modal elements
+        const secretInput = document.getElementById('secretInput');
+        const secretError = document.getElementById('secretError');
+        const secretSubmitBtn = document.getElementById('secretSubmitBtn');
+
+        // Message/Confirm Modal elements
+        const messageIcon = document.getElementById('messageIcon');
+        const messageText = document.getElementById('messageText');
+        const confirmText = document.getElementById('confirmText');
+        const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+        const confirmOkBtn = document.getElementById('confirmOkBtn');
+
+        // Report Sidebar elements
+        const availableCount = document.getElementById('availableCount');
+        const availableList = document.getElementById('availableList');
+        const cleaningCount = document.getElementById('cleaningCount');
+        const cleaningList = document.getElementById('cleaningList');
+        const troubleCount = document.getElementById('troubleCount');
+        const troubleList = document.getElementById('troubleList');
+        const lockedCount = document.getElementById('lockedCount');
+        const lockedList = document.getElementById('lockedList');
+
+        // --- Core Functions ---
+
+        function showModal(modalElement) {
+            modalElement.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function closeModal() {
+            [checkinModal, detailsModal, optionsModal, lockOptionsModal, cleanModal, secretModal, messageModal, confirmModal].forEach(modal => {
+                modal.style.display = 'none';
+            });
+            overlay.style.display = 'none';
+            checkinForm.reset();
+            currentConfirmCallback = null;
+            currentRoomForSecret = null;
+            priceInput.removeAttribute('required');
+            priceLabel.classList.remove('required');
+            priceError.style.display = 'none';
+            carMakeList.style.display = 'none';
+            carMakeDropdown.classList.remove('open');
+        }
+
+        function showMessage(type, message) {
+            messageIcon.innerHTML = '';
+            if (type === 'success') messageIcon.innerHTML = '✅';
+            else if (type === 'error') messageIcon.innerHTML = '❌';
+            else if (type === 'warning') messageIcon.innerHTML = '⚠️';
+            else if (type === 'info') messageIcon.innerHTML = 'ℹ️';
+            messageText.textContent = message;
+            showModal(messageModal);
+        }
+
+        function showConfirm(message, callback) {
+            confirmText.textContent = message;
+            currentConfirmCallback = callback;
+            showModal(confirmModal);
+        }
+
+        function getRoomStatus(roomCard) {
+            if (roomCard.classList.contains('available')) return 'available';
+            if (roomCard.classList.contains('occupied')) return 'occupied';
+            if (roomCard.classList.contains('cleaning')) return 'cleaning';
+            if (roomCard.classList.contains('trouble')) return 'trouble';
+            if (roomCard.classList.contains('locked')) return 'locked';
+            if (roomCard.classList.contains('quick-locked')) return 'quick-locked';
+            return null;
+        }
+
+        function updateRoomCard(roomCard, newStatus, emoji, infoHtml = '') {
+            roomCard.classList.remove('available', 'occupied', 'cleaning', 'trouble', 'locked', 'quick-locked', 'checkout-alert', 'pulseGlow');
+            roomCard.classList.add(newStatus);
+            roomCard.querySelector('.room-emoji').textContent = emoji;
+            roomCard.querySelector('.room-info').innerHTML = infoHtml;
+        }
+
+        // --- Car Make Dropdown Functions ---
+        function initializeCarMakeDropdown() {
+            carMakeList.innerHTML = '';
+            carMakes.forEach(make => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                item.textContent = make;
+                item.addEventListener('click', () => selectCarMake(make));
+                carMakeList.appendChild(item);
+            });
+        }
+
+        function selectCarMake(make) {
+            carMakeModelInput.value = make;
+            carMakeList.style.display = 'none';
+            carMakeDropdown.classList.remove('open');
+        }
+
+        function filterCarMakes(searchTerm) {
+            const items = carMakeList.querySelectorAll('.dropdown-item');
+            let visibleCount = 0;
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm.toLowerCase())) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            return visibleCount > 0;
+        }
+
+        // Car Make Dropdown Event Listeners
+        carMakeModelInput.addEventListener('click', function() {
+            if (carMakeList.style.display === 'none') {
+                carMakeList.style.display = 'block';
+                carMakeDropdown.classList.add('open');
+                this.removeAttribute('readonly');
+                this.focus();
+            }
+        });
+
+        carMakeModelInput.addEventListener('input', function() {
+            const hasResults = filterCarMakes(this.value);
+            if (hasResults) {
+                carMakeList.style.display = 'block';
+                carMakeDropdown.classList.add('open');
+            } else {
+                carMakeList.style.display = 'none';
+                carMakeDropdown.classList.remove('open');
+            }
+        });
+
+        carMakeModelInput.addEventListener('keydown', function(e) {
+            const visibleItems = Array.from(carMakeList.querySelectorAll('.dropdown-item')).filter(item => item.style.display !== 'none');
+            const highlighted = carMakeList.querySelector('.dropdown-item.highlighted');
+            let currentIndex = highlighted ? visibleItems.indexOf(highlighted) : -1;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (currentIndex < visibleItems.length - 1) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0;
+                }
+                highlightItem(visibleItems, currentIndex);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    currentIndex--;
+                } else {
+                    currentIndex = visibleItems.length - 1;
+                }
+                highlightItem(visibleItems, currentIndex);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (highlighted) {
+                    selectCarMake(highlighted.textContent);
+                }
+            } else if (e.key === 'Escape') {
+                carMakeList.style.display = 'none';
+                carMakeDropdown.classList.remove('open');
+                this.setAttribute('readonly', 'readonly');
+            }
+        });
+
+        function highlightItem(items, index) {
+            items.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('highlighted');
+                    item.scrollIntoView({ block: 'nearest' });
+                } else {
+                    item.classList.remove('highlighted');
+                }
+            });
+        }
+
+        // Click outside to close dropdown
+        document.addEventListener('click', function(e) {
+            if (!carMakeDropdown.contains(e.target)) {
+                carMakeList.style.display = 'none';
+                carMakeDropdown.classList.remove('open');
+                carMakeModelInput.setAttribute('readonly', 'readonly');
+            }
+        });
+
+        // --- Room Grid Initialization ---
+        function initializeRooms() {
+            allRoomNumbers.forEach(roomNum => {
+                const roomCard = document.createElement('div');
+                roomCard.className = 'room-card available';
+                roomCard.dataset.room = roomNum;
+                roomCard.innerHTML = `
+                    <div class="room-number">Room ${roomNum}</div>
+                    <div class="room-emoji">🚪</div>
+                    <div class="room-info"></div>
+                `;
+                roomCard.addEventListener('click', () => handleRoomClick(roomCard));
+                roomsGrid.appendChild(roomCard);
+            });
+        }
+
+        // --- Event Handlers ---
+
+        function handleRoomClick(roomCard) {
+            const roomNum = roomCard.dataset.room;
+            const currentStatus = getRoomStatus(roomCard);
+            currentRoomIdInput.value = roomNum;
+
+            if (currentStatus === 'available') {
+                optionsRoomNumberSpan.textContent = roomNum;
+                showModal(optionsModal);
+            } else if (currentStatus === 'occupied' || currentStatus === 'trouble' || currentStatus === 'locked' || currentStatus === 'quick-locked') {
+                showRoomDetails(roomNum);
+            } else if (currentStatus === 'cleaning') {
+                cleanRoomNumberSpan.textContent = roomNum;
+                cleanInput.value = '';
+                cleanError.style.display = 'none';
+                showModal(cleanModal);
+            }
+        }
+
+        fullCheckinBtn.addEventListener('click', () => {
+            closeModal();
+            openCheckinForm(currentRoomIdInput.value);
+        });
+
+        manualLockBtn.addEventListener('click', () => {
+            closeModal();
+            lockRoomNumberSpan.textContent = currentRoomIdInput.value;
+            lockOptionsModal.dataset.fromDetails = 'false';
+            showModal(lockOptionsModal);
+        });
+
+        lockReasonButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const roomNum = lockRoomNumberSpan.textContent;
+                const lockReason = e.target.dataset.reason;
+                const roomCard = document.querySelector(`.room-card[data-room="${roomNum}"]`);
+                const fromDetails = lockOptionsModal.dataset.fromDetails === 'true';
+
+                if (roomCard) {
+                    roomData[roomNum] = {
+                        locked: true,
+                        lockReason: lockReason,
+                        originalStatus: fromDetails && roomData[roomNum] ? (roomData[roomNum].inTrouble ? 'trouble' : 'occupied') : 'available',
+                        ...(fromDetails && roomData[roomNum] ? roomData[roomNum] : {})
+                    };
+                    updateRoomCard(roomCard, 'locked', '🔒', lockReason);
+                    showMessage('success', `Room ${roomNum} has been locked for: ${lockReason}.`);
+                }
+                closeModal();
+                updateReportsDisplay();
+            });
+        });
+
+        confirmCleanBtn.addEventListener('click', () => {
+            const roomIdToClean = cleanRoomNumberSpan.textContent;
+            if (cleanInput.value.trim() === roomIdToClean) {
+                const roomCard = document.querySelector(`.room-card[data-room="${roomIdToClean}"]`);
+                if (roomCard) {
+                    updateRoomCard(roomCard, 'available', '🚪');
+                    delete roomData[roomIdToClean];
+                    showMessage('success', `Room ${roomIdToClean} is now available.`);
+                }
+                closeModal();
+                updateReportsDisplay();
+            } else {
+                cleanError.style.display = 'block';
+            }
+        });
+
+        cleanInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                confirmCleanBtn.click();
+            }
+        });
+
+        function openCheckinForm(roomId, isEdit = false) {
+            modalRoomNumberSpan.textContent = roomId;
+            currentRoomIdInput.value = roomId;
+            isEditModeInput.value = isEdit;
+            checkinForm.reset();
+            priceError.style.display = 'none';
+
+            if (isEdit && roomData[roomId]) {
+                const data = roomData[roomId];
+                firstNameInput.value = data.firstName || '';
+                lastNameInput.value = data.lastName || '';
+                dobInput.value = data.dob || '';
+                mobileInput.value = data.mobile || '';
+                carMakeModelInput.value = data.carMakeModel || '';
+                carColorSelect.value = data.carColor || '';
+                checkInTypeSelect.value = data.checkInType || '';
+                checkInDateInput.value = data.checkIn || '';
+                checkOutDateInput.value = data.checkOut || '';
+                priceInput.value = data.price || '';
+                depositInput.value = data.deposit || '0';
+                notesTextarea.value = data.notes || '';
+
+                if (checkInTypeSelect.value === 'Walk-in') {
+                    priceInput.setAttribute('required', 'required');
+                    priceLabel.classList.add('required');
+                }
+                unlockBtn.style.display = (data.locked && data.lockReason) ? 'inline-block' : 'none';
+                submitCheckInBtn.textContent = 'Update Check-In';
+            } else {
+                checkInDateInput.valueAsDate = new Date();
+                unlockBtn.style.display = 'none';
+                submitCheckInBtn.textContent = 'Submit Check-In';
+            }
+            showModal(checkinModal);
+        }
+
+        checkInTypeSelect.addEventListener('change', function() {
+            if (this.value === 'Walk-in') {
+                priceInput.setAttribute('required', 'required');
+                priceLabel.classList.add('required');
+            } else {
+                priceInput.removeAttribute('required');
+                priceLabel.classList.remove('required');
+                priceError.style.display = 'none';
+            }
+        });
+
+        checkinForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const roomId = currentRoomIdInput.value;
+            const roomCard = document.querySelector(`.room-card[data-room="${roomId}"]`);
+
+            if (checkInTypeSelect.value === 'Walk-in' && !priceInput.value) {
+                priceError.style.display = 'block';
+                return;
+            } else {
+                priceError.style.display = 'none';
+            }
+
+            if (new Date(checkOutDateInput.value) < new Date(checkInDateInput.value)) {
+                showMessage('error', "Check-out date cannot be before check-in date.");
+                return;
+            }
+
+            roomData[roomId] = {
+                firstName: firstNameInput.value,
+                lastName: lastNameInput.value,
+                dob: dobInput.value,
+                mobile: mobileInput.value,
+                carMakeModel: carMakeModelInput.value,
+                carColor: carColorSelect.value,
+                checkInType: checkInTypeSelect.value,
+                checkIn: checkInDateInput.value,
+                checkOut: checkOutDateInput.value,
+                price: priceInput.value,
+                deposit: depositInput.value || '0',
+                notes: notesTextarea.value,
+                locked: false,
+                inTrouble: false
+            };
+            updateRoomCard(roomCard, 'occupied', '👤', `${firstNameInput.value} ${lastNameInput.value}<br>🚗 ${carMakeModelInput.value}`);
+            showMessage('success', `Guest ${firstNameInput.value} ${lastNameInput.value} checked into Room ${roomId}.`);
+            closeModal();
+            startCheckOutAlerts();
+            updateReportsDisplay();
+        });
+
+        unlockBtn.addEventListener('click', () => {
+            const roomId = currentRoomIdInput.value;
+            showConfirm(`Are you sure you want to unlock Room ${roomId}? It will become available.`, (confirmed) => {
+                if (confirmed) {
+                    const roomCard = document.querySelector(`.room-card[data-room="${roomId}"]`);
+                    if (roomCard) {
+                        updateRoomCard(roomCard, 'available', '🚪');
+                        delete roomData[roomId];
+                        showMessage('success', `Room ${roomId} has been unlocked and is now available.`);
+                    }
+                } else {
+                    showMessage('warning', `Unlock for Room ${roomId} cancelled.`);
+                }
+                closeModal();
+                updateReportsDisplay();
+            });
+        });
+
+        function showRoomDetails(roomId) {
+            const data = roomData[roomId];
+            const roomCard = document.querySelector(`.room-card[data-room="${roomId}"]`);
+            const currentStatus = getRoomStatus(roomCard);
+
+            detailsRoomNumberSpan.textContent = roomId;
+            detailsGrid.innerHTML = '';
+
+            const details = [
+                { label: 'Guest Name', value: data ? `${data.firstName} ${data.lastName}` : 'N/A' },
+                { label: 'Date of Birth', value: data ? data.dob : 'N/A' },
+                { label: 'Mobile', value: data ? (data.mobile || 'N/A') : 'N/A' },
+                { label: 'Car', value: data ? (data.carMakeModel || 'N/A') : 'N/A' },
+                { label: 'Car Color', value: data ? (data.carColor || 'N/A') : 'N/A' },
+                { label: 'Check-In Type', value: data ? (data.checkInType || 'N/A') : 'N/A' },
+                { label: 'Check-In', value: data ? data.checkIn : 'N/A' },
+                { label: 'Check-Out', value: data ? data.checkOut : 'N/A' },
+                { label: 'Price', value: data ? `${parseFloat(data.price).toFixed(2)}` : 'N/A' },
+                { label: 'Deposit', value: data ? `💰${parseFloat(data.deposit).toFixed(2)}` : '💰$0.00' },
+                { label: 'Notes', value: data ? (data.notes || 'N/A') : 'N/A' }
+            ];
+
+            if (currentStatus === 'locked' && data && data.lockReason) {
+                details[0].value = 'N/A';
+                details[1].value = 'N/A';
+                details[2].value = 'N/A';
+                details[3].value = 'N/A';
+                details[4].value = 'N/A';
+                details[5].value = 'N/A';
+                details[6].value = 'N/A';
+                details[7].value = 'N/A';
+                details[8].value = 'N/A';
+                details[9].value = 'N/A';
+                details[10].value = `Locked for: ${data.lockReason}`;
+            }
+
+            details.forEach(item => {
+                const detailItem = document.createElement('div');
+                detailItem.className = 'detail-item';
+                detailItem.innerHTML = `<span class="detail-label">${item.label}:</span> <span class="detail-value">${item.value}</span>`;
+                detailsGrid.appendChild(detailItem);
+            });
+
+            // Adjust button visibility based on status
+            checkoutBtn.style.display = (currentStatus === 'occupied' || currentStatus === 'trouble') ? 'inline-block' : 'none';
+            troubleBtn.style.display = (currentStatus === 'occupied') ? 'inline-block' : 'none';
+            editBtn.style.display = (currentStatus === 'occupied' || currentStatus === 'trouble' || currentStatus === 'quick-locked') ? 'inline-block' : 'none';
+
+            // Handle lock/unlock button
+            if (currentStatus === 'locked') {
+                lockBtn.textContent = 'Unlock Room';
+                lockBtn.className = 'btn btn-success'; // Change to green for unlock
+                lockBtn.onclick = () => handleUnlockRoom(roomId);
+            } else {
+                lockBtn.textContent = 'Lock Room';
+                lockBtn.className = 'btn btn-secondary'; // Back to original color for lock
+                lockBtn.onclick = () => {
+                    closeModal();
+                    lockRoomNumberSpan.textContent = roomId;
+                    lockOptionsModal.dataset.fromDetails = 'true';
+                    showModal(lockOptionsModal);
+                };
+            }
+
+            checkoutBtn.onclick = () => handleCheckout(roomId);
+            troubleBtn.onclick = () => handleMarkTrouble(roomId);
+            editBtn.onclick = () => requestSecretCodeForEdit(roomId);
+
+            showModal(detailsModal);
+        }
+
+        function handleCheckout(roomNum) {
+            showConfirm(`Are you sure you want to check out Room ${roomNum}? This will mark it as needing cleaning.`, (confirmed) => {
+                if (confirmed) {
+                    const roomCard = document.querySelector(`.room-card[data-room="${roomNum}"]`);
+                    if (roomCard) {
+                        updateRoomCard(roomCard, 'cleaning', '🧹');
+                        delete roomData[roomNum];
+                        showMessage('success', `Room ${roomNum} checked out. Now needs cleaning.`);
+                    }
+                } else {
+                    showMessage('warning', `Check-out for Room ${roomNum} cancelled.`);
+                }
+                closeModal();
+                updateReportsDisplay();
+            });
+        }
+
+        function handleMarkTrouble(roomNum) {
+            showConfirm(`Are you sure you want to mark Room ${roomNum} as having guest trouble?`, (confirmed) => {
+                if (confirmed) {
+                    const roomCard = document.querySelector(`.room-card[data-room="${roomNum}"]`);
+                    if (roomCard) {
+                        roomData[roomNum].inTrouble = true;
+                        updateRoomCard(roomCard, 'trouble', '🚨', `${roomData[roomNum].firstName} ${roomData[roomNum].lastName}<br>🚨 Trouble!`);
+                        showMessage('warning', `Room ${roomNum} marked as 'Trouble'.`);
+                    }
+                } else {
+                    showMessage('info', `Marking 'Trouble' for Room ${roomNum} cancelled.`);
+                }
+                closeModal();
+                updateReportsDisplay();
+            });
+        }
+
+        function handleUnlockRoom(roomNum) {
+            showConfirm(`Are you sure you want to unlock Room ${roomNum}? It will revert to its previous status or become available.`, (confirmed) => {
+                if (confirmed) {
+                    const roomCard = document.querySelector(`.room-card[data-room="${roomNum}"]`);
+                    if (roomCard) {
+                        const originalStatus = roomData[roomNum] ? roomData[roomNum].originalStatus : 'available';
+                        let emoji = '🚪';
+                        let info = '';
+
+                        if (originalStatus === 'occupied' && roomData[roomNum]) {
+                            emoji = '👤';
+                            info = `${roomData[roomNum].firstName} ${roomData[roomNum].lastName}<br>🚗 ${roomData[roomNum].carMakeModel}`;
+                        } else if (originalStatus === 'trouble' && roomData[roomNum]) {
+                            emoji = '🚨';
+                            info = `${roomData[roomNum].firstName} ${roomData[roomNum].lastName}<br>🚨 Trouble!`;
+                        }
+                        
+                        updateRoomCard(roomCard, originalStatus, emoji, info);
+                        if (originalStatus === 'available') {
+                            delete roomData[roomNum];
+                        } else {
+                            roomData[roomNum].locked = false;
+                            delete roomData[roomNum].lockReason;
+                            delete roomData[roomNum].originalStatus;
+                        }
+                        showMessage('success', `Room ${roomNum} has been unlocked.`);
+                    }
+                } else {
+                    showMessage('warning', `Unlock for Room ${roomNum} cancelled.`);
+                }
+                closeModal();
+                updateReportsDisplay();
+            });
+        }
+
+        function requestSecretCodeForEdit(roomId) {
+            currentRoomForSecret = roomId;
+            secretInput.value = '';
+            secretError.style.display = 'none';
+            showModal(secretModal);
+        }
+
+        secretSubmitBtn.addEventListener('click', () => {
+            if (secretInput.value === SECRET_CODE) {
+                closeModal();
+                openCheckinForm(currentRoomForSecret, true);
+            } else {
+                secretError.style.display = 'block';
+            }
+        });
+
+        secretInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                secretSubmitBtn.click();
+            }
+        });
+
+        // Confirm modal event listeners
+        confirmOkBtn.addEventListener('click', () => {
+            if (currentConfirmCallback) {
+                currentConfirmCallback(true);
+            }
+            closeModal();
+        });
+
+        confirmCancelBtn.addEventListener('click', () => {
+            if (currentConfirmCallback) {
+                currentConfirmCallback(false);
+            }
+            closeModal();
+        });
+
+        // --- Report and Alert Functions ---
+        function startCheckOutAlerts() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            allRoomNumbers.forEach(roomNum => {
+                const roomCard = document.querySelector(`.room-card[data-room="${roomNum}"]`);
+                if (!roomCard) return;
+
+                const currentStatus = getRoomStatus(roomCard);
+
+                if ((currentStatus === 'occupied' || currentStatus === 'trouble') && roomData[roomNum] && !roomData[roomNum].locked) {
+                    const checkOutDateStr = roomData[roomNum].checkOut;
+                    const checkOutDate = new Date(checkOutDateStr + 'T00:00:00');
+                    checkOutDate.setHours(0, 0, 0, 0);
+
+                    if (checkOutDate.getTime() === today.getTime()) {
+                        roomCard.classList.add('checkout-alert');
+                    } else {
+                        roomCard.classList.remove('checkout-alert');
+                    }
+                } else {
+                    roomCard.classList.remove('checkout-alert');
+                }
+            });
+        }
+
+        function updateReportsDisplay() {
+            const roomCards = document.querySelectorAll('.room-card');
+            const counts = { available: 0, cleaning: 0, trouble: 0, locked: 0 };
+
+            availableList.innerHTML = '';
+            cleaningList.innerHTML = '';
+            troubleList.innerHTML = '';
+            lockedList.innerHTML = '';
+
+            roomCards.forEach(roomCard => {
+                const roomNum = roomCard.dataset.room;
+                const status = getRoomStatus(roomCard);
+                const listItem = document.createElement('li');
+                listItem.dataset.room = roomNum;
+                listItem.textContent = `Room ${roomNum}`;
+                listItem.addEventListener('click', () => {
+                    closeModal();
+                    handleRoomClick(roomCard);
+                });
+
+                if (status === 'available') {
+                    counts.available++;
+                    availableList.appendChild(listItem);
+                } else if (status === 'cleaning') {
+                    counts.cleaning++;
+                    cleaningList.appendChild(listItem);
+                } else if (status === 'trouble') {
+                    counts.trouble++;
+                    if (roomData[roomNum]) {
+                        listItem.innerHTML = `<strong>${roomNum}:</strong> ${roomData[roomNum].firstName} ${roomData[roomNum].lastName}`;
+                    }
+                    troubleList.appendChild(listItem);
+                } else if (status === 'locked') {
+                    counts.locked++;
+                    if (roomData[roomNum]) {
+                        listItem.innerHTML = `<strong>${roomNum}:</strong> ${roomData[roomNum].lockReason || 'Locked'}`;
+                    }
+                    lockedList.appendChild(listItem);
+                }
+            });
+
+            availableCount.textContent = counts.available;
+            cleaningCount.textContent = counts.cleaning;
+            troubleCount.textContent = counts.trouble;
+            lockedCount.textContent = counts.locked;
+        }
+
+        // --- Initial Setup and Periodic Updates ---
+        function initialize() {
+            initializeRooms();
+            initializeCarMakeDropdown();
+            startCheckOutAlerts();
+            updateReportsDisplay();
+            setInterval(startCheckOutAlerts, 60 * 1000);
+        }
+
+        // --- Right-click context menu for check-out ---
+        roomsGrid.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            const targetRoomCard = e.target.closest('.room-card');
+            if (targetRoomCard) {
+                const roomNum = targetRoomCard.dataset.room;
+                const currentStatus = getRoomStatus(targetRoomCard);
+                if (currentStatus === 'occupied' || currentStatus === 'trouble') {
+                    handleCheckout(roomNum);
+                }
+            }
+        });
+
+        // Initialize the application
+        initialize();
+    </script>
+</body>
+</html>
