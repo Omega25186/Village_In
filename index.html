@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Britain Plundered India: The $45 Trillion Heist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Sans+Telugu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+            color: #d1d5db; /* text-gray-300 */
+        }
+        .font-display { font-family: 'Playfair Display', serif; }
+        .font-hi { font-family: 'Noto Sans Devanagari', sans-serif; }
+        .font-te { font-family: 'Noto Sans Telugu', sans-serif; }
+        .stat-card {
+            background-color: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(75, 85, 99, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(252, 211, 77, 0.1), 0 10px 10px -5px rgba(252, 211, 77, 0.04);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .counter-value { transition: all 2s ease-out; }
+        .hero-bg {
+            background-image: linear-gradient(rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 1)), url('https://images.unsplash.com/photo-1609599384894-4a4928647225?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        /* Language switcher styling */
+        .lang-switcher {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 10;
+        }
+        .lang-switcher select {
+            background-color: rgba(31, 41, 55, 0.8);
+            color: #d1d5db;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <select id="language-switcher" class="font-sans">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="te">తెలుగు</option>
+        </select>
+    </div>
+
+    <!-- Header Section -->
+    <header class="hero-bg min-h-screen flex flex-col justify-center items-center text-center p-8">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-4 animate-fade-in-down lang-element" data-lang-en="The Great Drain" data-lang-hi="महान निकासी" data-lang-te="మహా దోపిడీ">The Great Drain</h1>
+            <p class="text-xl md:text-2xl text-amber-300 mb-8 animate-fade-in-up lang-element" data-lang-en="How British Colonialism Systematically Plundered India of an Estimated <span class='font-bold text-white'>$45 Trillion</span>." data-lang-hi="कैसे ब्रिटिश उपनिवेशवाद ने भारत से अनुमानित <span class='font-bold text-white'>$45 ट्रिलियन</span> की व्यवस्थित रूप से लूट की।" data-lang-te="బ్రిటిష్ వలసవాదం భారతదేశం నుండి అంచనా వేయబడిన <span class='font-bold text-white'>$45 ట్రిలియన్లను</span> ఎలా దోచుకుంది.">How British Colonialism Systematically Plundered India of an Estimated <span class="font-bold text-white">$45 Trillion</span>.</p>
+            <a href="#introduction" class="inline-block bg-amber-400 text-gray-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-amber-300 transition-colors duration-300 lang-element" data-lang-en="Uncover the Truth" data-lang-hi="सच्चाई जानें" data-lang-te="నిజాన్ని కనుగొనండి">
+                Uncover the Truth
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="w-full">
+
+        <!-- Introduction: A Tale of Two Indias -->
+        <section id="introduction" class="py-20 px-4 md:px-8 bg-gray-900">
+            <div class="max-w-6xl mx-auto text-center">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6 fade-in lang-element" data-lang-en="A World Leader, Reduced to Poverty" data-lang-hi="एक विश्व नेता, गरीबी में सिमटा" data-lang-te="ప్రపంచ నాయకుడు, పేదరికంలోకి నెట్టబడ్డాడు">A World Leader, Reduced to Poverty</h2>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-12 fade-in lang-element" data-lang-en="Before colonization, India was an economic titan. By the time the British left, it was a symbol of impoverishment. This was not a coincidence; it was policy." data-lang-hi="उपनिवेशवाद से पहले, भारत एक आर्थिक महाशक्ति था। जब तक अंग्रेज चले गए, यह गरीबी का प्रतीक बन गया। यह कोई संयोग नहीं था; यह नीति थी।" data-lang-te="వలసరాజ్యానికి ముందు, భారతదేశం ఒక ఆర్థిక దిగ్గజం. బ్రిటీష్ వారు వెళ్ళిపోయే సమయానికి, అది పేదరికానికి చిహ్నంగా మారింది. ఇది యాదృచ్ఛికం కాదు; ఇది వారి విధానం.">Before colonization, India was an economic titan. By the time the British left, it was a symbol of impoverishment. This was not a coincidence; it was policy.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-center text-left">
+                    <div class="fade-in p-6 rounded-lg bg-gray-800 border border-gray-700">
+                        <h3 class="text-2xl font-bold text-amber-400 mb-3 lang-element" data-lang-en="India in 1700" data-lang-hi="1700 में भारत" data-lang-te="1700లో భారతదేశం">India in 1700</h3>
+                        <p class="text-5xl font-black text-white mb-4">25%</p>
+                        <p class="text-lg lang-element" data-lang-en="Share of the world's economy. Equal to all of Europe combined. A global leader in textiles, steel, and shipbuilding." data-lang-hi="विश्व अर्थव्यवस्था में हिस्सेदारी। पूरे यूरोप के बराबर। कपड़ा, इस्पात और जहाज निर्माण में एक वैश्विक नेता।" data-lang-te="ప్రపంచ ఆర్థిక వ్యవస్థలో వాటా. మొత్తం ఐరోపాకు సమానం. వస్త్రాలు, ఉక్కు మరియు నౌకానిర్మాణంలో ప్రపంచ నాయకుడు.">Share of the world's economy. Equal to all of Europe combined. A global leader in textiles, steel, and shipbuilding.</p>
+                    </div>
+                    <div class="fade-in p-6 rounded-lg bg-gray-800 border border-gray-700">
+                        <h3 class="text-2xl font-bold text-red-400 mb-3 lang-element" data-lang-en="India in 1947" data-lang-hi="1947 में भारत" data-lang-te="1947లో భారతదేశం">India in 1947</h3>
+                        <p class="text-5xl font-black text-white mb-4">~3%</p>
+                        <p class="text-lg lang-element" data-lang-en="Share of the world's economy after two centuries of British rule. Deindustrialized and famine-stricken." data-lang-hi="दो शताब्दियों के ब्रिटिश शासन के बाद विश्व अर्थव्यवस्था में हिस्सेदारी। विऔद्योगीकृत और अकाल-ग्रस्त।" data-lang-te="రెండు శతాబ్దాల బ్రిటిష్ పాలన తర్వాత ప్రపంచ ఆర్థిక వ్యవస్థలో వాటా. పారిశ్రామికంగా వెనుకబడిన మరియు కరువు పీడిత.">Share of the world's economy after two centuries of British rule. Deindustrialized and famine-stricken.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Mechanism of Drain -->
+        <section class="py-20 px-4 md:px-8 bg-gray-800">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-white text-center mb-12 fade-in lang-element" data-lang-en="The Architecture of Exploitation" data-lang-hi="शोषण की वास्तुकला" data-lang-te="దోపిడీ యొక్క నిర్మాణం">The Architecture of Exploitation</h2>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="fade-in p-8 rounded-xl bg-gray-900 border border-gray-700">
+                        <h3 class="text-2xl font-bold text-amber-400 mb-4 lang-element" data-lang-en="Phase 1: The Company's Heist (1765-1858)" data-lang-hi="चरण 1: कंपनी की लूट (1765-1858)" data-lang-te="దశ 1: కంపెనీ దోపిడీ (1765-1858)">Phase 1: The Company's Heist (1765-1858)</h3>
+                        <p class="mb-4 lang-element" data-lang-en="The East India Company devised a simple but brutal system:" data-lang-hi="ईस्ट इंडिया कंपनी ने एक सरल लेकिन क्रूर प्रणाली तैयार की:" data-lang-te="ఈస్ట్ ఇండియా కంపెనీ ఒక సరళమైన కానీ క్రూరమైన వ్యవస్థను రూపొందించింది:">The East India Company devised a simple but brutal system:</p>
+                        <ol class="list-decimal list-inside space-y-3">
+                            <li class="lang-element" data-lang-en="<span class='font-bold'>Collect Taxes:</span> Impose heavy taxes on Indian citizens." data-lang-hi="<span class='font-bold'>कर वसूलें:</span> भारतीय नागरिकों पर भारी कर लगाएं।" data-lang-te="<span class='font-bold'>పన్నులు వసూలు చేయండి:</span> భారతీయ పౌరులపై భారీ పన్నులు విధించండి."><span class="font-bold">Collect Taxes:</span> Impose heavy taxes on Indian citizens.</li>
+                            <li class="lang-element" data-lang-en="<span class='font-bold'>&quot;Buy&quot; Goods:</span> Use a third of those same tax revenues to &quot;purchase&quot; Indian goods for export." data-lang-hi="<span class='font-bold'>माल &quot;खरीदें&quot;:</span> निर्यात के लिए भारतीय माल &quot;खरीदने&quot; के लिए उन्हीं कर राजस्व का एक तिहाई उपयोग करें।" data-lang-te="<span class='font-bold'>వస్తువులను &quot;కొనుగోలు&quot; చేయండి:</span> ఎగుమతి కోసం భారతీయ వస్తువులను &quot;కొనుగోలు&quot; చేయడానికి అదే పన్ను రాబడిలో మూడింట ఒక వంతు ఉపయోగించండి."><span class="font-bold">"Buy" Goods:</span> Use a third of those same tax revenues to "purchase" Indian goods for export.</li>
+                            <li class="lang-element" data-lang-en="<span class='font-bold'>Export for Free:</span> Ship the goods to Britain." data-lang-hi="<span class='font-bold'>मुफ्त में निर्यात करें:</span> माल को ब्रिटेन भेजें।" data-lang-te="<span class='font-bold'>ఉచితంగా ఎగుమతి చేయండి:</span> వస్తువులను బ్రిటన్‌కు రవాణా చేయండి."><span class="font-bold">Export for Free:</span> Ship the goods to Britain.</li>
+                        </ol>
+                        <p class="mt-4 p-4 bg-amber-900/20 text-amber-300 rounded-lg border-l-4 border-amber-400 lang-element" data-lang-en="The result: Britain acquired Indian goods for free, paying producers with their own money. Indian wealth flowed out, with nothing coming in return." data-lang-hi="परिणाम: ब्रिटेन ने भारतीय माल मुफ्त में प्राप्त किया, उत्पादकों को उनके अपने पैसे से भुगतान किया। भारतीय धन बाहर बह गया, बदले में कुछ भी नहीं आया।" data-lang-te="ఫలితం: బ్రిటన్ భారతీయ వస్తువులను ఉచితంగా సంపాదించింది, ఉత్పత్తిదారులకు వారి స్వంత డబ్బుతో చెల్లించింది. భారత సంపద బయటకు ప్రవహించింది, బదులుగా ఏమీ రాలేదు.">The result: Britain acquired Indian goods for free, paying producers with their own money. Indian wealth flowed out, with nothing coming in return.</p>
+                    </div>
+                    <div class="fade-in p-8 rounded-xl bg-gray-900 border border-gray-700">
+                        <h3 class="text-2xl font-bold text-amber-400 mb-4 lang-element" data-lang-en="Phase 2: The Crown's Sophisticated Scam (1858-1947)" data-lang-hi="चरण 2: क्राउन का परिष्कृत घोटाला (1858-1947)" data-lang-te="దశ 2: క్రౌన్ యొక్క అధునాతన స్కామ్ (1858-1947)">Phase 2: The Crown's Sophisticated Scam (1858-1947)</h3>
+                        <p class="mb-4 lang-element" data-lang-en="After 1858, the British Crown refined the system:" data-lang-hi="1858 के बाद, ब्रिटिश क्राउन ने इस प्रणाली को और परिष्कृत किया:" data-lang-te="1858 తరువాత, బ్రిటిష్ క్రౌన్ ఈ వ్యవస్థను మెరుగుపరిచింది:">After 1858, the British Crown refined the system:</p>
+                        <ol class="list-decimal list-inside space-y-3">
+                           <li class="lang-element" data-lang-en="<span class='font-bold'>Control Trade:</span> Mandate that anyone buying Indian goods must use special &quot;Council Bills&quot;." data-lang-hi="<span class='font-bold'>व्यापार पर नियंत्रण:</span> यह अनिवार्य करें कि भारतीय सामान खरीदने वाले किसी भी व्यक्ति को विशेष &quot;काउंसिल बिल&quot; का उपयोग करना होगा।" data-lang-te="<span class='font-bold'>వ్యాపారాన్ని నియంత్రించండి:</span> భారతీయ వస్తువులను కొనుగోలు చేసే ఎవరైనా ప్రత్యేక &quot;కౌన్సిల్ బిల్లులను&quot; ఉపయోగించాలని ఆదేశించండి."><span class='font-bold'>Control Trade:</span> Mandate that anyone buying Indian goods must use special "Council Bills".</li>
+                           <li class="lang-element" data-lang-en="<span class='font-bold'>Sell Bills in London:</span> Sell these bills in London for gold and silver." data-lang-hi="<span class='font-bold'>लंदन में बिल बेचें:</span> इन बिलों को लंदन में सोने और चांदी के बदले बेचें।" data-lang-te="<span class='font-bold'>లండన్‌లో బిల్లులను అమ్మండి:</span> ఈ బిల్లులను లండన్‌లో బంగారం మరియు వెండికి అమ్మండి."><span class='font-bold'>Sell Bills in London:</span> Sell these bills in London for gold and silver.</li>
+                           <li class="lang-element" data-lang-en="<span class='font-bold'>&quot;Pay&quot; Indians:</span> Indian producers were &quot;paid&quot; by cashing these bills from their own tax revenues in India." data-lang-hi="<span class='font-bold'>भारतीयों को &quot;भुगतान&quot; करें:</span> भारतीय उत्पादकों को भारत में अपने स्वयं के कर राजस्व से इन बिलों को भुनाकर &quot;भुगतान&quot; किया गया।" data-lang-te="<span class='font-bold'>భారతీయులకు &quot;చెల్లించండి&quot;:</span> భారతీయ ఉత్పత్తిదారులు భారతదేశంలో వారి స్వంత పన్ను రాబడి నుండి ఈ బిల్లులను నగదుగా మార్చుకోవడం ద్వారా &quot;చెల్లించబడ్డారు&quot;."><span class='font-bold'>"Pay" Indians:</span> Indian producers were "paid" by cashing these bills from their own tax revenues in India.</li>
+                        </ol>
+                        <p class="mt-4 p-4 bg-red-900/20 text-red-300 rounded-lg border-l-4 border-red-400 lang-element" data-lang-en="The result: Britain kept all the foreign currency (gold/silver) earned from India's exports, effectively stealing India's entire trade surplus for over a century." data-lang-hi="परिणाम: ब्रिटेन ने भारत के निर्यात से अर्जित सभी विदेशी मुद्रा (सोना/चांदी) को अपने पास रखा, प्रभावी रूप से एक सदी से भी अधिक समय तक भारत के पूरे व्यापार अधिशेष को चुरा लिया।" data-lang-te="ఫలితం: బ్రిటన్ భారతదేశం యొక్క ఎగుమతుల నుండి సంపాదించిన మొత్తం విదేశీ కరెన్సీని (బంగారం/వెండి) తన వద్ద ఉంచుకుంది, ఒక శతాబ్దానికి పైగా భారతదేశం యొక్క మొత్తం వాణిజ్య మిగులును సమర్థవంతంగా దొంగిలించింది.">The result: Britain kept all the foreign currency (gold/silver) earned from India's exports, effectively stealing India's entire trade surplus for over a century.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Total Impact: A Staggering Tally -->
+        <section class="py-20 px-4 md:px-8 bg-gray-900">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-white text-center mb-4 fade-in lang-element" data-lang-en="The True Cost of Colonialism" data-lang-hi="उपनिवेशवाद की असली कीमत" data-lang-te="వలసవాదం యొక్క నిజమైన వెల">The True Cost of Colonialism</h2>
+                <p class="text-lg md:text-xl text-center max-w-3xl mx-auto mb-12 fade-in lang-element" data-lang-en="The total economic impact goes far beyond direct theft. It represents a fundamental alteration of a civilization's trajectory. The conservative estimate is <span class='text-amber-300 font-bold'>$150 Trillion.</span>" data-lang-hi="कुल आर्थिक प्रभाव प्रत्यक्ष चोरी से कहीं आगे जाता है। यह एक सभ्यता के प्रक्षेपवक्र के एक मौलिक परिवर्तन का प्रतिनिधित्व करता है। रूढ़िवादी अनुमान <span class='text-amber-300 font-bold'>$150 ट्रिलियन</span> है।" data-lang-te="మొత్తం ఆర్థిక ప్రభావం ప్రత్యక్ష దొంగతనానికి మించినది. ఇది ఒక నాగరికత యొక్క పథం యొక్క ప్రాథమిక మార్పును సూచిస్తుంది. సంప్రదాయవాద అంచనా <span class='text-amber-300 font-bold'>$150 ట్రిలియన్లు.</span>">The total economic impact goes far beyond direct theft. It represents a fundamental alteration of a civilization's trajectory. The conservative estimate is <span class="text-amber-300 font-bold">$150 Trillion.</span></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="stat-card p-6 rounded-xl fade-in">
+                        <h3 class="text-xl font-bold text-amber-400 mb-2 lang-element" data-lang-en="Direct Wealth Drain" data-lang-hi="प्रत्यक्ष धन निकासी" data-lang-te="ప్రత్యక్ష సంపద దోపిడీ">Direct Wealth Drain</h3>
+                        <p class="text-4xl lg:text-5xl font-black text-white mb-3 counter" data-target="45">0</p>
+                        <p class="text-2xl text-white font-bold mb-3 lang-element" data-lang-en="Trillion USD" data-lang-hi="ट्रिलियन USD" data-lang-te="ట్రిలియన్ డాలర్లు">Trillion USD</p>
+                        <p class="lang-element" data-lang-en="Directly siphoned out between 1765 and 1938, financing Britain's industrial revolution." data-lang-hi="1765 और 1938 के बीच सीधे तौर पर निकाला गया, जिससे ब्रिटेन की औद्योगिक क्रांति को वित्तपोषित किया गया।" data-lang-te="1765 మరియు 1938 మధ్య నేరుగా బయటకు తీసివేయబడింది, ఇది బ్రిటన్ యొక్క పారిశ్రామిక విప్లవానికి నిధులు సమకూర్చింది.">Directly siphoned out between 1765 and 1938, financing Britain's industrial revolution.</p>
+                    </div>
+                    <div class="stat-card p-6 rounded-xl fade-in">
+                        <h3 class="text-xl font-bold text-amber-400 mb-2 lang-element" data-lang-en="Lost Compounded Growth" data-lang-hi="खोया हुआ चक्रवृद्धि विकास" data-lang-te="కోల్పోయిన సమ్మేళన వృద్ధి">Lost Compounded Growth</h3>
+                        <p class="text-4xl lg:text-5xl font-black text-white mb-3 counter" data-target="100">0</p>
+                        <p class="text-2xl text-white font-bold mb-3 lang-element" data-lang-en="Trillion+ USD" data-lang-hi="ट्रिलियन+ USD" data-lang-te="ట్రిలియన్+ డాలర్లు">Trillion+ USD</p>
+                        <p class="lang-element" data-lang-en="The estimated loss from disrupting India's natural economic growth trajectory." data-lang-hi="भारत के प्राकृतिक आर्थिक विकास पथ को बाधित करने से अनुमानित हानि।" data-lang-te="భారతదేశం యొక్క సహజ ఆర్థిక వృద్ధి పథాన్ని దెబ్బతీయడం వల్ల అంచనా వేయబడిన నష్టం.">The estimated loss from disrupting India's natural economic growth trajectory.</p>
+                    </div>
+                    <div class="stat-card p-6 rounded-xl fade-in">
+                        <h3 class="text-xl font-bold text-amber-400 mb-2 lang-element" data-lang-en="Human Capital Devastation" data-lang-hi="मानव पूंजी का विनाश" data-lang-te="మానవ మూలధన విధ్వంసం">Human Capital Devastation</h3>
+                        <p class="text-4xl lg:text-5xl font-black text-white mb-3 counter" data-target="35">0</p>
+                        <p class="text-2xl text-white font-bold mb-3 lang-element" data-lang-en="Million+ Deaths" data-lang-hi="मिलियन+ मौतें" data-lang-te="మిలియన్+ మరణాలు">Million+ Deaths</p>
+                        <p class="lang-element" data-lang-en="From colonial policy-induced famines. Life expectancy dropped by 20%. Literacy plummeted." data-lang-hi="औपनिवेशिक नीति-प्रेरित अकालों से। जीवन प्रत्याशा 20% तक गिर गई। साक्षरता में भारी गिरावट आई।" data-lang-te="వలసవాద విధాన-ప్రేరిత కరువుల నుండి. ఆయుర్దాయం 20% తగ్గింది. అక్షరాస్యత పడిపోయింది.">From colonial policy-induced famines. Life expectancy dropped by 20%. Literacy plummeted.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Global Ripple Effect -->
+        <section class="py-20 px-4 md:px-8 bg-gray-800">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-white text-center mb-12 fade-in lang-element" data-lang-en="The Global Ripple Effect" data-lang-hi="वैश्विक लहर प्रभाव" data-lang-te="ప్రపంచ అలల ప్రభావం">The Global Ripple Effect</h2>
+                <p class="text-lg md:text-xl text-center max-w-3xl mx-auto mb-12 fade-in lang-element" data-lang-en="The wealth drained from India didn't just stay in Britain. It was the engine of Britain's global empire, financing industrialization and conquest." data-lang-hi="भारत से निकाला गया धन सिर्फ ब्रिटेन में ही नहीं रहा। यह ब्रिटेन के वैश्विक साम्राज्य का इंजन था, जिसने औद्योगिकीकरण और विजय को वित्तपोषित किया।" data-lang-te="భారతదేశం నుండి తీసివేయబడిన సంపద బ్రిటన్‌లోనే ఉండలేదు. ఇది బ్రిటన్ యొక్క ప్రపంచ సామ్రాజ్యానికి ఇంజిన్‌గా పనిచేసింది, పారిశ్రామికీకరణ మరియు ఆక్రమణలకు నిధులు సమకూర్చింది.">The wealth drained from India didn't just stay in Britain. It was the engine of Britain's global empire, financing industrialization and conquest.</p>
+                <div class="grid md:grid-cols-2 gap-8 text-center max-w-4xl mx-auto">
+                    <div class="fade-in p-6 bg-gray-900 rounded-lg">
+                        <h3 class="text-xl font-bold text-amber-400 mb-3 lang-element" data-lang-en="Financing Global Ambitions" data-lang-hi="वैश्विक महत्वाकांक्षाओं का वित्तपोषण" data-lang-te="ప్రపంచ ఆశయాలకు నిధులు">Financing Global Ambitions</h3>
+                        <p class="lang-element" data-lang-en="Britain used India's export surpluses to settle its own trade deficits and fund its imperial expansion across the globe." data-lang-hi="ब्रिटेन ने अपने व्यापार घाटे को निपटाने और दुनिया भर में अपने शाही विस्तार को निधि देने के लिए भारत के निर्यात अधिशेषों का उपयोग किया।" data-lang-te="బ్రిటన్ తన వాణిజ్య లోటును పరిష్కరించడానికి మరియు ప్రపంచవ్యాప్తంగా తన సామ్రాజ్య విస్తరణకు నిధులు సమకూర్చడానికి భారతదేశం యొక్క ఎగుమతి మిగులును ఉపయోగించుకుంది.">Britain used India's export surpluses to settle its own trade deficits and fund its imperial expansion across the globe.</p>
+                    </div>
+                    <div class="fade-in p-6 bg-gray-900 rounded-lg">
+                        <h3 class="text-xl font-bold text-amber-400 mb-3 lang-element" data-lang-en="Fueling British Industry" data-lang-hi="ब्रिटिश उद्योग को बढ़ावा देना" data-lang-te="బ్రిటిష్ పరిశ్రమకు ఇంధనం">Fueling British Industry</h3>
+                        <p class="lang-element" data-lang-en="During its industrial transition, the drain from India accounted for nearly 6% of Britain's GDP—almost equal to its own domestic savings rate." data-lang-hi="अपने औद्योगिक संक्रमण के दौरान, भारत से होने वाली निकासी ब्रिटेन की जीडीपी का लगभग 6% थी - जो लगभग उसकी अपनी घरेलू बचत दर के बराबर थी।" data-lang-te="దాని పారిశ్రామిక పరివర్తన సమయంలో, భారతదేశం నుండి వచ్చిన దోపిడీ బ్రిటన్ యొక్క GDPలో దాదాపు 6% వాటాను కలిగి ఉంది - ఇది దాని స్వంత దేశీయ పొదుపు రేటుకు దాదాపు సమానం.">During its industrial transition, the drain from India accounted for nearly 6% of Britain's GDP—almost equal to its own domestic savings rate.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deindustrialization and The Railway Myth -->
+        <section class="py-20 px-4 md:px-8 bg-gray-900">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <h2 class="font-display text-4xl font-bold text-white mb-6 lang-element" data-lang-en="Made in Britain, Forced on India" data-lang-hi="ब्रिटेन में बना, भारत पर थोपा गया" data-lang-te="బ్రిటన్‌లో తయారీ, భారతదేశంపై బలవంతం">Made in Britain, Forced on India</h2>
+                    <p class="text-lg mb-4 lang-element" data-lang-en="India's world-class textile industry was systematically dismantled through prohibitive tariffs (70-80%) and coercion. India went from being the world's leading textile exporter to a forced importer of British cloth." data-lang-hi="भारत के विश्व स्तरीय कपड़ा उद्योग को निषेधात्मक शुल्कों (70-80%) और जबरदस्ती के माध्यम से व्यवस्थित रूप से नष्ट कर दिया गया। भारत दुनिया के अग्रणी कपड़ा निर्यातक से ब्रिटिश कपड़े का मजबूर आयातक बन गया।" data-lang-te="భారతదేశం యొక్క ప్రపంచ-స్థాయి వస్త్ర పరిశ్రమ నిషేధిత సుంకాలు (70-80%) మరియు బలవంతం ద్వారా క్రమపద్ధతిలో కూల్చివేయబడింది. భారతదేశం ప్రపంచంలోని ప్రముఖ వస్త్ర ఎగుమతిదారు నుండి బ్రిటిష్ వస్త్రం యొక్క బలవంతపు దిగుమతిదారుగా మారింది.">India's world-class textile industry was systematically dismantled through prohibitive tariffs (70-80%) and coercion. India went from being the world's leading textile exporter to a forced importer of British cloth.</p>
+                    <p class="text-lg lang-element" data-lang-en="Its share of global industrial output collapsed from <span class='font-bold text-amber-400'>25% to just 2%</span>." data-lang-hi="वैश्विक औद्योगिक उत्पादन में इसकी हिस्सेदारी <span class='font-bold text-amber-400'>25% से घटकर मात्र 2%</span> रह गई।" data-lang-te="ప్రపంచ పారిశ్రామిక ఉత్పత్తిలో దాని వాటా <span class='font-bold text-amber-400'>25% నుండి కేవలం 2%</span>కి పడిపోయింది.">Its share of global industrial output collapsed from <span class="font-bold text-amber-400">25% to just 2%</span>.</p>
+                </div>
+                <div class="fade-in">
+                    <h2 class="font-display text-4xl font-bold text-white mb-6 lang-element" data-lang-en="The Myth of the Railways" data-lang-hi="रेलवे का मिथक" data-lang-te="రైల్వేల పురాణం">The Myth of the Railways</h2>
+                    <p class="text-lg mb-4 lang-element" data-lang-en="Colonial apologists often point to the railways as a gift. The reality?" data-lang-hi="औपनिवेशिक क्षमाप्रार्थी अक्सर रेलवे को एक उपहार के रूप में इंगित करते हैं। वास्तविकता?" data-lang-te="వలసవాద క్షమాపణకర్తలు తరచుగా రైల్వేలను బహుమతిగా చూపుతారు. వాస్తవికత?">Colonial apologists often point to the railways as a gift. The reality?</p>
+                    <ul class="list-disc list-inside space-y-2 text-lg">
+                        <li class="lang-element" data-lang-en="Financed entirely by <span class='font-bold text-red-400'>Indian taxpayers</span>." data-lang-hi="पूरी तरह से <span class='font-bold text-red-400'>भारतीय करदाताओं</span> द्वारा वित्तपोषित।" data-lang-te="పూర్తిగా <span class='font-bold text-red-400'>భారతీయ పన్ను చెల్లింపుదారుల</span> ద్వారా నిధులు సమకూర్చబడ్డాయి.">Financed entirely by <span class="font-bold text-red-400">Indian taxpayers</span>.</li>
+                        <li class="lang-element" data-lang-en="Built to <span class='font-bold text-red-400'>expedite resource extraction</span> to ports." data-lang-hi="बंदरगाहों तक <span class='font-bold text-red-400'>संसाधन निष्कर्षण में तेजी लाने</span> के लिए बनाया गया।" data-lang-te="రేవులకు <span class='font-bold text-red-400'>వనరుల వెలికితీతను వేగవంతం చేయడానికి</span> నిర్మించబడింది.">Built to <span class="font-bold text-red-400">expedite resource extraction</span> to ports.</li>
+                        <li class="lang-element" data-lang-en="Designed to <span class='font-bold text-red-400'>move troops</span> to quell rebellions." data-lang-hi="विद्रोह को दबाने के लिए <span class='font-bold text-red-400'>सैनिकों को स्थानांतरित करने</span> के लिए डिज़ाइन किया गया।" data-lang-te="తిరుగుబాట్లను అణచివేయడానికి <span class='font-bold text-red-400'>సైన్యాన్ని తరలించడానికి</span> రూపొందించబడింది.">Designed to <span class="font-bold text-red-400">move troops</span> to quell rebellions.</li>
+                        <li class="lang-element" data-lang-en="Profits were guaranteed to British investors at India's expense." data-lang-hi="भारत की कीमत पर ब्रिटिश निवेशकों को मुनाफे की गारंटी दी गई थी।" data-lang-te="భారతదేశం ఖర్చుతో బ్రిటిష్ పెట్టుబడిదారులకు లాభాలకు హామీ ఇవ్వబడింది.">Profits were guaranteed to British investors at India's expense.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- India's Resilience -->
+        <section class="py-20 px-4 md:px-8 bg-gray-800">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6 fade-in lang-element" data-lang-en="A Civilization's Resilience" data-lang-hi="एक सभ्यता का लचीलापन" data-lang-te="ఒక నాగరికత యొక్క స్థితిస్థాపకత">A Civilization's Resilience</h2>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-12 fade-in lang-element" data-lang-en="Despite this unprecedented economic devastation, India's post-independence story is one of remarkable recovery and resurgence. From the ashes of colonialism, a nation rebuilt itself." data-lang-hi="इस अभूतपूर्व आर्थिक तबाही के बावजूद, भारत की स्वतंत्रता के बाद की कहानी उल्लेखनीय सुधार और पुनरुत्थान की है। उपनिवेशवाद की राख से, एक राष्ट्र ने खुद को फिर से बनाया।" data-lang-te="ఈ అపూర్వమైన ఆర్థిక విధ్వంసం ఉన్నప్పటికీ, భారతదేశం యొక్క స్వాతంత్ర్యానంతర కథ అద్భుతమైన పునరుద్ధరణ మరియు పునరుజ్జీవనం యొక్కది. వలసవాదం యొక్క బూడిద నుండి, ఒక దేశం తనను తాను పునర్నిర్మించుకుంది.">Despite this unprecedented economic devastation, India's post-independence story is one of remarkable recovery and resurgence. From the ashes of colonialism, a nation rebuilt itself.</p>
+                <div class="flex flex-wrap justify-center gap-4 text-center">
+                    <div class="fade-in bg-gray-900 p-4 rounded-lg min-w-[150px]">
+                        <p class="text-3xl font-bold text-amber-400">5th</p>
+                        <p class="lang-element" data-lang-en="Largest Economy" data-lang-hi="सबसे बड़ी अर्थव्यवस्था" data-lang-te="అతిపెద్ద ఆర్థిక వ్యవస్థ">Largest Economy</p>
+                    </div>
+                    <div class="fade-in bg-gray-900 p-4 rounded-lg min-w-[150px]">
+                        <p class="text-3xl font-bold text-amber-400">7.2%</p>
+                        <p class="lang-element" data-lang-en="Share of World GDP (PPP)" data-lang-hi="विश्व जीडीपी में हिस्सेदारी (पीपीपी)" data-lang-te="ప్రపంచ GDPలో వాటా (PPP)">Share of World GDP (PPP)</p>
+                    </div>
+                    <div class="fade-in bg-gray-900 p-4 rounded-lg min-w-[150px]">
+                        <p class="text-3xl font-bold text-amber-400 lang-element" data-lang-en="Space" data-lang-hi="अंतरिक्ष" data-lang-te="అంతరిక్షం">Space</p>
+                        <p class="lang-element" data-lang-en="Power & Tech Hub" data-lang-hi="शक्ति और प्रौद्योगिकी हब" data-lang-te="శక్తి & టెక్ హబ్">Power & Tech Hub</p>
+                    </div>
+                     <div class="fade-in bg-gray-900 p-4 rounded-lg min-w-[150px]">
+                        <p class="text-3xl font-bold text-amber-400 lang-element" data-lang-en="Food" data-lang-hi="भोजन" data-lang-te="ఆహారం">Food</p>
+                        <p class="lang-element" data-lang-en="Self-Sufficient" data-lang-hi="आत्मनिर्भर" data-lang-te="స్వయం సమృద్ధి">Self-Sufficient</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-700 py-8 px-4">
+        <div class="max-w-6xl mx-auto text-center text-gray-400">
+            <p class="mb-2 lang-element" data-lang-en="This analysis is based on extensive research by leading economic historians and institutions, including work published by Columbia University Press." data-lang-hi="यह विश्लेषण प्रमुख आर्थिक इतिहासकारों और संस्थानों द्वारा किए गए व्यापक शोध पर आधारित है, जिसमें कोलंबिया यूनिवर्सिटी प्रेस द्वारा प्रकाशित कार्य भी शामिल है।" data-lang-te="ఈ విశ్లేషణ కొలంబియా యూనివర్శిటీ ప్రెస్ ప్రచురించిన పరిశోధనలతో సహా ప్రముఖ ఆర్థిక చరిత్రకారులు మరియు సంస్థల విస్తృతమైన పరిశోధనపై ఆధారపడి ఉంటుంది.">This analysis is based on extensive research by leading economic historians and institutions, including work published by Columbia University Press.</p>
+            <p class="lang-element" data-lang-en="Understanding this history is not about grievance; it's about acknowledging the true foundations of global inequality and the incredible resilience of the human spirit." data-lang-hi="इस इतिहास को समझना शिकायत के बारे में नहीं है; यह वैश्विक असमानता की सच्ची नींव और मानव आत्मा के अविश्वसनीय लचीलेपन को स्वीकार करने के बारे में है।" data-lang-te="ఈ చరిత్రను అర్థం చేసుకోవడం ఫిర్యాదు గురించి కాదు; ఇది ప్రపంచ అసమానత యొక్క నిజమైన పునాదులను మరియు మానవ ఆత్మ యొక్క అద్భుతమైన స్థితిస్థాపకతను అంగీకరించడం గురించి.">Understanding this history is not about grievance; it's about acknowledging the true foundations of global inequality and the incredible resilience of the human spirit.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- LANGUAGE SWITCHER ---
+        const languageSwitcher = document.getElementById('language-switcher');
+        const langElements = document.querySelectorAll('.lang-element');
+        const htmlTag = document.documentElement;
+
+        function setLanguage(lang) {
+            langElements.forEach(el => {
+                const translation = el.getAttribute(`data-lang-${lang}`);
+                if (translation) {
+                    el.innerHTML = translation;
+                }
+                // Add language-specific font class
+                el.classList.remove('font-hi', 'font-te');
+                if (lang === 'hi') {
+                    el.classList.add('font-hi');
+                } else if (lang === 'te') {
+                    el.classList.add('font-te');
+                }
+            });
+            htmlTag.lang = lang;
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        languageSwitcher.addEventListener('change', (event) => {
+            setLanguage(event.target.value);
+        });
+
+        // Load saved language or default to English
+        const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+        languageSwitcher.value = savedLang;
+        setLanguage(savedLang);
+
+
+        // --- ANIMATIONS ---
+        const faders = document.querySelectorAll('.fade-in');
+        const faderOptions = {
+            root: null,
+            threshold: 0.2,
+            rootMargin: "0px"
+        };
+        const faderObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, faderOptions);
+
+        faders.forEach(fader => {
+            faderObserver.observe(fader);
+        });
+
+        // Animated counter
+        const counters = document.querySelectorAll('.counter');
+        let activated = false;
+
+        function runCounters() {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                let currentValue = 0;
+                
+                const updateCount = () => {
+                    const increment = target / 100;
+                    if (currentValue < target) {
+                        currentValue = Math.ceil(currentValue + increment);
+                        currentValue = currentValue > target ? target : currentValue;
+                        counter.innerText = `$${currentValue}`;
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.innerText = `$${target}`;
+                    }
+                };
+                updateCount();
+            });
+        }
+        
+        const counterSection = document.querySelector('.stat-card')?.parentElement;
+        
+        if (counterSection) {
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !activated) {
+                        activated = true;
+                        runCounters();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counterObserver.observe(counterSection);
+        }
+    </script>
+</body>
+</html>
