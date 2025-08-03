@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Deep Learning - Interactive Guide</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #6A1B9A;
+            --secondary: #00BCD4;
+            --accent: #FFC107;
+            --dark: #263238;
+            --light: #ECEFF1;
+            --code-bg: #263238;
+            --math-bg: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #F5F7FA;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        nav {
+            background-color: var(--dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .section-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+        
+        h2 {
+            color: var(--dark);
+            font-size: 2rem;
+        }
+        
+        h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .card h4 {
+            color: var(--dark);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        .code-box, .math-box {
+            background-color: var(--code-bg);
+            color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow: auto;
+            max-height: 400px;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .math-box {
+            background-color: var(--math-bg);
+            color: var(--dark);
+            border: 1px solid #ddd;
+            font-family: 'Times New Roman', serif;
+            overflow: auto;
+            max-height: 400px;
+            padding: 2rem;
+        }
+        
+        .interactive-demo {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid #dee2e6;
+        }
+        
+        .demo-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 200px;
+        }
+        
+        .control-group label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, select, button, textarea {
+            padding: 0.7rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #4A148C;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1.5rem 0;
+        }
+        
+        .business-case {
+            background-color: #fffbea;
+            border-left: 4px solid #f1c40f;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .business-case h4 {
+            color: #d35400;
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: rgba(106, 27, 154, 0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .prompt-box {
+            background-color: #e8f4f8;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .prompt-box h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .step {
+            background-color: #fffbea;
+            border-left: 4px solid #f1c40f;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .step h4 {
+            color: #d35400;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tab-container {
+            margin: 2rem 0;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+        
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .transformer-visualization {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .transformer-layer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin: 1rem 0;
+        }
+        
+        .transformer-block {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            width: 150px;
+        }
+        
+        .attention-visualization {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .attention-matrix {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            margin: 1rem 0;
+        }
+        
+        .attention-cell {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        
+        .message.success {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid var(--success);
+        }
+        
+        .message.error {
+            background-color: rgba(244, 67, 54, 0.2);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .message.info {
+            background-color: rgba(33, 150, 243, 0.2);
+            border-left: 4px solid var(--primary);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .nav-links li {
+                margin: 0;
+            }
+            
+            .transformer-layer {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Phase 4: Advanced Deep Learning</h1>
+            <p class="subtitle">Master Transformers and Pretrained Models through interactive examples and practical applications</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Advanced DL</div>
+            <ul class="nav-links">
+                <li><a href="#transformers">Transformers</a></li>
+                <li><a href="#pretrained-models">Pretrained Models</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- Transformers Section -->
+        <section id="transformers" class="section">
+            <div class="section-header">
+                <div class="section-icon">🔹</div>
+                <h2>Transformers</h2>
+            </div>
+            
+            <div class="subsection">
+                <h3>Attention Mechanism</h3>
+                <p>The attention mechanism allows models to focus on relevant parts of the input when producing an output. It's a key component of Transformers that enables them to handle long-range dependencies effectively.</p>
+                
+                <div class="math-box">
+The attention mechanism computes a weighted sum of values, where the weights are determined by the compatibility between queries and keys:
+
+\[
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\]
+
+Where:
+- \(Q\) is the query matrix
+- \(K\) is the key matrix
+- \(V\) is the value matrix
+- \(d_k\) is the dimension of the keys
+
+The scaled dot-product attention can be broken down into these steps:
+
+1. Compute compatibility scores between queries and keys:
+\[
+\text{Scores} = QK^T
+\]
+
+2. Scale the scores:
+\[
+\text{Scaled Scores} = \frac{\text{Scores}}{\sqrt{d_k}}
+\]
+
+3. Apply softmax to get attention weights:
+\[
+\text{Weights} = \text{softmax}(\text{Scaled Scores})
+\]
+
+4. Compute the weighted sum of values:
+\[
+\text{Output} = \text{Weights} \cdot V
+\]
+
+Multi-head attention extends this by using multiple attention heads in parallel:
+
+\[
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \text{head}_2, ..., \text{head}_h)W^O
+\]
+
+Where each head is computed as:
+\[
+\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\]
+
+And \(W_i^Q, W_i^K, W_i^V\) are learned projection matrices for each head.
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Interactive Attention Mechanism Demo</h4>
+                    <p>Visualize how attention weights are computed and applied to values.</p>
+                    
+                    <div class="tab-container">
+                        <div class="tab-buttons">
+                            <button class="tab-button active" data-tab="attention-computation">Attention Computation</button>
+                            <button class="tab-button" data-tab="multi-head">Multi-Head Attention</button>
+                            <button class="tab-button" data-tab="self-attention">Self-Attention</button>
+                        </div>
+                        
+                        <div id="attention-computation" class="tab-content active">
+                            <div class="demo-controls">
+                                <div class="control-group">
+                                    <label for="query-values">Query Values (comma-separated):</label>
+                                    <input type="text" id="query-values" value="1, 2, 3" placeholder="e.g., 1, 2, 3">
+                                </div>
+                                <div class="control-group">
+                                    <label for="key-values">Key Values (comma-separated):</label>
+                                    <input type="text" id="key-values" value="1, 2, 3" placeholder="e.g., 1, 2, 3">
+                                </div>
+                                <div class="control-group">
+                                    <label for="value-values">Value Values (comma-separated):</label>
+                                    <input type="text" id="value-values" value="4, 5, 6" placeholder="e.g., 4, 5, 6">
+                                </div>
+                                <button id="compute-attention">Compute Attention</button>
+                            </div>
+                            
+                            <div id="attention-result" class="code-box" style="display: none;"></div>
+                            
+                            <div class="attention-visualization">
+                                <h5>Attention Weights Visualization</h5>
+                                <div id="attention-matrix" class="attention-matrix"></div>
+                                <div id="attention-output" class="message info" style="display: none;"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="multi-head" class="tab-content">
+                            <div class="demo-controls">
+                                <div class="control-group">
+                                    <label for="num-heads">Number of Heads:</label>
+                                    <select id="num-heads">
+                                        <option value="2">2</option>
+                                        <option value="4">4</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="head-dim">Head Dimension:</label>
+                                    <select id="head-dim">
+                                        <option value="32">32</option>
+                                        <option value="64">64</option>
+                                        <option value="128">128</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="input-dim">Input Dimension:</label>
+                                    <select id="input-dim">
+                                        <option value="128">128</option>
+                                        <option value="256">256</option>
+                                        <option value="512">512</option>
+                                    </select>
+                                </div>
+                                <button id="visualize-multi-head">Visualize Multi-Head</button>
+                            </div>
+                            
+                            <div id="multi-head-result" class="code-box" style="display: none;"></div>
+                            
+                            <div class="transformer-visualization">
+                                <h5>Multi-Head Attention Architecture</h5>
+                                <div id="multi-head-arch"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="self-attention" class="tab-content">
+                            <div class="demo-controls">
+                                <div class="control-group">
+                                    <label for="sentence">Input Sentence:</label>
+                                    <input type="text" id="sentence" value="The cat sat on the mat" placeholder="Enter a sentence">
+                                </div>
+                                <button id="compute-self-attention">Compute Self-Attention</button>
+                            </div>
+                            
+                            <div id="self-attention-result" class="code-box" style="display: none;"></div>
+                            
+                            <div class="chart-container">
+                                <canvas id="self-attention-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Encoder-Decoder Architecture</h3>
+                <p>The Transformer architecture consists of an encoder that processes the input sequence and a decoder that generates the output sequence. Both are composed of stacked self-attention and feed-forward layers.</p>
+                
+                <div class="math-box">
+The Transformer encoder consists of a stack of identical layers, each with two sub-layers:
+
+1. Multi-head self-attention mechanism
+2. Position-wise fully connected feed-forward network
+
+Each sub-layer has a residual connection followed by layer normalization:
+
+\[
+\text{SublayerOutput} = \text{LayerNorm}(x + \text{Sublayer}(x))
+\]
+
+Where \(x\) is the input to the sub-layer.
+
+The encoder's self-attention allows each position to attend to all positions in the previous layer:
+
+\[
+\text{SelfAttention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\]
+
+Where \(Q = K = V\) are the same matrix derived from the encoder's input.
+
+The decoder is similar to the encoder but inserts a third sub-layer that performs multi-head attention over the output of the encoder stack:
+
+\[
+\text{CrossAttention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\]
+
+Where:
+- \(Q\) comes from the decoder's previous layer
+- \(K\) and \(V\) come from the encoder's output
+
+The decoder also uses masked self-attention to ensure that predictions for position \(i\) can depend only on the known outputs at positions less than \(i\):
+
+\[
+\text{MaskedSelfAttention}(Q, K, V) = \text{softmax}\left(\frac{QK^T + M}{\sqrt{d_k}}\right)V
+\]
+
+Where \(M\) is a mask matrix with \(M_{i,j} = 0\) for \(j \leq i\) and \(M_{i,j} = -\infty\) otherwise.
+
+The full Transformer model can be represented as:
+
+\[
+\text{EncoderOutput} = \text{Encoder}(\text{InputEmbeddings} + \text{PositionalEncodings})
+\]
+\[
+\text{DecoderOutput} = \text{Decoder}(\text{OutputEmbeddings} + \text{PositionalEncodings}, \text{EncoderOutput})
+\]
+\[
+\text{FinalOutput} = \text{Linear}(\text{DecoderOutput})
+\]
+\[
+\text{Probabilities} = \text{Softmax}(\text{FinalOutput})
+\]
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Interactive Encoder-Decoder Demo</h4>
+                    <p>Explore the Transformer architecture and how information flows through the model.</p>
+                    
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label for="num-layers">Number of Layers:</label>
+                            <select id="num-layers">
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="model-size">Model Size:</label>
+                            <select id="model-size">
+                                <option value="small">Small</option>
+                                <option value="base">Base</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="task-type">Task Type:</label>
+                            <select id="task-type">
+                                <option value="translation">Translation</option>
+                                <option value="summarization">Summarization</option>
+                                <option value="generation">Generation</option>
+                            </select>
+                        </div>
+                        <button id="build-transformer">Build Transformer</button>
+                    </div>
+                    
+                    <div id="transformer-arch" class="transformer-visualization"></div>
+                    
+                    <div id="transformer-code" class="code-box" style="display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Positional Encoding</h3>
+                <p>Since Transformers don't have recurrence or convolution, they need a way to incorporate information about the position of tokens in the sequence. Positional encodings are added to the input embeddings to provide this information.</p>
+                
+                <div class="math-box">
+Positional encodings use sine and cosine functions of different frequencies:
+
+\[
+PE_{(pos,2i)} = \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+\]
+\[
+PE_{(pos,2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+\]
+
+Where:
+- \(pos\) is the position
+- \(i\) is the dimension
+- \(d_{\text{model}}\) is the model dimension
+
+This choice of functions allows the model to easily learn to attend by relative positions, since for any fixed offset \(k\), \(PE_{pos+k}\) can be represented as a linear function of \(PE_{pos}\).
+
+The positional encoding matrix \(P\) has dimensions \((\text{seq\_len}, d_{\text{model}})\), where each row corresponds to a position in the sequence and each column corresponds to a dimension in the embedding space.
+
+The input to the transformer is then:
+
+\[
+X = E + P
+\]
+
+Where:
+- \(E\) is the embedding matrix
+- \(P\) is the positional encoding matrix
+
+The positional encoding has several important properties:
+1. It produces a unique encoding for each position
+2. The distance between any two positions is consistent across the sequence
+3. It can handle sequences of arbitrary length
+4. It is deterministic and doesn't require training
+
+An alternative to fixed positional encodings is learned positional embeddings, which are randomly initialized and learned during training:
+
+\[
+PE_{(pos,i)} = \text{Embedding}(pos, i)
+\]
+
+Where \(\text{Embedding}\) is a learned embedding function.
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Interactive Positional Encoding Demo</h4>
+                    <p>Visualize how positional encodings are generated and added to token embeddings.</p>
+                    
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label for="seq-len">Sequence Length:</label>
+                            <select id="seq-len">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="model-dim">Model Dimension:</label>
+                            <select id="model-dim">
+                                <option value="128">128</option>
+                                <option value="256">256</option>
+                                <option value="512">512</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="encoding-type">Encoding Type:</label>
+                            <select id="encoding-type">
+                                <option value="sinusoidal">Sinusoidal</option>
+                                <option value="learned">Learned</option>
+                            </select>
+                        </div>
+                        <button id="generate-positional-encoding">Generate Encoding</button>
+                    </div>
+                    
+                    <div id="positional-encoding-result" class="code-box" style="display: none;"></div>
+                    
+                    <div class="chart-container">
+                        <canvas id="positional-encoding-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Pretrained Models Section -->
+        <section id="pretrained-models" class="section">
+            <div class="section-header">
+                <div class="section-icon">🔹</div>
+                <h2>Pretrained Models</h2>
+            </div>
+            
+            <div class="subsection">
+                <h3>BERT, GPT, T5</h3>
+                <p>Pretrained language models have revolutionized NLP by learning from vast amounts of text data and then being fine-tuned for specific tasks. Let's explore three of the most influential models.</p>
+                
+                <div class="content-grid">
+                    <div class="card">
+                        <h4>BERT (Bidirectional Encoder Representations from Transformers)</h4>
+                        <p>BERT is designed to pretrain deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context.</p>
+                        <div class="math-box">
+BERT uses two pretraining tasks:
+
+1. Masked Language Modeling (MLM):
+\[
+\mathcal{L}_{\text{MLM}} = -\sum_{i} \log P(x_i | X_{\setminus i})
+\]
+
+Where \(X_{\setminus i}\) is the sequence with the \(i\)-th token masked.
+
+2. Next Sentence Prediction (NSP):
+\[
+\mathcal{L}_{\text{NSP}} = -\sum_{(A,B)} \left[ y \log P(\text{IsNext}(A,B)) + (1-y) \log P(\text{NotNext}(A,B)) \right]
+\]
+
+Where \(y = 1\) if \(B\) follows \(A\) in the original text, and \(y = 0\) otherwise.
+
+The BERT model architecture is a multi-layer bidirectional Transformer encoder:
+
+\[
+H = \text{TransformerEncoder}(E + P)
+\]
+
+Where:
+- \(E\) is the token embedding matrix
+- \(P\) is the positional encoding matrix
+- \(H\) is the sequence of hidden states
+
+For fine-tuning on a specific task, BERT adds a task-specific layer on top of the encoder output:
+
+\[
+Y = \text{TaskLayer}(H)
+\]
+
+Where \(\text{TaskLayer}\) depends on the specific task (e.g., a linear layer for classification).
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>GPT (Generative Pre-trained Transformer)</h4>
+                        <p>GPT is a series of autoregressive language models that use the Transformer decoder architecture to generate text.</p>
+                        <div class="math-box">
+GPT uses a unidirectional (left-to-right) language modeling objective:
+
+\[
+\mathcal{L}_{\text{LM}} = -\sum_{i} \log P(x_i | x_1, ..., x_{i-1})
+\]
+
+The GPT model architecture is a multi-layer Transformer decoder:
+
+\[
+h_0 = U W_e + W_p
+\]
+\[
+h_l = \text{transformer\_block}(h_{l-1}) \quad \text{for } l = 1, ..., n
+\]
+\[
+P(x) = \text{softmax}(h_n W_e^T)
+\]
+
+Where:
+- \(U\) is the token sequence
+- \(W_e\) is the token embedding matrix
+- \(W_p\) is the positional embedding matrix
+- \(n\) is the number of layers
+
+GPT-2 and GPT-3 scale up this architecture with more parameters and training data:
+
+- GPT: 117M parameters
+- GPT-2: 1.5B parameters
+- GPT-3: 175B parameters
+
+For text generation, GPT uses autoregressive sampling:
+
+\[
+x_{t+1} \sim P(x | x_1, ..., x_t)
+\]
+
+Where \(P\) is the model's probability distribution over the vocabulary.
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>T5 (Text-to-Text Transfer Transformer)</h4>
+                        <p>T5 frames all NLP tasks as a text-to-text problem, using the same architecture, objective, and preprocessing for every task.</p>
+                        <div class="math-box">
+T5 converts all tasks into a text-to-text format:
+
+- Input: "translate English to German: That is good."
+- Output: "Das ist gut."
+
+- Input: "summarize: The Apollo program was a human spaceflight program..."
+- Output: "The Apollo program sent astronauts to the Moon."
+
+The T5 model uses an encoder-decoder Transformer architecture:
+
+\[
+H = \text{Encoder}(X)
+\]
+\[
+Y = \text{Decoder}(H, Y_{<t})
+\]
+
+Where:
+- \(X\) is the input sequence
+- \(Y\) is the target sequence
+- \(Y_{<t}\) is the target sequence up to time step \(t\)
+
+T5 is pretrained on a "span corruption" objective:
+
+1. Randomly mask spans of text in the input
+2. Replace masked spans with a sentinel token
+3. Train the model to reconstruct the original text
+
+\[
+\mathcal{L} = -\sum_{i} \log P(y_i | X_{\text{masked}}, y_{<i})
+\]
+
+Where \(X_{\text{masked}}\) is the input with masked spans, and \(y\) is the original text.
+
+For fine-tuning, T5 simply prepends a task-specific prefix to the input:
+
+- Translation: "translate English to German: That is good."
+- Summarization: "summarize: The Apollo program was a human spaceflight program..."
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Interactive Pretrained Models Demo</h4>
+                    <p>Compare different pretrained models and their capabilities.</p>
+                    
+                    <div class="tab-container">
+                        <div class="tab-buttons">
+                            <button class="tab-button active" data-tab="bert-demo">BERT Demo</button>
+                            <button class="tab-button" data-tab="gpt-demo">GPT Demo</button>
+                            <button class="tab-button" data-tab="t5-demo">T5 Demo</button>
+                        </div>
+                        
+                        <div id="bert-demo" class="tab-content active">
+                            <div class="demo-controls">
+                                <div class="control-group">
+                                    <label for="bert-task">BERT Task:</label>
+                                    <select id="bert-task">
+                                        <option value="fill-mask">Fill Mask</option>
+                                        <option value="nsp">Next Sentence Prediction</option>
+                                        <option value="qa">Question Answering</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="bert-input">Input Text:</label>
+                                    <input type="text" id="bert-input" value="The capital of France is [MASK]." placeholder="Enter text with [MASK]">
+                                </div>
+                                <button id="run-bert">Run BERT</button>
+                            </div>
+                            
+                            <div id="bert-result" class="code-box" style="display: none;"></div>
+                            
+                            <div class="chart-container">
+                                <canvas id="bert-attention-chart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div id="gpt-demo" class="tab-content">
+                            <div class="demo-controls">
+                                <div class="control-group">
+                                    <label for="gpt-prompt">Prompt:</label>
+                                    <textarea id="gpt-prompt" rows="3" placeholder="Enter a prompt">The future of artificial intelligence is</textarea>
+                                </div>
+                                <div class="control-group">
+                                    <label for="gpt-length">Generation Length:</label>
+                                    <select id="gpt-length">
+                                        <option value="20">20 tokens</option>
+                                        <option value="50">50 tokens</option>
+                                        <option value="100">100 tokens</option>
+                                    </select>
+                                </div>
+                                <button id="run-gpt">Generate Text</button>
+                            </div>
+                            
+                            <div id="gpt-result" class="code-box" style="display: none;"></div>
+                            
+                            <div class="chart-container">
+                                <canvas id="gpt-prob-chart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div id="t5-demo" class="tab-content">
+                            <div class="demo-controls">
+                                <div class="control-group">
+                                    <label for="t5-task">T5 Task:</label>
+                                    <select id="t5-task">
+                                        <option value="translation">Translation</option>
+                                        <option value="summarization">Summarization</option>
+                                        <option value="qa">Question Answering</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="t5-input">Input Text:</label>
+                                    <textarea id="t5-input" rows="3" placeholder="Enter text">translate English to German: The house is wonderful.</textarea>
+                                </div>
+                                <button id="run-t5">Run T5</button>
+                            </div>
+                            
+                            <div id="t5-result" class="code-box" style="display: none;"></div>
+                            
+                            <div class="chart-container">
+                                <canvas id="t5-encoder-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Transfer Learning</h3>
+                <p>Transfer learning is a machine learning technique where a model developed for one task is reused as the starting point for a model on a second task. It's particularly useful when you have limited data for the target task.</p>
+                
+                <div class="math-box">
+Transfer learning can be formalized as follows:
+
+Given a source task \(T_S\) with data \(D_S = \{(x_i^S, y_i^S)\}_{i=1}^{N_S}\) and a target task \(T_T\) with limited data \(D_T = \{(x_i^T, y_i^T)\}_{i=1}^{N_T}\) where \(N_T \ll N_S\), the goal is to leverage knowledge from \(T_S\) to improve performance on \(T_T\).
+
+The general approach is:
+
+1. Pretrain a model \(f_S\) on \(D_S\):
+\[
+\theta_S^* = \arg\min_{\theta} \sum_{(x,y) \in D_S} \mathcal{L}(f_\theta(x), y)
+\]
+
+2. Adapt the model to the target task:
+\[
+\theta_T^* = \arg\min_{\theta} \sum_{(x,y) \in D_T} \mathcal{L}(f_\theta(x), y) + \lambda \cdot \mathcal{R}(\theta, \theta_S^*)
+\]
+
+Where:
+- \(\mathcal{L}\) is the task-specific loss function
+- \(\mathcal{R}\) is a regularization term that encourages the parameters to stay close to the pretrained parameters
+- \(\lambda\) controls the strength of regularization
+
+There are several strategies for transfer learning:
+
+1. **Feature Extraction**: Use the pretrained model as a fixed feature extractor:
+\[
+z = f_{\theta_S^*}(x)
+\]
+\[
+y = g_\phi(z)
+\]
+
+Where only \(\phi\) is trained on the target task.
+
+2. **Fine-tuning**: Update all or some of the pretrained parameters:
+\[
+y = f_{\theta}(x)
+\]
+
+Where \(\theta\) is initialized to \(\theta_S^*\) and updated on the target task.
+
+3. **Adapter Layers**: Add small trainable modules between pretrained layers:
+\[
+z_{i+1} = f_{\theta_i}(z_i) + g_{\phi_i}(z_i)
+\]
+
+Where only \(\phi_i\) are trained on the target task.
+
+The effectiveness of transfer learning depends on the similarity between the source and target tasks:
+\[
+\text{Effectiveness} \propto \text{Similarity}(T_S, T_T)
+\]
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Interactive Transfer Learning Demo</h4>
+                    <p>Compare different transfer learning strategies and their performance on various tasks.</p>
+                    
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label for="source-model">Source Model:</label>
+                            <select id="source-model">
+                                <option value="bert">BERT</option>
+                                <option value="gpt">GPT</option>
+                                <option value="t5">T5</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="target-task">Target Task:</label>
+                            <select id="target-task">
+                                <option value="sentiment">Sentiment Analysis</option>
+                                <option value="ner">Named Entity Recognition</option>
+                                <option value="summarization">Text Summarization</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="transfer-strategy">Transfer Strategy:</label>
+                            <select id="transfer-strategy">
+                                <option value="feature-extraction">Feature Extraction</option>
+                                <option value="fine-tuning">Fine-tuning</option>
+                                <option value="adapter">Adapter Layers</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="target-data-size">Target Data Size:</label>
+                            <select id="target-data-size">
+                                <option value="small">Small (100 examples)</option>
+                                <option value="medium">Medium (1,000 examples)</option>
+                                <option value="large">Large (10,000 examples)</option>
+                            </select>
+                        </div>
+                        <button id="run-transfer-learning">Run Transfer Learning</button>
+                    </div>
+                    
+                    <div id="transfer-result" class="code-box" style="display: none;"></div>
+                    
+                    <div class="chart-container">
+                        <canvas id="transfer-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Fine-tuning vs Feature Extraction</h3>
+                <p>When applying pretrained models to new tasks, you have two main approaches: fine-tuning the entire model or using it as a fixed feature extractor. Each approach has its own advantages and use cases.</p>
+                
+                <div class="content-grid">
+                    <div class="card">
+                        <h4>Fine-tuning</h4>
+                        <p>Fine-tuning involves updating all or some of the pretrained model's parameters on the target task data.</p>
+                        <div class="math-box">
+Fine-tuning updates the pretrained parameters \(\theta\) using the target task data:
+
+\[
+\theta_{\text{fine-tuned}} = \theta_{\text{pretrained}} - \eta \nabla_\theta \mathcal{L}_{\text{target}}(\theta)
+\]
+
+Where:
+- \(\eta\) is the learning rate
+- \(\mathcal{L}_{\text{target}}\) is the loss function for the target task
+
+Fine-tuning can be applied to:
+1. All layers:
+\[
+\theta_{\text{fine-tuned}} = \theta_{\text{pretrained}} - \eta \nabla_\theta \mathcal{L}_{\text{target}}(\theta)
+\]
+
+2. Only the top layers:
+\[
+\theta_{\text{fine-tuned}}^{(i)} = \begin{cases}
+\theta_{\text{pretrained}}^{(i)} - \eta \nabla_{\theta^{(i)}} \mathcal{L}_{\text{target}}(\theta) & \text{if } i > k \\
+\theta_{\text{pretrained}}^{(i)} & \text{otherwise}
+\end{cases}
+\]
+
+Where \(k\) is the number of frozen layers.
+
+3. With differential learning rates:
+\[
+\theta_{\text{fine-tuned}}^{(i)} = \theta_{\text{pretrained}}^{(i)} - \eta_i \nabla_{\theta^{(i)}} \mathcal{L}_{\text{target}}(\theta)
+\]
+
+Where \(\eta_i\) is the learning rate for layer \(i\).
+
+Fine-tuning is most effective when:
+- The target task is similar to the pretraining task
+- Sufficient target task data is available
+- Computational resources allow for training the entire model
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Feature Extraction</h4>
+                        <p>Feature extraction uses the pretrained model as a fixed feature extractor, training only a small task-specific model on top of the extracted features.</p>
+                        <div class="math-box">
+Feature extraction keeps the pretrained model fixed and trains only the task-specific parameters:
+
+\[
+z = f_{\theta_{\text{pretrained}}}(x)
+\]
+\[
+\phi_{\text{trained}} = \arg\min_{\phi} \sum_{(x,y) \in D_{\text{target}}} \mathcal{L}(g_\phi(z), y)
+\]
+
+Where:
+- \(f_{\theta_{\text{pretrained}}}\) is the fixed pretrained model
+- \(g_\phi\) is the task-specific model with parameters \(\phi\)
+- \(D_{\text{target}}\) is the target task dataset
+
+Common feature extraction strategies include:
+
+1. Using the output of the last layer:
+\[
+z = f_{\theta_{\text{pretrained}}}^{(L)}(x)
+\]
+
+Where \(L\) is the number of layers in the pretrained model.
+
+2. Using the output of an intermediate layer:
+\[
+z = f_{\theta_{\text{pretrained}}}^{(k)}(x)
+\]
+
+Where \(k < L\) is the index of the intermediate layer.
+
+3. Using a combination of layer outputs:
+\[
+z = \text{concat}(f_{\theta_{\text{pretrained}}}^{(k_1)}(x), f_{\theta_{\text{pretrained}}}^{(k_2)}(x), ...)
+\]
+
+Feature extraction is most effective when:
+- The target task is very different from the pretraining task
+- Limited target task data is available
+- Computational resources are limited
+- Fast inference is required
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Interactive Fine-tuning vs Feature Extraction Demo</h4>
+                    <p>Compare the performance, training time, and resource requirements of fine-tuning versus feature extraction.</p>
+                    
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label for="comparison-model">Model:</label>
+                            <select id="comparison-model">
+                                <option value="bert">BERT</option>
+                                <option value="gpt">GPT</option>
+                                <option value="t5">T5</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="comparison-task">Task:</label>
+                            <select id="comparison-task">
+                                <option value="sentiment">Sentiment Analysis</option>
+                                <option value="ner">Named Entity Recognition</option>
+                                <option value="summarization">Text Summarization</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="comparison-data-size">Data Size:</label>
+                            <select id="comparison-data-size">
+                                <option value="100">100 examples</option>
+                                <option value="1000">1,000 examples</option>
+                                <option value="10000">10,000 examples</option>
+                            </select>
+                        </div>
+                        <button id="run-comparison">Run Comparison</button>
+                    </div>
+                    
+                    <div id="comparison-result" class="code-box" style="display: none;"></div>
+                    
+                    <div class="chart-container">
+                        <canvas id="comparison-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="business-case">
+                <h4>💼 Business Case</h4>
+                <p>Advanced deep learning models like Transformers have numerous business applications across industries:</p>
+                
+                <div class="content-grid">
+                    <div class="card">
+                        <h4>Customer Service</h4>
+                        <ul>
+                            <li><strong>Chatbots:</strong> BERT and GPT models power intelligent chatbots that understand customer queries and provide relevant responses</li>
+                            <li><strong>Sentiment Analysis:</strong> Analyze customer feedback to identify sentiment and extract actionable insights</li>
+                            <li><strong>Automated Responses:</strong> Generate personalized responses to customer inquiries</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Content Creation</h4>
+                        <ul>
+                            <li><strong>Content Generation:</strong> GPT models can generate articles, product descriptions, and marketing copy</li>
+                            <li><strong>Content Summarization:</strong> T5 models can summarize long documents into concise summaries</li>
+                            <li><strong>Translation:</strong> Translate content between languages with high accuracy</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Healthcare</h4>
+                        <ul>
+                            <li><strong>Medical Text Analysis:</strong> Extract information from clinical notes and research papers</li>
+                            <li><strong>Drug Discovery:</strong> Analyze scientific literature to identify potential drug candidates</li>
+                            <li><strong>Patient Communication:</strong> Generate clear explanations of medical conditions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Finance</h4>
+                        <ul>
+                            <li><strong>Financial Analysis:</strong> Extract insights from financial reports and news</li>
+                            <li><strong>Risk Assessment:</strong> Analyze text to assess financial risk</li>
+                            <li><strong>Automated Reporting:</strong> Generate financial summaries and reports</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h4>Implementation Steps for Advanced Deep Learning Projects</h4>
+                    <ol>
+                        <li><strong>Problem Definition:</strong> Clearly define the business problem and success metrics</li>
+                        <li><strong>Model Selection:</strong> Choose the appropriate pretrained model based on the task and requirements</li>
+                        <li><strong>Data Preparation:</strong> Collect and preprocess data for the target task</li>
+                        <li><strong>Transfer Strategy:</strong> Decide between fine-tuning and feature extraction based on data availability and resources</li>
+                        <li><strong>Model Training:</strong> Train the model on the target task with appropriate hyperparameters</li>
+                        <li><strong>Evaluation:</strong> Evaluate the model's performance on a held-out test set</li>
+                        <li><strong>Deployment:</strong> Deploy the model to production with monitoring and maintenance</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Advanced Deep Learning - Interactive Guide | Educational Platform</p>
+        </div>
+    </footer>
+    
+    <script>
+        // MathJax configuration
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+        
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // Deactivate all tabs and contents
+                button.parentElement.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                button.parentElement.parentElement.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Activate selected tab and content
+                button.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Attention Mechanism Demo
+        document.getElementById('compute-attention').addEventListener('click', () => {
+            const queryValues = document.getElementById('query-values').value.split(',').map(x => parseFloat(x.trim()));
+            const keyValues = document.getElementById('key-values').value.split(',').map(x => parseFloat(x.trim()));
+            const valueValues = document.getElementById('value-values').value.split(',').map(x => parseFloat(x.trim()));
+            
+            // Convert to 2D arrays (assuming single query/key/value)
+            const Q = [[queryValues]];
+            const K = [[keyValues]];
+            const V = [[valueValues]];
+            
+            // Compute attention
+            const d_k = K[0].length;
+            const scores = [];
+            
+            for (let i = 0; i < Q.length; i++) {
+                scores[i] = [];
+                for (let j = 0; j < K.length; j++) {
+                    let score = 0;
+                    for (let k = 0; k < Q[i].length; k++) {
+                        score += Q[i][k] * K[j][k];
+                    }
+                    scores[i][j] = score / Math.sqrt(d_k);
+                }
+            }
+            
+            // Apply softmax
+            const weights = [];
+            for (let i = 0; i < scores.length; i++) {
+                weights[i] = [];
+                const expScores = scores[i].map(s => Math.exp(s));
+                const sumExp = expScores.reduce((a, b) => a + b, 0);
+                for (let j = 0; j < scores[i].length; j++) {
+                    weights[i][j] = expScores[j] / sumExp;
+                }
+            }
+            
+            // Compute output
+            const output = [];
+            for (let i = 0; i < weights.length; i++) {
+                output[i] = 0;
+                for (let j = 0; j < weights[i].length; j++) {
+                    output[i] += weights[i][j] * V[i][j];
+                }
+            }
+            
+            // Update result box
+            let resultText = 'Attention Computation:\n\n';
+            resultText += `Query: [${queryValues.join(', ')}]\n`;
+            resultText += `Key: [${keyValues.join(', ')}]\n`;
+            resultText += `Value: [${valueValues.join(', ')}]\n\n`;
+            resultText += `Scores: [${scores[0].map(s => s.toFixed(2)).join(', ')}]\n`;
+            resultText += `Weights: [${weights[0].map(w => w.toFixed(2)).join(', ')}]\n`;
+            resultText += `Output: [${output.map(o => o.toFixed(2)).join(', ')}]\n`;
+            resultText += `Sum of weights: ${weights[0].reduce((a, b) => a + b, 0).toFixed(2)}`;
+            
+            document.getElementById('attention-result').textContent = resultText;
+            document.getElementById('attention-result').style.display = 'block';
+            
+            // Update attention matrix visualization
+            const matrix = document.getElementById('attention-matrix');
+            matrix.innerHTML = '';
+            
+            for (let i = 0; i < weights.length; i++) {
+                for (let j = 0; j < weights[i].length; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'attention-cell';
+                    cell.textContent = weights[i][j].toFixed(2);
+                    
+                    // Color based on weight value
+                    const intensity = Math.floor(weights[i][j] * 255);
+                    cell.style.backgroundColor = `rgb(${intensity}, 0, ${255 - intensity})`;
+                    
+                    matrix.appendChild(cell);
+                }
+            }
+            
+            // Update output message
+            const outputMsg = document.getElementById('attention-output');
+            outputMsg.textContent = `Output: ${output.map(o => o.toFixed(2)).join(', ')}`;
+            outputMsg.style.display = 'block';
+        });
+        
+        // Multi-Head Attention Demo
+        document.getElementById('visualize-multi-head').addEventListener('click', () => {
+            const numHeads = parseInt(document.getElementById('num-heads').value);
+            const headDim = parseInt(document.getElementById('head-dim').value);
+            const inputDim = parseInt(document.getElementById('input-dim').value);
+            
+            // Update result box
+            let resultText = 'Multi-Head Attention Configuration:\n\n';
+            resultText += `Number of Heads: ${numHeads}\n`;
+            resultText += `Head Dimension: ${headDim}\n`;
+            resultText += `Input Dimension: ${inputDim}\n`;
+            resultText += `Total Dimension: ${numHeads * headDim}\n\n`;
+            resultText += `Projection Matrices:\n`;
+            resultText += `W_Q: (${inputDim}, ${numHeads * headDim})\n`;
+            resultText += `W_K: (${inputDim}, ${numHeads * headDim})\n`;
+            resultText += `W_V: (${inputDim}, ${numHeads * headDim})\n`;
+            resultText += `W_O: (${numHeads * headDim}, ${inputDim})\n\n`;
+            resultText += `Computation Steps:\n`;
+            resultText += `1. Project inputs to Q, K, V: Q = X @ W_Q, K = X @ W_K, V = X @ W_V\n`;
+            resultText += `2. Split into heads: Q = Q.reshape(batch, seq_len, num_heads, head_dim)\n`;
+            resultText += `3. Compute attention for each head: head_i = Attention(Q_i, K_i, V_i)\n`;
+            resultText += `4. Concatenate heads: concat = concat(head_1, head_2, ..., head_n)\n`;
+            resultText += `5. Final projection: output = concat @ W_O`;
+            
+            document.getElementById('multi-head-result').textContent = resultText;
+            document.getElementById('multi-head-result').style.display = 'block';
+            
+            // Update architecture visualization
+            const arch = document.getElementById('multi-head-arch');
+            arch.innerHTML = '';
+            
+            // Create input block
+            const inputBlock = document.createElement('div');
+            inputBlock.className = 'transformer-block';
+            inputBlock.textContent = 'Input';
+            arch.appendChild(inputBlock);
+            
+            // Create projection blocks
+            const projBlock = document.createElement('div');
+            projBlock.className = 'transformer-block';
+            projBlock.textContent = 'Projections';
+            arch.appendChild(projBlock);
+            
+            // Create heads
+            const headsContainer = document.createElement('div');
+            headsContainer.style.display = 'flex';
+            headsContainer.style.gap = '10px';
+            
+            for (let i = 0; i < numHeads; i++) {
+                const headBlock = document.createElement('div');
+                headBlock.className = 'transformer-block';
+                headBlock.textContent = `Head ${i+1}`;
+                headBlock.style.width = '80px';
+                headsContainer.appendChild(headBlock);
+            }
+            
+            arch.appendChild(headsContainer);
+            
+            // Create concat block
+            const concatBlock = document.createElement('div');
+            concatBlock.className = 'transformer-block';
+            concatBlock.textContent = 'Concat';
+            arch.appendChild(concatBlock);
+            
+            // Create output block
+            const outputBlock = document.createElement('div');
+            outputBlock.className = 'transformer-block';
+            outputBlock.textContent = 'Output';
+            arch.appendChild(outputBlock);
+        });
+        
+        // Self-Attention Demo
+        const selfAttentionCtx = document.getElementById('self-attention-chart').getContext('2d');
+        const selfAttentionChart = new Chart(selfAttentionCtx, {
+            type: 'heatmap',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Attention Weights',
+                    data: [],
+                    backgroundColor: 'rgba(106, 27, 154, 0.7)',
+                    borderColor: 'rgba(106, 27, 154, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Key Position'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Query Position'
+                        }
+                    }
+                }
+            }
+        });
+        
+        document.getElementById('compute-self-attention').addEventListener('click', () => {
+            const sentence = document.getElementById('sentence').value;
+            const tokens = sentence.split(' ');
+            
+            // Create random embeddings for tokens
+            const embeddings = [];
+            for (let i = 0; i < tokens.length; i++) {
+                const embedding = [];
+                for (let j = 0; j < 8; j++) {  // 8-dimensional embeddings
+                    embedding.push(Math.random() * 2 - 1);  // Random values between -1 and 1
+                }
+                embeddings.push(embedding);
+            }
+            
+            // Compute self-attention
+            const d_k = embeddings[0].length;
+            const scores = [];
+            
+            for (let i = 0; i < embeddings.length; i++) {
+                scores[i] = [];
+                for (let j = 0; j < embeddings.length; j++) {
+                    let score = 0;
+                    for (let k = 0; k < embeddings[i].length; k++) {
+                        score += embeddings[i][k] * embeddings[j][k];
+                    }
+                    scores[i][j] = score / Math.sqrt(d_k);
+                }
+            }
+            
+            // Apply softmax
+            const weights = [];
+            for (let i = 0; i < scores.length; i++) {
+                weights[i] = [];
+                const expScores = scores[i].map(s => Math.exp(s));
+                const sumExp = expScores.reduce((a, b) => a + b, 0);
+                for (let j = 0; j < scores[i].length; j++) {
+                    weights[i][j] = expScores[j] / sumExp;
+                }
+            }
+            
+            // Update result box
+            let resultText = 'Self-Attention Computation:\n\n';
+            resultText += `Sentence: "${sentence}"\n`;
+            resultText += `Tokens: [${tokens.join(', ')}]\n\n`;
+            resultText += `Attention Weights Matrix:\n`;
+            
+            for (let i = 0; i < weights.length; i++) {
+                resultText += `${tokens[i]}: [${weights[i].map(w => w.toFixed(2)).join(', ')}]\n`;
+            }
+            
+            document.getElementById('self-attention-result').textContent = resultText;
+            document.getElementById('self-attention-result').style.display = 'block';
+            
+            // Update chart
+            const labels = tokens;
+            const data = [];
+            
+            for (let i = 0; i < weights.length; i++) {
+                for (let j = 0; j < weights[i].length; j++) {
+                    data.push({
+                        x: j,
+                        y: i,
+                        v: weights[i][j]
+                    });
+                }
+            }
+            
+            selfAttentionChart.data.labels = labels;
+            selfAttentionChart.data.datasets[0].data = data;
+            selfAttentionChart.update();
+        });
+        
+        // Encoder-Decoder Demo
+        document.getElementById('build-transformer').addEventListener('click', () => {
+            const numLayers = parseInt(document.getElementById('num-layers').value);
+            const modelSize = document.getElementById('model-size').value;
+            const taskType = document.getElementById('task-type').value;
+            
+            // Determine dimensions based on model size
+            let dModel, dFF, numHeads;
+            
+            switch (modelSize) {
+                case 'small':
+                    dModel = 256;
+                    dFF = 1024;
+                    numHeads = 4;
+                    break;
+                case 'base':
+                    dModel = 512;
+                    dFF = 2048;
+                    numHeads = 8;
+                    break;
+                case 'large':
+                    dModel = 1024;
+                    dFF = 4096;
+                    numHeads = 16;
+                    break;
+            }
+            
+            // Update architecture visualization
+            const arch = document.getElementById('transformer-arch');
+            arch.innerHTML = '';
+            
+            // Create input block
+            const inputBlock = document.createElement('div');
+            inputBlock.className = 'transformer-block';
+            inputBlock.textContent = 'Input';
+            arch.appendChild(inputBlock);
+            
+            // Create encoder
+            const encoderContainer = document.createElement('div');
+            encoderContainer.style.margin = '1rem 0';
+            
+            const encoderLabel = document.createElement('div');
+            encoderLabel.textContent = 'Encoder';
+            encoderLabel.style.fontWeight = 'bold';
+            encoderLabel.style.marginBottom = '0.5rem';
+            encoderContainer.appendChild(encoderLabel);
+            
+            for (let i = 0; i < numLayers; i++) {
+                const layerContainer = document.createElement('div');
+                layerContainer.style.display = 'flex';
+                layerContainer.style.gap = '10px';
+                layerContainer.style.marginBottom = '0.5rem';
+                
+                const attentionBlock = document.createElement('div');
+                attentionBlock.className = 'transformer-block';
+                attentionBlock.textContent = 'Multi-Head';
+                attentionBlock.style.width = '100px';
+                layerContainer.appendChild(attentionBlock);
+                
+                const ffnBlock = document.createElement('div');
+                ffnBlock.className = 'transformer-block';
+                ffnBlock.textContent = 'FFN';
+                ffnBlock.style.width = '100px';
+                layerContainer.appendChild(ffnBlock);
+                
+                encoderContainer.appendChild(layerContainer);
+            }
+            
+            arch.appendChild(encoderContainer);
+            
+            // Create decoder
+            const decoderContainer = document.createElement('div');
+            decoderContainer.style.margin = '1rem 0';
+            
+            const decoderLabel = document.createElement('div');
+            decoderLabel.textContent = 'Decoder';
+            decoderLabel.style.fontWeight = 'bold';
+            decoderLabel.style.marginBottom = '0.5rem';
+            decoderContainer.appendChild(decoderLabel);
+            
+            for (let i = 0; i < numLayers; i++) {
+                const layerContainer = document.createElement('div');
+                layerContainer.style.display = 'flex';
+                layerContainer.style.flexDirection = 'column';
+                layerContainer.style.gap = '5px';
+                layerContainer.style.marginBottom = '0.5rem';
+                
+                const maskedAttentionBlock = document.createElement('div');
+                maskedAttentionBlock.className = 'transformer-block';
+                maskedAttentionBlock.textContent = 'Masked Multi-Head';
+                maskedAttentionBlock.style.width = '150px';
+                layerContainer.appendChild(maskedAttentionBlock);
+                
+                const crossAttentionBlock = document.createElement('div');
+                crossAttentionBlock.className = 'transformer-block';
+                crossAttentionBlock.textContent = 'Cross Multi-Head';
+                crossAttentionBlock.style.width = '150px';
+                layerContainer.appendChild(crossAttentionBlock);
+                
+                const ffnBlock = document.createElement('div');
+                ffnBlock.className = 'transformer-block';
+                ffnBlock.textContent = 'FFN';
+                ffnBlock.style.width = '100px';
+                layerContainer.appendChild(ffnBlock);
+                
+                decoderContainer.appendChild(layerContainer);
+            }
+            
+            arch.appendChild(decoderContainer);
+            
+            // Create output block
+            const outputBlock = document.createElement('div');
+            outputBlock.className = 'transformer-block';
+            outputBlock.textContent = 'Output';
+            arch.appendChild(outputBlock);
+            
+            // Update code box
+            let codeText = `# Transformer Model for ${taskType}\n\n`;
+            codeText += `import tensorflow as tf\n`;
+            codeText += `from tensorflow.keras import layers, models\n\n`;
+            codeText += `def build_${modelSize}_transformer(num_layers, d_model=${dModel}, d_ff=${dFF}, num_heads=${numHeads}):\n`;
+            codeText += `    # Encoder\n`;
+            codeText += `    encoder_inputs = layers.Input(shape=(None, d_model))\n`;
+            codeText += `    x = encoder_inputs\n\n`;
+            codeText += `    for _ in range(num_layers):\n`;
+            codeText += `        # Multi-head self-attention\n`;
+            codeText += `        attn_output = layers.MultiHeadAttention(\n`;
+            codeText += `            num_heads=num_heads, key_dim=d_model//num_heads\n`;
+            codeText += `        )(x, x)\n`;
+            codeText += `        x = layers.Dropout(0.1)(attn_output)\n`;
+            codeText += `        x = layers.LayerNormalization()(x + attn_output)\n\n`;
+            codeText += `        # Feed-forward network\n`;
+            codeText += `        ffn_output = layers.Dense(d_ff, activation='relu')(x)\n`;
+            codeText += `        ffn_output = layers.Dense(d_model)(ffn_output)\n`;
+            codeText += `        x = layers.Dropout(0.1)(ffn_output)\n`;
+            codeText += `        x = layers.LayerNormalization()(x + ffn_output)\n\n`;
+            codeText += `    encoder_outputs = x\n\n`;
+            codeText += `    # Decoder\n`;
+            codeText += `    decoder_inputs = layers.Input(shape=(None, d_model))\n`;
+            codeText += `    x = decoder_inputs\n\n`;
+            codeText += `    for _ in range(num_layers):\n`;
+            codeText += `        # Masked multi-head self-attention\n`;
+            codeText += `        attn1 = layers.MultiHeadAttention(\n`;
+            codeText += `            num_heads=num_heads, key_dim=d_model//num_heads\n`;
+            codeText += `        )(x, x, use_causal_mask=True)\n`;
+            codeText += `        x = layers.Dropout(0.1)(attn1)\n`;
+            codeText += `        x = layers.LayerNormalization()(x + attn1)\n\n`;
+            codeText += `        # Cross-attention with encoder outputs\n`;
+            codeText += `        attn2 = layers.MultiHeadAttention(\n`;
+            codeText += `            num_heads=num_heads, key_dim=d_model//num_heads\n`;
+            codeText += `        )(x, encoder_outputs)\n`;
+            codeText += `        x = layers.Dropout(0.1)(attn2)\n`;
+            codeText += `        x = layers.LayerNormalization()(x + attn2)\n\n`;
+            codeText += `        # Feed-forward network\n`;
+            codeText += `        ffn_output = layers.Dense(d_ff, activation='relu')(x)\n`;
+            codeText += `        ffn_output = layers.Dense(d_model)(ffn_output)\n`;
+            codeText += `        x = layers.Dropout(0.1)(ffn_output)\n`;
+            codeText += `        x = layers.LayerNormalization()(x + ffn_output)\n\n`;
+            codeText += `    decoder_outputs = x\n\n`;
+            codeText += `    # Create model\n`;
+            codeText += `    model = models.Model(\n`;
+            codeText += `        inputs=[encoder_inputs, decoder_inputs],\n`;
+            codeText += `        outputs=decoder_outputs\n`;
+            codeText += `    )\n\n`;
+            codeText += `    return model\n\n`;
+            codeText += `# Build the model\n`;
+            codeText += `model = build_${modelSize}_transformer(num_layers=${numLayers})\n`;
+            codeText += `model.summary()\n`;
+            
+            document.getElementById('transformer-code').textContent = codeText;
+            document.getElementById('transformer-code').style.display = 'block';
+        });
+        
+        // Positional Encoding Demo
+        const positionalEncodingCtx = document.getElementById('positional-encoding-chart').getContext('2d');
+        const positionalEncodingChart = new Chart(positionalEncodingCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: []
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Position'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Encoding Value'
+                        }
+                    }
+                }
+            }
+        });
+        
+        document.getElementById('generate-positional-encoding').addEventListener('click', () => {
+            const seqLen = parseInt(document.getElementById('seq-len').value);
+            const modelDim = parseInt(document.getElementById('model-dim').value);
+            const encodingType = document.getElementById('encoding-type').value;
+            
+            // Generate positional encodings
+            const encodings = [];
+            
+            if (encodingType === 'sinusoidal') {
+                for (let pos = 0; pos < seqLen; pos++) {
+                    encodings[pos] = [];
+                    for (let i = 0; i < modelDim; i++) {
+                        if (i % 2 === 0) {
+                            encodings[pos][i] = Math.sin(pos / Math.pow(10000, 2 * i / modelDim));
+                        } else {
+                            encodings[pos][i] = Math.cos(pos / Math.pow(10000, 2 * (i - 1) / modelDim));
+                        }
+                    }
+                }
+            } else {
+                // Learned embeddings (random for demo)
+                for (let pos = 0; pos < seqLen; pos++) {
+                    encodings[pos] = [];
+                    for (let i = 0; i < modelDim; i++) {
+                        encodings[pos][i] = Math.random() * 2 - 1;  // Random values between -1 and 1
+                    }
+                }
+            }
+            
+            // Update result box
+            let resultText = `${encodingType === 'sinusoidal' ? 'Sinusoidal' : 'Learned'} Positional Encoding:\n\n`;
+            resultText += `Sequence Length: ${seqLen}\n`;
+            resultText += `Model Dimension: ${modelDim}\n\n`;
+            resultText += `Positional Encoding Matrix (first 5 positions, first 8 dimensions):\n`;
+            
+            for (let pos = 0; pos < Math.min(5, seqLen); pos++) {
+                resultText += `Position ${pos}: [${encodings[pos].slice(0, 8).map(e => e.toFixed(4)).join(', ')}]\n`;
+            }
+            
+            document.getElementById('positional-encoding-result').textContent = resultText;
+            document.getElementById('positional-encoding-result').style.display = 'block';
+            
+            // Update chart
+            const labels = Array.from({length: seqLen}, (_, i) => i);
+            const datasets = [];
+            
+            // Show only first 8 dimensions
+            for (let i = 0; i < Math.min(8, modelDim); i++) {
+                const data = [];
+                for (let pos = 0; pos < seqLen; pos++) {
+                    data.push(encodings[pos][i]);
+                }
+                
+                datasets.push({
+                    label: `Dim ${i}`,
+                    data: data,
+                    borderColor = `hsl(${i * 45}, 70%, 50%)`,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false
+                });
+            }
+            
+            positionalEncodingChart.data.labels = labels;
+            positionalEncodingChart.data.datasets = datasets;
+            positionalEncodingChart.update();
+        });
+        
+        // BERT Demo
+        const bertAttentionCtx = document.getElementById('bert-attention-chart').getContext('2d');
+        const bertAttentionChart = new Chart(bertAttentionCtx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Attention Scores',
+                    data: [],
+                    backgroundColor: 'rgba(106, 27, 154, 0.7)',
+                    borderColor: 'rgba(106, 27, 154, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Token'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Attention Score'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        document.getElementById('run-bert').addEventListener('click', () => {
+            const task = document.getElementById('bert-task').value;
+            const input = document.getElementById('bert-input').value;
+            
+            // Simulate BERT processing
+            let resultText = `BERT ${task} Task:\n\n`;
+            resultText += `Input: "${input}"\n\n`;
+            
+            if (task === 'fill-mask') {
+                // Tokenize input
+                const tokens = input.split(' ');
+                const maskIndex = tokens.findIndex(token => token === '[MASK]');
+                
+                if (maskIndex !== -1) {
+                    // Simulate BERT predictions for masked token
+                    const predictions = [
+                        { token: 'Paris', score: 0.85 },
+                        { token: 'London', score: 0.10 },
+                        { token: 'Berlin', score: 0.03 },
+                        { token: 'Rome', score: 0.02 }
+                    ];
+                    
+                    resultText += `Tokenized Input: [${tokens.join(', ')}]\n`;
+                    resultText += `Mask Position: ${maskIndex}\n\n`;
+                    resultText += `Top Predictions:\n`;
+                    
+                    predictions.forEach(pred => {
+                        resultText += `${pred.token}: ${pred.score.toFixed(2)}\n`;
+                    });
+                    
+                    // Update attention chart
+                    bertAttentionChart.data.labels = predictions.map(p => p.token);
+                    bertAttentionChart.data.datasets[0].data = predictions.map(p => p.score);
+                    bertAttentionChart.update();
+                } else {
+                    resultText += 'No [MASK] token found in input.';
+                }
+            } else if (task === 'nsp') {
+                // Simulate next sentence prediction
+                resultText += 'Next Sentence Prediction:\n';
+                resultText += 'IsNext: 0.75\n';
+                resultText += 'NotNext: 0.25\n';
+                
+                // Update attention chart
+                bertAttentionChart.data.labels = ['IsNext', 'NotNext'];
+                bertAttentionChart.data.datasets[0].data = [0.75, 0.25];
+                bertAttentionChart.update();
+            } else if (task === 'qa') {
+                // Simulate question answering
+                resultText += 'Question Answering:\n';
+                resultText += 'Answer: "This is a simulated answer."\n';
+                resultText += 'Confidence: 0.92\n';
+                
+                // Update attention chart
+                bertAttentionChart.data.labels = ['Answer', 'Context'];
+                bertAttentionChart.data.datasets[0].data = [0.92, 0.08];
+                bertAttentionChart.update();
+            }
+            
+            document.getElementById('bert-result').textContent = resultText;
+            document.getElementById('bert-result').style.display = 'block';
+        });
+        
+        // GPT Demo
+        const gptProbCtx = document.getElementById('gpt-prob-chart').getContext('2d');
+        const gptProbChart = new Chart(gptProbCtx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Probability',
+                    data: [],
+                    backgroundColor: 'rgba(0, 188, 212, 0.7)',
+                    borderColor: 'rgba(0, 188, 212, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Token'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Probability'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        document.getElementById('run-gpt').addEventListener('click', () => {
+            const prompt = document.getElementById('gpt-prompt').value;
+            const length = parseInt(document.getElementById('gpt-length').value);
+            
+            // Simulate GPT text generation
+            let resultText = `GPT Text Generation:\n\n`;
+            resultText += `Prompt: "${prompt}"\n`;
+            resultText += `Generation Length: ${length} tokens\n\n`;
+            
+            // Simulate generated text
+            const generatedText = " going to revolutionize the way we interact with technology and solve complex problems. The advancements in AI are accelerating at an unprecedented pace, opening up new possibilities for innovation across all sectors of society.";
+            
+            resultText += `Generated Text: "${generatedText}"\n\n`;
+            
+            // Simulate token probabilities
+            const tokens = generatedText.split(' ');
+            const probabilities = tokens.map(() => Math.random());
+            
+            // Normalize probabilities
+            const sumProb = probabilities.reduce((a, b) => a + b, 0);
+            const normalizedProbs = probabilities.map(p => p / sumProb);
+            
+            resultText += 'Token Probabilities:\n';
+            tokens.forEach((token, i) => {
+                resultText += `${token}: ${normalizedProbs[i].toFixed(4)}\n`;
+            });
+            
+            document.getElementById('gpt-result').textContent = resultText;
+            document.getElementById('gpt-result').style.display = 'block';
+            
+            // Update probability chart
+            gptProbChart.data.labels = tokens.slice(0, 10);  // Show first 10 tokens
+            gptProbChart.data.datasets[0].data = normalizedProbs.slice(0, 10);
+            gptProbChart.update();
+        });
+        
+        // T5 Demo
+        const t5EncoderCtx = document.getElementById('t5-encoder-chart').getContext('2d');
+        const t5EncoderChart = new Chart(t5EncoderCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Encoder Output',
+                    data: [],
+                    borderColor: 'rgba(255, 193, 7, 1)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.2)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Token Position'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Activation'
+                        }
+                    }
+                }
+            }
+        });
+        
+        document.getElementById('run-t5').addEventListener('click', () => {
+            const task = document.getElementById('t5-task').value;
+            const input = document.getElementById('t5-input').value;
+            
+            // Simulate T5 processing
+            let resultText = `T5 ${task} Task:\n\n`;
+            resultText += `Input: "${input}"\n\n`;
+            
+            if (task === 'translation') {
+                resultText += 'Output: "Das Haus ist wunderbar."\n';
+            } else if (task === 'summarization') {
+                resultText += 'Output: "The house is wonderful."\n';
+            } else if (task === 'qa') {
+                resultText += 'Output: "A wonderful house."\n';
+            }
+            
+            resultText += '\nEncoder-Decoder Architecture:\n';
+            resultText += '1. Encoder processes input text\n';
+            resultText += '2. Decoder generates output text\n';
+            resultText += '3. Cross-attention connects decoder to encoder\n';
+            
+            document.getElementById('t5-result').textContent = resultText;
+            document.getElementById('t5-result').style.display = 'block';
+            
+            // Simulate encoder activations
+            const tokens = input.split(' ');
+            const activations = tokens.map((_, i) => Math.sin(i * 0.5) * 0.5 + 0.5);
+            
+            // Update encoder chart
+            t5EncoderChart.data.labels = tokens;
+            t5EncoderChart.data.datasets[0].data = activations;
+            t5EncoderChart.update();
+        });
+        
+        // Transfer Learning Demo
+        const transferCtx = document.getElementById('transfer-chart').getContext('2d');
+        const transferChart = new Chart(transferCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Feature Extraction', 'Fine-tuning', 'Adapter Layers'],
+                datasets: [
+                    {
+                        label: 'Accuracy',
+                        data: [0.75, 0.85, 0.82],
+                        backgroundColor: 'rgba(106, 27, 154, 0.7)',
+                        borderColor: 'rgba(106, 27, 154, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Training Time',
+                        data: [0.3, 0.9, 0.5],
+                        backgroundColor: 'rgba(0, 188, 212, 0.7)',
+                        borderColor: 'rgba(0, 188, 212, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Data Efficiency',
+                        data: [0.4, 0.8, 0.7],
+                        backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Transfer Learning Strategy'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 1,
+                        title: {
+                            display: true,
+                            text: 'Normalized Score'
+                        }
+                    }
+                }
+            }
+        });
+        
+        document.getElementById('run-transfer-learning').addEventListener('click', () => {
+            const sourceModel = document.getElementById('source-model').value;
+            const targetTask = document.getElementById('target-task').value;
+            const strategy = document.getElementById('transfer-strategy').value;
+            const dataSize = document.getElementById('target-data-size').value;
+            
+            // Simulate transfer learning results
+            let resultText = `Transfer Learning Experiment:\n\n`;
+            resultText += `Source Model: ${sourceModel}\n`;
+            resultText += `Target Task: ${targetTask}\n`;
+            resultText += `Strategy: ${strategy.replace('-', ' ')}\n`;
+            resultText += `Data Size: ${dataSize}\n\n`;
+            
+            // Simulate performance metrics based on strategy and data size
+            let accuracy, trainingTime, dataEfficiency;
+            
+            if (strategy === 'feature-extraction') {
+                accuracy = dataSize === 'small' ? 0.75 : dataSize === 'medium' ? 0.80 : 0.82;
+                trainingTime = 0.3;
+                dataEfficiency = 0.4;
+            } else if (strategy === 'fine-tuning') {
+                accuracy = dataSize === 'small' ? 0.70 : dataSize === 'medium' ? 0.85 : 0.90;
+                trainingTime = dataSize === 'small' ? 0.5 : dataSize === 'medium' ? 0.8 : 0.9;
+                dataEfficiency = dataSize === 'small' ? 0.3 : dataSize === 'medium' ? 0.7 : 0.8;
+            } else if (strategy === 'adapter') {
+                accuracy = dataSize === 'small' ? 0.78 : dataSize === 'medium' ? 0.83 : 0.86;
+                trainingTime = 0.5;
+                dataEfficiency = 0.7;
+            }
+            
+            resultText += `Performance Metrics:\n`;
+            resultText += `Accuracy: ${accuracy.toFixed(2)}\n`;
+            resultText += `Training Time: ${trainingTime.toFixed(2)} (normalized)\n`;
+            resultText += `Data Efficiency: ${dataEfficiency.toFixed(2)} (normalized)\n\n`;
+            
+            resultText += `Recommendation: `;
+            
+            if (dataSize === 'small') {
+                if (strategy === 'feature-extraction') {
+                    resultText += 'Feature extraction is recommended for small datasets as it prevents overfitting.';
+                } else if (strategy === 'fine-tuning') {
+                    resultText += 'Fine-tuning may overfit on small datasets. Consider using more regularization or feature extraction.';
+                } else {
+                    resultText += 'Adapter layers provide a good balance between performance and data efficiency for small datasets.';
+                }
+            } else if (dataSize === 'medium') {
+                if (strategy === 'feature-extraction') {
+                    resultText += 'Feature extraction works well but fine-tuning may achieve better performance with medium datasets.';
+                } else if (strategy === 'fine-tuning') {
+                    resultText += 'Fine-tuning is recommended for medium datasets to achieve optimal performance.';
+                } else {
+                    resultText += 'Adapter layers provide a good compromise between performance and training time for medium datasets.';
+                }
+            } else {
+                if (strategy === 'feature-extraction') {
+                    resultText += 'Feature extraction may underutilize the large dataset. Consider fine-tuning for better performance.';
+                } else if (strategy === 'fine-tuning') {
+                    resultText += 'Fine-tuning is highly recommended for large datasets to achieve the best performance.';
+                } else {
+                    resultText += 'Adapter layers provide a good balance but fine-tuning may achieve slightly better performance with large datasets.';
+                }
+            }
+            
+            document.getElementById('transfer-result').textContent = resultText;
+            document.getElementById('transfer-result').style.display = 'block';
+            
+            // Update chart
+            transferChart.data.datasets[0].data = [
+                strategy === 'feature-extraction' ? accuracy : 0,
+                strategy === 'fine-tuning' ? accuracy : 0,
+                strategy === 'adapter' ? accuracy : 0
+            ];
+            transferChart.data.datasets[1].data = [
+                strategy === 'feature-extraction' ? trainingTime : 0,
+                strategy === 'fine-tuning' ? trainingTime : 0,
+                strategy === 'adapter' ? trainingTime : 0
+            ];
+            transferChart.data.datasets[2].data = [
+                strategy === 'feature-extraction' ? dataEfficiency : 0,
+                strategy === 'fine-tuning' ? dataEfficiency : 0,
+                strategy === 'adapter' ? dataEfficiency : 0
+            ];
+            transferChart.update();
+        });
+        
+        // Fine-tuning vs Feature Extraction Demo
+        const comparisonCtx = document.getElementById('comparison-chart').getContext('2d');
+        const comparisonChart = new Chart(comparisonCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Accuracy', 'Training Speed', 'Inference Speed', 'Data Efficiency', 'Resource Usage'],
+                datasets: [
+                    {
+                        label: 'Fine-tuning',
+                        data: [0.9, 0.3, 0.6, 0.7, 0.4],
+                        backgroundColor: 'rgba(106, 27, 154, 0.2)',
+                        borderColor: 'rgba(106, 27, 154, 0.8)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(106, 27, 154, 1)'
+                    },
+                    {
+                        label: 'Feature Extraction',
+                        data: [0.7, 0.9, 0.9, 0.4, 0.8],
+                        backgroundColor: 'rgba(0, 188, 212, 0.2)',
+                        borderColor: 'rgba(0, 188, 212, 0.8)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(0, 188, 212, 1)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 1,
+                        ticks: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        document.getElementById('run-comparison').addEventListener('click', () => {
+            const model = document.getElementById('comparison-model').value;
+            const task = document.getElementById('comparison-task').value;
+            const dataSize = document.getElementById('comparison-data-size').value;
+            
+            // Simulate comparison results
+            let resultText = `Fine-tuning vs Feature Extraction Comparison:\n\n`;
+            resultText += `Model: ${model}\n`;
+            resultText += `Task: ${task}\n`;
+            resultText += `Data Size: ${dataSize}\n\n`;
+            
+            // Simulate metrics based on data size
+            let ftAccuracy, ftSpeed, ftInference, ftDataEff, ftResources;
+            let feAccuracy, feSpeed, feInference, feDataEff, feResources;
+            
+            if (dataSize === '100') {
+                ftAccuracy = 0.65;
+                ftSpeed = 0.3;
+                ftInference = 0.6;
+                ftDataEff = 0.3;
+                ftResources = 0.4;
+                
+                feAccuracy = 0.75;
+                feSpeed = 0.9;
+                feInference = 0.9;
+                feDataEff = 0.8;
+                feResources = 0.8;
+            } else if (dataSize === '1000') {
+                ftAccuracy = 0.85;
+                ftSpeed = 0.5;
+                ftInference = 0.6;
+                ftDataEff = 0.7;
+                ftResources = 0.5;
+                
+                feAccuracy = 0.78;
+                feSpeed = 0.9;
+                feInference = 0.9;
+                feDataEff = 0.5;
+                feResources = 0.8;
+            } else {
+                ftAccuracy = 0.92;
+                ftSpeed = 0.3;
+                ftInference = 0.6;
+                ftDataEff = 0.9;
+                ftResources = 0.4;
+                
+                feAccuracy = 0.80;
+                feSpeed = 0.9;
+                feInference = 0.9;
+                feDataEff = 0.4;
+                feResources = 0.8;
+            }
+            
+            resultText += `Fine-tuning Metrics:\n`;
+            resultText += `Accuracy: ${ftAccuracy.toFixed(2)}\n`;
+            resultText += `Training Speed: ${ftSpeed.toFixed(2)} (normalized)\n`;
+            resultText += `Inference Speed: ${ftInference.toFixed(2)} (normalized)\n`;
+            resultText += `Data Efficiency: ${ftDataEff.toFixed(2)} (normalized)\n`;
+            resultText += `Resource Usage: ${ftResources.toFixed(2)} (normalized, lower is better)\n\n`;
+            
+            resultText += `Feature Extraction Metrics:\n`;
+            resultText += `Accuracy: ${feAccuracy.toFixed(2)}\n`;
+            resultText += `Training Speed: ${feSpeed.toFixed(2)} (normalized)\n`;
+            resultText += `Inference Speed: ${feInference.toFixed(2)} (normalized)\n`;
+            resultText += `Data Efficiency: ${feDataEff.toFixed(2)} (normalized)\n`;
+            resultText += `Resource Usage: ${feResources.toFixed(2)} (normalized, lower is better)\n\n`;
+            
+            // Determine recommendation
+            if (dataSize === '100') {
+                resultText += 'Recommendation: Feature extraction is recommended for this small dataset size. It provides better accuracy, faster training, and more efficient resource usage.';
+            } else if (dataSize === '1000') {
+                resultText += 'Recommendation: Both approaches have trade-offs. Fine-tuning provides better accuracy but is slower and uses more resources. Feature extraction is faster and more efficient but slightly less accurate.';
+            } else {
+                resultText += 'Recommendation: Fine-tuning is recommended for this large dataset size. It provides significantly better accuracy and makes better use of the available data.';
+            }
+            
+            document.getElementById('comparison-result').textContent = resultText;
+            document.getElementById('comparison-result').style.display = 'block';
+            
+            // Update chart
+            comparisonChart.data.datasets[0].data = [ftAccuracy, ftSpeed, ftInference, ftDataEff, 1 - ftResources];
+            comparisonChart.data.datasets[1].data = [feAccuracy, feSpeed, feInference, feDataEff, 1 - feResources];
+            comparisonChart.update();
+        });
+        
+        // Initialize all demos
+        document.getElementById('compute-attention').click();
+        document.getElementById('visualize-multi-head').click();
+        document.getElementById('compute-self-attention').click();
+        document.getElementById('build-transformer').click();
+        document.getElementById('generate-positional-encoding').click();
+        document.getElementById('run-bert').click();
+        document.getElementById('run-gpt').click();
+        document.getElementById('run-t5').click();
+        document.getElementById('run-transfer-learning').click();
+        document.getElementById('run-comparison').click();
+    </script>
+</body>
+</html>

@@ -1,0 +1,2554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Machine Learning: Comprehensive Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --info-color: #36b9cc;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --light-color: #f8f9fc;
+            --dark-color: #5a5c69;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fc;
+            color: #5a5c69;
+            padding-top: 56px;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        .section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            border-radius: 0.35rem 0.35rem 0 0 !important;
+        }
+        
+        .code-container {
+            background-color: #2d2d2d;
+            border-radius: 0.35rem;
+            padding: 20px;
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .nav-pills .nav-link {
+            border-radius: 0.35rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+        }
+        
+        .metric-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 0.35rem;
+            height: 100%;
+        }
+        
+        .metric-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        .interactive-demo {
+            background-color: white;
+            border-radius: 0.35rem;
+            padding: 20px;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin: 20px 0;
+        }
+        
+        .page-navigation {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: 200px;
+            background-color: white;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            padding: 15px;
+            z-index: 1000;
+        }
+        
+        .page-navigation h5 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .page-navigation ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .page-navigation li {
+            margin-bottom: 8px;
+        }
+        
+        .page-navigation a {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+        
+        .page-navigation a:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 992px) {
+            .page-navigation {
+                display: none;
+            }
+        }
+        
+        .toc {
+            background-color: white;
+            border-radius: 0.35rem;
+            padding: 20px;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 30px;
+        }
+        
+        .toc h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 8px;
+        }
+        
+        .toc a {
+            color: var(--dark-color);
+            text-decoration: none;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+        
+        .toc a:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        .svg-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-chart-line me-2"></i>Applied Machine Learning</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#intro">Introduction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#train-test">Train/Test Split</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cross-validation">Cross-validation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#metrics">Evaluation Metrics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#overfitting">Overfitting & Underfitting</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#feature">Feature Engineering</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Navigation -->
+    <div class="page-navigation d-none d-lg-block">
+        <h5>Quick Navigation</h5>
+        <ul>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#train-test">Train/Test Split</a></li>
+            <li><a href="#cross-validation">Cross-validation</a></li>
+            <li><a href="#metrics">Evaluation Metrics</a></li>
+            <li><a href="#overfitting">Overfitting & Underfitting</a></li>
+            <li><a href="#feature">Feature Engineering</a></li>
+        </ul>
+    </div>
+
+    <div class="container mt-4">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h4><i class="fas fa-list me-2"></i>Table of Contents</h4>
+            <ul>
+                <li><a href="#intro">Introduction to Model Training & Evaluation</a></li>
+                <li><a href="#train-test">Train/Test Split</a></li>
+                <li><a href="#cross-validation">Cross-validation</a></li>
+                <li><a href="#metrics">Evaluation Metrics</a>
+                    <ul>
+                        <li><a href="#accuracy">Accuracy</a></li>
+                        <li><a href="#precision">Precision</a></li>
+                        <li><a href="#recall">Recall</a></li>
+                        <li><a href="#f1">F1 Score</a></li>
+                        <li><a href="#roc">ROC Curve</a></li>
+                    </ul>
+                </li>
+                <li><a href="#overfitting">Overfitting & Underfitting</a></li>
+                <li><a href="#feature">Feature Engineering</a></li>
+            </ul>
+        </div>
+
+        <!-- Introduction Section -->
+        <section id="intro" class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Introduction to Model Training & Evaluation</h2>
+                    <p>Machine learning is a subfield of artificial intelligence that focuses on building systems that learn from data. The process of developing a machine learning model involves several key steps, with training and evaluation being among the most critical.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">The Machine Learning Workflow</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="svg-container">
+                                <svg width="800" height="300" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect width="800" height="300" fill="#f8f9fc" rx="10" ry="10"/>
+                                    
+                                    <!-- Boxes -->
+                                    <rect x="50" y="100" width="120" height="80" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                    <rect x="200" y="100" width="120" height="80" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="350" y="100" width="120" height="80" rx="5" ry="5" fill="#36b9cc" opacity="0.8"/>
+                                    <rect x="500" y="100" width="120" height="80" rx="5" ry="5" fill="#f6c23e" opacity="0.8"/>
+                                    <rect x="650" y="100" width="120" height="80" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                                    
+                                    <!-- Text -->
+                                    <text x="110" y="145" text-anchor="middle" fill="white" font-weight="bold">Data</text>
+                                    <text x="110" y="165" text-anchor="middle" fill="white" font-size="12">Collection</text>
+                                    
+                                    <text x="260" y="145" text-anchor="middle" fill="white" font-weight="bold">Data</text>
+                                    <text x="260" y="165" text-anchor="middle" fill="white" font-size="12">Preprocessing</text>
+                                    
+                                    <text x="410" y="145" text-anchor="middle" fill="white" font-weight="bold">Model</text>
+                                    <text x="410" y="165" text-anchor="middle" fill="white" font-size="12">Training</text>
+                                    
+                                    <text x="560" y="145" text-anchor="middle" fill="white" font-weight="bold">Model</text>
+                                    <text x="560" y="165" text-anchor="middle" fill="white" font-size="12">Evaluation</text>
+                                    
+                                    <text x="710" y="145" text-anchor="middle" fill="white" font-weight="bold">Model</text>
+                                    <text x="710" y="165" text-anchor="middle" fill="white" font-size="12">Deployment</text>
+                                    
+                                    <!-- Arrows -->
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#5a5c69"/>
+                                        </marker>
+                                    </defs>
+                                    
+                                    <line x1="170" y1="140" x2="195" y2="140" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="320" y1="140" x2="345" y2="140" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="470" y1="140" x2="495" y2="140" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="620" y1="140" x2="645" y2="140" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Feedback loop -->
+                                    <path d="M 560 180 Q 560 220, 410 220 Q 260 220, 260 180" stroke="#5a5c69" stroke-width="2" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+                                    <text x="410" y="240" text-anchor="middle" fill="#5a5c69" font-size="12">Model Improvement Loop</text>
+                                </svg>
+                            </div>
+                            
+                            <p class="mt-3">The machine learning workflow is an iterative process that starts with data collection and preprocessing, followed by model training and evaluation. Based on the evaluation results, we may need to go back and adjust our approach before deploying the model.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Model Training</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Model training is the process of feeding a machine learning algorithm with data to learn the patterns and relationships within that data. During training, the algorithm adjusts its internal parameters to minimize the difference between its predictions and the actual outcomes.</p>
+                                    <ul>
+                                        <li>The algorithm learns from labeled data (supervised learning) or unlabeled data (unsupervised learning)</li>
+                                        <li>The goal is to create a model that can make accurate predictions on new, unseen data</li>
+                                        <li>Different algorithms have different training approaches and requirements</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Model Evaluation</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Model evaluation is the process of assessing how well a trained machine learning model performs on data it hasn't seen during training. This helps us understand the model's strengths and weaknesses and determine if it's ready for deployment.</p>
+                                    <ul>
+                                        <li>Evaluation involves using various metrics to quantify model performance</li>
+                                        <li>It helps identify issues like overfitting or underfitting</li>
+                                        <li>Different problems require different evaluation metrics</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Train/Test Split Section -->
+        <section id="train-test" class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Train/Test Split</h2>
+                    <p>Train/test split is a fundamental technique in machine learning for evaluating model performance. It involves dividing the available dataset into two separate subsets: one for training the model and another for testing it.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Understanding Train/Test Split</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="svg-container">
+                                <svg width="700" height="250" viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect width="700" height="250" fill="#f8f9fc" rx="10" ry="10"/>
+                                    
+                                    <!-- Original Dataset -->
+                                    <rect x="50" y="50" width="600" height="80" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                    <text x="350" y="95" text-anchor="middle" fill="white" font-weight="bold">Original Dataset</text>
+                                    
+                                    <!-- Arrow -->
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#5a5c69"/>
+                                        </marker>
+                                    </defs>
+                                    <line x1="350" y1="135" x2="350" y2="155" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Split Datasets -->
+                                    <rect x="50" y="170" width="420" height="60" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <text x="260" y="205" text-anchor="middle" fill="white" font-weight="bold">Training Set (70-80%)</text>
+                                    
+                                    <rect x="490" y="170" width="160" height="60" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                                    <text x="570" y="205" text-anchor="middle" fill="white" font-weight="bold">Test Set (20-30%)</text>
+                                    
+                                    <!-- Percentage Labels -->
+                                    <text x="260" y="240" text-anchor="middle" fill="#5a5c69" font-size="12">Used to train the model</text>
+                                    <text x="570" y="240" text-anchor="middle" fill="#5a5c69" font-size="12">Used to evaluate the model</text>
+                                </svg>
+                            </div>
+                            
+                            <p class="mt-3">The train/test split ensures that we evaluate our model on data it has never seen before, giving us a realistic estimate of how it will perform in real-world scenarios. Typically, we allocate 70-80% of the data for training and the remaining 20-30% for testing.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Why Train/Test Split Matters</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li><strong>Prevents Overfitting:</strong> By evaluating on unseen data, we can detect if our model has simply memorized the training data.</li>
+                                        <li><strong>Provides Realistic Performance Estimate:</strong> Gives us an unbiased evaluation of the model's performance on new data.</li>
+                                        <li><strong>Helps with Model Selection:</strong> Allows us to compare different models and select the one that performs best on unseen data.</li>
+                                        <li><strong>Simple to Implement:</strong> Easy to understand and implement with most machine learning libraries.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Considerations for Train/Test Split</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li><strong>Random Sampling:</strong> The split should be random to ensure both sets are representative of the overall dataset.</li>
+                                        <li><strong>Stratified Sampling:</strong> For classification problems with imbalanced classes, stratified sampling ensures that the class distribution is preserved in both sets.</li>
+                                        <li><strong>Temporal Data:</strong> For time-series data, random splitting may not be appropriate. Instead, we should split based on time.</li>
+                                        <li><strong>Dataset Size:</strong> For very small datasets, a simple train/test split may not provide reliable evaluation. Cross-validation is a better alternative.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Code Example: Train/Test Split with Scikit-learn</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Here's how to implement a train/test split using Python and scikit-learn:</p>
+                            <div class="code-container">
+                                <pre><code class="language-python"># Import necessary libraries
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Load the iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split the data into training and testing sets
+# test_size=0.3 means 30% of the data will be used for testing
+# random_state ensures reproducibility of the split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# Print the shapes of the resulting datasets
+print("Training data shape:", X_train.shape)
+print("Testing data shape:", X_test.shape)
+
+# Create and train a logistic regression model
+model = LogisticRegression(max_iter=200)
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Calculate the accuracy of the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Model accuracy: {accuracy:.4f}")</code></pre>
+                            </div>
+                            
+                            <p>In this example, we:</p>
+                            <ol>
+                                <li>Load the Iris dataset</li>
+                                <li>Split it into training (70%) and testing (30%) sets</li>
+                                <li>Train a logistic regression model on the training data</li>
+                                <li>Evaluate the model's accuracy on the test data</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-demo mt-4">
+                        <h5><i class="fas fa-flask me-2"></i>Interactive Demo: Train/Test Split</h5>
+                        <p>Adjust the test size slider to see how it affects the split:</p>
+                        
+                        <div class="mb-3">
+                            <label for="testSize" class="form-label">Test Size: <span id="testSizeValue">30</span>%</label>
+                            <input type="range" class="form-range" id="testSize" min="10" max="50" value="30">
+                        </div>
+                        
+                        <div class="svg-container">
+                            <svg id="trainTestVisual" width="700" height="200" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Background -->
+                                <rect width="700" height="200" fill="#f8f9fc" rx="10" ry="10"/>
+                                
+                                <!-- Original Dataset -->
+                                <rect x="50" y="50" width="600" height="40" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                <text x="350" y="75" text-anchor="middle" fill="white" font-weight="bold">Original Dataset (100%)</text>
+                                
+                                <!-- Split Datasets -->
+                                <rect x="50" y="120" width="420" height="40" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                <text x="260" y="145" text-anchor="middle" fill="white" font-weight="bold">Training Set (70%)</text>
+                                
+                                <rect x="490" y="120" width="160" height="40" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                                <text x="570" y="145" text-anchor="middle" fill="white" font-weight="bold">Test Set (30%)</text>
+                            </svg>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle me-2"></i>Training samples: <span id="trainSamples">105</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-times-circle me-2"></i>Test samples: <span id="testSamples">45</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cross-validation Section -->
+        <section id="cross-validation" class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Cross-validation</h2>
+                    <p>Cross-validation is a resampling technique used to evaluate machine learning models on a limited data sample. It provides a more robust estimate of model performance than a simple train/test split.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Understanding Cross-validation</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Cross-validation addresses some limitations of the train/test split by using multiple splits and averaging the results. The most common form is k-fold cross-validation, where the dataset is divided into k subsets (folds).</p>
+                            
+                            <div class="svg-container">
+                                <svg width="700" height="350" viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect width="700" height="350" fill="#f8f9fc" rx="10" ry="10"/>
+                                    
+                                    <!-- Title -->
+                                    <text x="350" y="30" text-anchor="middle" font-weight="bold" font-size="18">5-Fold Cross-validation</text>
+                                    
+                                    <!-- Folds -->
+                                    <rect x="50" y="60" width="120" height="30" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                    <rect x="180" y="60" width="120" height="30" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                    <rect x="310" y="60" width="120" height="30" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                    <rect x="440" y="60" width="120" height="30" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                    <rect x="570" y="60" width="120" height="30" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                    
+                                    <text x="110" y="80" text-anchor="middle" fill="white" font-weight="bold">Fold 1</text>
+                                    <text x="240" y="80" text-anchor="middle" fill="white" font-weight="bold">Fold 2</text>
+                                    <text x="370" y="80" text-anchor="middle" fill="white" font-weight="bold">Fold 3</text>
+                                    <text x="500" y="80" text-anchor="middle" fill="white" font-weight="bold">Fold 4</text>
+                                    <text x="630" y="80" text-anchor="middle" fill="white" font-weight="bold">Fold 5</text>
+                                    
+                                    <!-- Iteration 1 -->
+                                    <text x="50" y="120" font-weight="bold">Iteration 1:</text>
+                                    <rect x="50" y="130" width="120" height="30" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                                    <rect x="180" y="130" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="310" y="130" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="440" y="130" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="570" y="130" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    
+                                    <text x="110" y="150" text-anchor="middle" fill="white" font-weight="bold">Test</text>
+                                    <text x="240" y="150" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="370" y="150" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="500" y="150" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="630" y="150" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    
+                                    <!-- Iteration 2 -->
+                                    <text x="50" y="190" font-weight="bold">Iteration 2:</text>
+                                    <rect x="50" y="200" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="180" y="200" width="120" height="30" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                                    <rect x="310" y="200" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="440" y="200" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="570" y="200" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    
+                                    <text x="110" y="220" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="240" y="220" text-anchor="middle" fill="white" font-weight="bold">Test</text>
+                                    <text x="370" y="220" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="500" y="220" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="630" y="220" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    
+                                    <!-- Iteration 3 -->
+                                    <text x="50" y="260" font-weight="bold">Iteration 3:</text>
+                                    <rect x="50" y="270" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="180" y="270" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="310" y="270" width="120" height="30" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                                    <rect x="440" y="270" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="570" y="270" width="120" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    
+                                    <text x="110" y="290" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="240" y="290" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="370" y="290" text-anchor="middle" fill="white" font-weight="bold">Test</text>
+                                    <text x="500" y="290" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    <text x="630" y="290" text-anchor="middle" fill="white" font-weight="bold">Train</text>
+                                    
+                                    <!-- Legend -->
+                                    <rect x="50" y="320" width="20" height="15" rx="2" ry="2" fill="#1cc88a" opacity="0.8"/>
+                                    <text x="80" y="332" font-size="12">Training Data</text>
+                                    
+                                    <rect x="200" y="320" width="20" height="15" rx="2" ry="2" fill="#e74a3b" opacity="0.8"/>
+                                    <text x="230" y="332" font-size="12">Test Data</text>
+                                </svg>
+                            </div>
+                            
+                            <p class="mt-3">In k-fold cross-validation:</p>
+                            <ol>
+                                <li>The dataset is divided into k equal-sized folds</li>
+                                <li>For each iteration, one fold is held out as the test set, and the remaining k-1 folds are used for training</li>
+                                <li>The model is trained and evaluated, and the performance metric is recorded</li>
+                                <li>This process is repeated k times, with each fold used exactly once as the test set</li>
+                                <li>The final performance estimate is the average of the k performance metrics</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Types of Cross-validation</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li><strong>k-Fold Cross-validation:</strong> The dataset is divided into k folds. Common values for k are 5 or 10.</li>
+                                        <li><strong>Stratified k-Fold:</strong> Similar to k-fold but ensures that the class distribution is preserved in each fold. Important for imbalanced datasets.</li>
+                                        <li><strong>Leave-One-Out (LOO):</strong> A special case of k-fold where k equals the number of instances in the dataset. Each instance is used once as the test set.</li>
+                                        <li><strong>Leave-P-Out (LPO):</strong> Similar to LOO but leaves out p instances for testing in each iteration.</li>
+                                        <li><strong>Repeated k-Fold:</strong> Repeats k-fold cross-validation multiple times with different random splits.</li>
+                                        <li><strong>Time Series Cross-validation:</strong> Specialized for time-series data where future data cannot be used to predict past events.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Advantages of Cross-validation</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li><strong>More Reliable Estimate:</strong> Provides a more robust estimate of model performance by averaging results across multiple splits.</li>
+                                        <li><strong>Better Utilization of Data:</strong> Uses all data for both training and testing, which is especially valuable for small datasets.</li>
+                                        <li><strong>Reduces Variance:</strong> Reduces the variance of the performance estimate compared to a single train/test split.</li>
+                                        <li><strong>Model Selection:</strong> Helps in selecting the best model and hyperparameters by providing a more comprehensive evaluation.</li>
+                                        <li><strong>Detects Overfitting:</strong> If the model performs well on all folds, it's less likely to be overfitting.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Code Example: Cross-validation with Scikit-learn</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Here's how to implement k-fold cross-validation using Python and scikit-learn:</p>
+                            <div class="code-container">
+                                <pre><code class="language-python"># Import necessary libraries
+import numpy as np
+from sklearn.model_selection import cross_val_score, KFold
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import make_scorer, accuracy_score, precision_score, recall_score, f1_score
+
+# Load the iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Create a logistic regression model
+model = LogisticRegression(max_iter=200)
+
+# Define the cross-validation strategy
+# n_splits=5 means 5-fold cross-validation
+# shuffle=True ensures the data is shuffled before splitting
+# random_state ensures reproducibility
+cv = KFold(n_splits=5, shuffle=True, random_state=42)
+
+# Perform cross-validation for accuracy
+accuracy_scores = cross_val_score(model, X, y, cv=cv, scoring='accuracy')
+print(f"Accuracy scores for each fold: {accuracy_scores}")
+print(f"Mean accuracy: {accuracy_scores.mean():.4f}")
+print(f"Standard deviation: {accuracy_scores.std():.4f}")
+
+# Perform cross-validation for multiple metrics
+scoring = {
+    'accuracy': make_scorer(accuracy_score),
+    'precision_macro': make_scorer(precision_score, average='macro'),
+    'recall_macro': make_scorer(recall_score, average='macro'),
+    'f1_macro': make_scorer(f1_score, average='macro')
+}
+
+# We'll use cross_validate to get multiple metrics at once
+from sklearn.model_selection import cross_validate
+results = cross_validate(model, X, y, cv=cv, scoring=scoring)
+
+# Print the results
+print("\nCross-validation results:")
+for metric in scoring.keys():
+    scores = results[f'test_{metric}']
+    print(f"{metric}: Mean = {scores.mean():.4f}, Std = {scores.std():.4f}")</code></pre>
+                            </div>
+                            
+                            <p>In this example, we:</p>
+                            <ol>
+                                <li>Load the Iris dataset</li>
+                                <li>Create a logistic regression model</li>
+                                <li>Define a 5-fold cross-validation strategy</li>
+                                <li>Evaluate the model using accuracy scores</li>
+                                <li>Evaluate the model using multiple metrics (accuracy, precision, recall, F1)</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-demo mt-4">
+                        <h5><i class="fas fa-flask me-2"></i>Interactive Demo: Cross-validation</h5>
+                        <p>Adjust the number of folds to see how it affects the cross-validation process:</p>
+                        
+                        <div class="mb-3">
+                            <label for="numFolds" class="form-label">Number of Folds: <span id="numFoldsValue">5</span></label>
+                            <input type="range" class="form-range" id="numFolds" min="2" max="10" value="5">
+                        </div>
+                        
+                        <div id="cvVisualization" class="svg-container">
+                            <!-- SVG will be dynamically generated here -->
+                        </div>
+                        
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>With <span id="numFoldsInfo">5</span> folds, each fold contains <span id="foldSizeInfo">30</span> samples (assuming 150 total samples).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evaluation Metrics Section -->
+        <section id="metrics" class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Evaluation Metrics</h2>
+                    <p>Evaluation metrics are quantitative measures used to assess the performance of machine learning models. Different metrics are appropriate for different types of problems and datasets.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Confusion Matrix</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Before diving into specific metrics, it's important to understand the confusion matrix, which forms the basis for many classification metrics:</p>
+                            
+                            <div class="svg-container">
+                                <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect width="500" height="300" fill="#f8f9fc" rx="10" ry="10"/>
+                                    
+                                    <!-- Title -->
+                                    <text x="250" y="30" text-anchor="middle" font-weight="bold" font-size="18">Confusion Matrix</text>
+                                    
+                                    <!-- Grid -->
+                                    <line x1="150" y1="60" x2="150" y2="230" stroke="#5a5c69" stroke-width="2"/>
+                                    <line x1="150" y1="230" x2="350" y2="230" stroke="#5a5c69" stroke-width="2"/>
+                                    <line x1="350" y1="60" x2="350" y2="230" stroke="#5a5c69" stroke-width="2"/>
+                                    <line x1="150" y1="60" x2="350" y2="60" stroke="#5a5c69" stroke-width="2"/>
+                                    
+                                    <line x1="250" y1="60" x2="250" y2="230" stroke="#5a5c69" stroke-width="1" stroke-dasharray="5,5"/>
+                                    <line x1="150" y1="145" x2="350" y2="145" stroke="#5a5c69" stroke-width="1" stroke-dasharray="5,5"/>
+                                    
+                                    <!-- Labels -->
+                                    <text x="250" y="50" text-anchor="middle" font-weight="bold">Predicted</text>
+                                    <text x="100" y="145" text-anchor="middle" font-weight="bold" transform="rotate(-90, 100, 145)">Actual</text>
+                                    
+                                    <text x="200" y="80" text-anchor="middle" font-weight="bold">Positive</text>
+                                    <text x="300" y="80" text-anchor="middle" font-weight="bold">Negative</text>
+                                    
+                                    <text x="100" y="110" text-anchor="middle" font-weight="bold">Positive</text>
+                                    <text x="100" y="190" text-anchor="middle" font-weight="bold">Negative</text>
+                                    
+                                    <!-- Quadrants -->
+                                    <rect x="150" y="60" width="100" height="85" fill="#1cc88a" opacity="0.3"/>
+                                    <rect x="250" y="60" width="100" height="85" fill="#e74a3b" opacity="0.3"/>
+                                    <rect x="150" y="145" width="100" height="85" fill="#f6c23e" opacity="0.3"/>
+                                    <rect x="250" y="145" width="100" height="85" fill="#36b9cc" opacity="0.3"/>
+                                    
+                                    <!-- Quadrant Labels -->
+                                    <text x="200" y="110" text-anchor="middle" font-weight="bold">TP</text>
+                                    <text x="200" y="125" text-anchor="middle" font-size="12">(True Positive)</text>
+                                    
+                                    <text x="300" y="110" text-anchor="middle" font-weight="bold">FP</text>
+                                    <text x="300" y="125" text-anchor="middle" font-size="12">(False Positive)</text>
+                                    
+                                    <text x="200" y="190" text-anchor="middle" font-weight="bold">FN</text>
+                                    <text x="200" y="205" text-anchor="middle" font-size="12">(False Negative)</text>
+                                    
+                                    <text x="300" y="190" text-anchor="middle" font-weight="bold">TN</text>
+                                    <text x="300" y="205" text-anchor="middle" font-size="12">(True Negative)</text>
+                                    
+                                    <!-- Definitions -->
+                                    <text x="50" y="260" font-size="12">TP: Correctly predicted positive</text>
+                                    <text x="50" y="280" font-size="12">FP: Incorrectly predicted positive (Type I error)</text>
+                                    <text x="300" y="260" font-size="12">FN: Incorrectly predicted negative (Type II error)</text>
+                                    <text x="300" y="280" font-size="12">TN: Correctly predicted negative</text>
+                                </svg>
+                            </div>
+                            
+                            <p class="mt-3">The confusion matrix shows the number of correct and incorrect predictions for each class. From this matrix, we can derive various evaluation metrics.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="accuracy">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Accuracy</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Accuracy is the most intuitive metric and represents the ratio of correctly predicted observations to the total observations.</p>
+                                    <p class="text-center fw-bold">Accuracy = (TP + TN) / (TP + TN + FP + FN)</p>
+                                    
+                                    <div class="metric-card">
+                                        <div class="metric-icon text-success">
+                                            <i class="fas fa-bullseye"></i>
+                                        </div>
+                                        <div class="metric-value">85%</div>
+                                        <div class="metric-label">Example Accuracy</div>
+                                    </div>
+                                    
+                                    <h6>When to Use:</h6>
+                                    <ul>
+                                        <li>When the target classes are balanced</li>
+                                        <li>When false positives and false negatives have similar costs</li>
+                                    </ul>
+                                    
+                                    <h6>Limitations:</h6>
+                                    <ul>
+                                        <li>Misleading for imbalanced datasets</li>
+                                        <li>Doesn't provide insight into the types of errors</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Code Example: Accuracy</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="code-container">
+                                        <pre><code class="language-python"># Import necessary libraries
+from sklearn.metrics import accuracy_score
+
+# True labels
+y_true = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0]
+
+# Predicted labels
+y_pred = [1, 0, 1, 0, 0, 1, 1, 0, 1, 0]
+
+# Calculate accuracy
+accuracy = accuracy_score(y_true, y_pred)
+print(f"Accuracy: {accuracy:.4f}")
+
+# Using confusion matrix
+from sklearn.metrics import confusion_matrix
+tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+accuracy_manual = (tp + tn) / (tp + tn + fp + fn)
+print(f"Manual calculation: {accuracy_manual:.4f}")</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4" id="precision">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Precision</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Precision measures the ratio of correctly predicted positive observations to the total predicted positive observations. It answers the question: "Of all the positive predictions, how many were actually positive?"</p>
+                                    <p class="text-center fw-bold">Precision = TP / (TP + FP)</p>
+                                    
+                                    <div class="metric-card">
+                                        <div class="metric-icon text-info">
+                                            <i class="fas fa-crosshairs"></i>
+                                        </div>
+                                        <div class="metric-value">75%</div>
+                                        <div class="metric-label">Example Precision</div>
+                                    </div>
+                                    
+                                    <h6>When to Use:</h6>
+                                    <ul>
+                                        <li>When the cost of false positives is high</li>
+                                        <li>When you want to be sure about positive predictions</li>
+                                        <li>Examples: Spam detection, medical diagnosis</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Code Example: Precision</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="code-container">
+                                        <pre><code class="language-python"># Import necessary libraries
+from sklearn.metrics import precision_score
+
+# True labels
+y_true = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0]
+
+# Predicted labels
+y_pred = [1, 0, 1, 0, 0, 1, 1, 0, 1, 0]
+
+# Calculate precision
+precision = precision_score(y_true, y_pred)
+print(f"Precision: {precision:.4f}")
+
+# Using confusion matrix
+from sklearn.metrics import confusion_matrix
+tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+precision_manual = tp / (tp + fp)
+print(f"Manual calculation: {precision_manual:.4f}")
+
+# For multi-class problems, use average parameter
+# precision_multi = precision_score(y_true, y_pred, average='macro')</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4" id="recall">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Recall (Sensitivity)</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Recall measures the ratio of correctly predicted positive observations to all actual positive observations. It answers the question: "Of all the actual positives, how many did we correctly predict?"</p>
+                                    <p class="text-center fw-bold">Recall = TP / (TP + FN)</p>
+                                    
+                                    <div class="metric-card">
+                                        <div class="metric-icon text-warning">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                        <div class="metric-value">80%</div>
+                                        <div class="metric-label">Example Recall</div>
+                                    </div>
+                                    
+                                    <h6>When to Use:</h6>
+                                    <ul>
+                                        <li>When the cost of false negatives is high</li>
+                                        <li>When you want to capture all positive instances</li>
+                                        <li>Examples: Disease screening, fraud detection</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Code Example: Recall</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="code-container">
+                                        <pre><code class="language-python"># Import necessary libraries
+from sklearn.metrics import recall_score
+
+# True labels
+y_true = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0]
+
+# Predicted labels
+y_pred = [1, 0, 1, 0, 0, 1, 1, 0, 1, 0]
+
+# Calculate recall
+recall = recall_score(y_true, y_pred)
+print(f"Recall: {recall:.4f}")
+
+# Using confusion matrix
+from sklearn.metrics import confusion_matrix
+tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+recall_manual = tp / (tp + fn)
+print(f"Manual calculation: {recall_manual:.4f}")
+
+# For multi-class problems, use average parameter
+# recall_multi = recall_score(y_true, y_pred, average='macro')</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4" id="f1">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">F1 Score</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>The F1 score is the harmonic mean of precision and recall. It provides a balance between precision and recall, especially when the class distribution is imbalanced.</p>
+                                    <p class="text-center fw-bold">F1 = 2 × (Precision × Recall) / (Precision + Recall)</p>
+                                    
+                                    <div class="metric-card">
+                                        <div class="metric-icon text-danger">
+                                            <i class="fas fa-balance-scale"></i>
+                                        </div>
+                                        <div class="metric-value">77%</div>
+                                        <div class="metric-label">Example F1 Score</div>
+                                    </div>
+                                    
+                                    <h6>When to Use:</h6>
+                                    <ul>
+                                        <li>When you need a balance between precision and recall</li>
+                                        <li>When dealing with imbalanced datasets</li>
+                                        <li>When both false positives and false negatives are important</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Code Example: F1 Score</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="code-container">
+                                        <pre><code class="language-python"># Import necessary libraries
+from sklearn.metrics import f1_score
+
+# True labels
+y_true = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0]
+
+# Predicted labels
+y_pred = [1, 0, 1, 0, 0, 1, 1, 0, 1, 0]
+
+# Calculate F1 score
+f1 = f1_score(y_true, y_pred)
+print(f"F1 Score: {f1:.4f}")
+
+# Using precision and recall
+from sklearn.metrics import precision_score, recall_score
+precision = precision_score(y_true, y_pred)
+recall = recall_score(y_true, y_pred)
+f1_manual = 2 * (precision * recall) / (precision + recall)
+print(f"Manual calculation: {f1_manual:.4f}")
+
+# For multi-class problems, use average parameter
+# f1_multi = f1_score(y_true, y_pred, average='macro')</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4" id="roc">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">ROC Curve and AUC</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>The Receiver Operating Characteristic (ROC) curve is a graphical plot that illustrates the diagnostic ability of a binary classifier as its discrimination threshold is varied. The Area Under the Curve (AUC) represents the degree or measure of separability.</p>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Understanding ROC Curve:</h6>
+                                            <ul>
+                                                <li>Plots True Positive Rate (Recall) against False Positive Rate</li>
+                                                <li>Shows the trade-off between sensitivity and specificity</li>
+                                                <li>The closer the curve follows the left-hand border and top border, the more accurate the test</li>
+                                                <li>The closer the curve is to the 45-degree diagonal, the less accurate the test</li>
+                                            </ul>
+                                            
+                                            <h6>Understanding AUC:</h6>
+                                            <ul>
+                                                <li>AUC = 1: Perfect classifier</li>
+                                                <li>AUC = 0.5: No discrimination (random guessing)</li>
+                                                <li>AUC < 0.5: Worse than random guessing</li>
+                                                <li>Higher AUC indicates better model performance</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="chart-container">
+                                                <canvas id="rocChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="code-container mt-3">
+                                        <pre><code class="language-python"># Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, auc, roc_auc_score
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+# Generate a synthetic dataset
+X, y = make_classification(n_samples=1000, n_classes=2, random_state=42)
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train a classifier
+clf = RandomForestClassifier(random_state=42)
+clf.fit(X_train, y_train)
+
+# Get predicted probabilities
+y_scores = clf.predict_proba(X_test)[:, 1]
+
+# Calculate ROC curve
+fpr, tpr, thresholds = roc_curve(y_test, y_scores)
+roc_auc = auc(fpr, tpr)
+
+# Plot ROC curve
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'ROC curve (AUC = {roc_auc:.2f})')
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic (ROC) Curve')
+plt.legend(loc="lower right")
+plt.show()
+
+# Calculate AUC score
+auc_score = roc_auc_score(y_test, y_scores)
+print(f"AUC Score: {auc_score:.4f}")</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-demo mt-4">
+                        <h5><i class="fas fa-flask me-2"></i>Interactive Demo: Evaluation Metrics</h5>
+                        <p>Adjust the confusion matrix values to see how they affect the evaluation metrics:</p>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label for="tpValue" class="form-label">True Positives (TP)</label>
+                                <input type="number" class="form-control" id="tpValue" value="80" min="0" max="100">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="fpValue" class="form-label">False Positives (FP)</label>
+                                <input type="number" class="form-control" id="fpValue" value="10" min="0" max="100">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="fnValue" class="form-label">False Negatives (FN)</label>
+                                <input type="number" class="form-control" id="fnValue" value="20" min="0" max="100">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="tnValue" class="form-label">True Negatives (TN)</label>
+                                <input type="number" class="form-control" id="tnValue" value="90" min="0" max="100">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="metric-card">
+                                    <div class="metric-icon text-success">
+                                        <i class="fas fa-bullseye"></i>
+                                    </div>
+                                    <div class="metric-value" id="accuracyValue">85.0%</div>
+                                    <div class="metric-label">Accuracy</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card">
+                                    <div class="metric-icon text-info">
+                                        <i class="fas fa-crosshairs"></i>
+                                    </div>
+                                    <div class="metric-value" id="precisionValue">88.9%</div>
+                                    <div class="metric-label">Precision</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card">
+                                    <div class="metric-icon text-warning">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                    <div class="metric-value" id="recallValue">80.0%</div>
+                                    <div class="metric-label">Recall</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card">
+                                    <div class="metric-icon text-danger">
+                                        <i class="fas fa-balance-scale"></i>
+                                    </div>
+                                    <div class="metric-value" id="f1Value">84.2%</div>
+                                    <div class="metric-label">F1 Score</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overfitting & Underfitting Section -->
+        <section id="overfitting" class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Overfitting & Underfitting</h2>
+                    <p>Overfitting and underfitting are common problems in machine learning that affect the model's ability to generalize to new data. Understanding these concepts is crucial for building effective models.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Understanding Overfitting and Underfitting</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="svg-container">
+                                <svg width="700" height="400" viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect width="700" height="400" fill="#f8f9fc" rx="10" ry="10"/>
+                                    
+                                    <!-- Title -->
+                                    <text x="350" y="30" text-anchor="middle" font-weight="bold" font-size="18">Model Complexity vs. Performance</text>
+                                    
+                                    <!-- Axes -->
+                                    <line x1="80" y1="350" x2="650" y2="350" stroke="#5a5c69" stroke-width="2"/>
+                                    <line x1="80" y1="350" x2="80" y2="50" stroke="#5a5c69" stroke-width="2"/>
+                                    
+                                    <!-- Axis Labels -->
+                                    <text x="365" y="380" text-anchor="middle" font-weight="bold">Model Complexity</text>
+                                    <text x="30" y="200" text-anchor="middle" font-weight="bold" transform="rotate(-90, 30, 200)">Error</text>
+                                    
+                                    <!-- Underfitting Region -->
+                                    <rect x="80" y="50" width="150" height="300" fill="#e74a3b" opacity="0.1"/>
+                                    <text x="155" y="70" text-anchor="middle" font-weight="bold" fill="#e74a3b">Underfitting</text>
+                                    
+                                    <!-- Good Fit Region -->
+                                    <rect x="230" y="50" width="200" height="300" fill="#1cc88a" opacity="0.1"/>
+                                    <text x="330" y="70" text-anchor="middle" font-weight="bold" fill="#1cc88a">Good Fit</text>
+                                    
+                                    <!-- Overfitting Region -->
+                                    <rect x="430" y="50" width="220" height="300" fill="#f6c23e" opacity="0.1"/>
+                                    <text x="540" y="70" text-anchor="middle" font-weight="bold" fill="#f6c23e">Overfitting</text>
+                                    
+                                    <!-- Curves -->
+                                    <!-- Training Error -->
+                                    <path d="M 100,300 Q 200,250 300,200 T 500,150 Q 600,130 620,120" stroke="#4e73df" stroke-width="3" fill="none"/>
+                                    <text x="630" y="120" font-size="12" fill="#4e73df">Training Error</text>
+                                    
+                                    <!-- Validation Error -->
+                                    <path d="M 100,280 Q 200,200 300,150 T 400,140 Q 500,150 600,200" stroke="#e74a3b" stroke-width="3" fill="none"/>
+                                    <text x="610" y="210" font-size="12" fill="#e74a3b">Validation Error</text>
+                                    
+                                    <!-- Optimal Point -->
+                                    <circle cx="330" cy="150" r="8" fill="#1cc88a"/>
+                                    <text x="340" y="145" font-size="12" fill="#1cc88a" font-weight="bold">Optimal Point</text>
+                                    
+                                    <!-- Annotations -->
+                                    <text x="155" y="250" text-anchor="middle" font-size="12" fill="#5a5c69">High Bias</text>
+                                    <text x="155" y="270" text-anchor="middle" font-size="12" fill="#5a5c69">Low Variance</text>
+                                    
+                                    <text x="540" y="250" text-anchor="middle" font-size="12" fill="#5a5c69">Low Bias</text>
+                                    <text x="540" y="270" text-anchor="middle" font-size="12" fill="#5a5c69">High Variance</text>
+                                </svg>
+                            </div>
+                            
+                            <p class="mt-3">The relationship between model complexity and error can be visualized as above:</p>
+                            <ul>
+                                <li><strong>Underfitting (High Bias, Low Variance):</strong> The model is too simple to capture the underlying patterns in the data. It performs poorly on both training and validation data.</li>
+                                <li><strong>Good Fit (Optimal Bias-Variance Tradeoff):</strong> The model captures the underlying patterns without memorizing the noise. It performs well on both training and validation data.</li>
+                                <li><strong>Overfitting (Low Bias, High Variance):</strong> The model is too complex and memorizes the training data, including noise. It performs well on training data but poorly on validation data.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Overfitting</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Overfitting occurs when a model learns the training data too well, including noise and random fluctuations. As a result, it performs poorly on new, unseen data.</p>
+                                    
+                                    <h6>Signs of Overfitting:</h6>
+                                    <ul>
+                                        <li>High training accuracy but low validation accuracy</li>
+                                        <li>Large gap between training and validation performance</li>
+                                        <li>Model is overly complex (too many parameters)</li>
+                                        <li>Model performs well on training data but poorly on test data</li>
+                                    </ul>
+                                    
+                                    <h6>Causes of Overfitting:</h6>
+                                    <ul>
+                                        <li>Model is too complex for the amount of training data</li>
+                                        <li>Too many features relative to the number of observations</li>
+                                        <li>Training for too many epochs (in neural networks)</li>
+                                        <li>Lack of regularization</li>
+                                    </ul>
+                                    
+                                    <h6>Solutions to Overfitting:</h6>
+                                    <ul>
+                                        <li>Get more training data</li>
+                                        <li>Reduce model complexity</li>
+                                        <li>Use regularization techniques (L1, L2, dropout)</li>
+                                        <li>Feature selection to reduce the number of features</li>
+                                        <li>Early stopping during training</li>
+                                        <li>Cross-validation to tune hyperparameters</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Underfitting</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Underfitting occurs when a model is too simple to capture the underlying patterns in the data. It performs poorly on both training and validation data.</p>
+                                    
+                                    <h6>Signs of Underfitting:</h6>
+                                    <ul>
+                                        <li>Low training accuracy and low validation accuracy</li>
+                                        <li>Small gap between training and validation performance</li>
+                                        <li>Model is overly simple (too few parameters)</li>
+                                        <li>Model performs poorly on both training and test data</li>
+                                    </ul>
+                                    
+                                    <h6>Causes of Underfitting:</h6>
+                                    <ul>
+                                        <li>Model is too simple to capture the complexity of the data</li>
+                                        <li>Too few features</li>
+                                        <li>Excessive regularization</li>
+                                        <li>Insufficient training time</li>
+                                        <li>Biased training data</li>
+                                    </ul>
+                                    
+                                    <h6>Solutions to Underfitting:</h6>
+                                    <ul>
+                                        <li>Increase model complexity</li>
+                                        <li>Add more features</li>
+                                        <li>Reduce regularization</li>
+                                        <li>Train for longer (in iterative models)</li>
+                                        <li>Feature engineering to create more informative features</li>
+                                        <li>Remove bias from training data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Code Example: Detecting Overfitting and Underfitting</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Here's how to detect overfitting and underfitting using learning curves with Python and scikit-learn:</p>
+                            <div class="code-container">
+                                <pre><code class="language-python"># Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split, learning_curve
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+
+# Generate a synthetic dataset
+X, y = make_classification(n_samples=1000, n_features=20, n_informative=15, 
+                           n_redundant=5, random_state=42)
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Define models with different complexities
+models = [
+    ("Underfit Model (High Bias)", LogisticRegression(C=0.01)),
+    ("Good Fit Model", RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)),
+    ("Overfit Model (High Variance)", SVC(kernel='rbf', C=1000, gamma=0.001))
+]
+
+# Plot learning curves
+plt.figure(figsize=(15, 5))
+for i, (name, model) in enumerate(models):
+    plt.subplot(1, 3, i+1)
+    
+    # Calculate learning curves
+    train_sizes, train_scores, test_scores = learning_curve(
+        model, X_train, y_train, cv=5, 
+        train_sizes=np.linspace(0.1, 1.0, 10),
+        scoring='accuracy'
+    )
+    
+    # Calculate mean and standard deviation
+    train_mean = np.mean(train_scores, axis=1)
+    train_std = np.std(train_scores, axis=1)
+    test_mean = np.mean(test_scores, axis=1)
+    test_std = np.std(test_scores, axis=1)
+    
+    # Plot learning curves
+    plt.plot(train_sizes, train_mean, 'o-', color="blue", label="Training score")
+    plt.plot(train_sizes, test_mean, 'o-', color="red", label="Cross-validation score")
+    
+    plt.fill_between(train_sizes, train_mean - train_std, train_mean + train_std, alpha=0.1, color="blue")
+    plt.fill_between(train_sizes, test_mean - test_std, test_mean + test_std, alpha=0.1, color="red")
+    
+    plt.title(name)
+    plt.xlabel("Training examples")
+    plt.ylabel("Accuracy Score")
+    plt.legend(loc="best")
+    plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Evaluate models on test set
+for name, model in models:
+    model.fit(X_train, y_train)
+    train_score = model.score(X_train, y_train)
+    test_score = model.score(X_test, y_test)
+    print(f"{name}:")
+    print(f"  Training accuracy: {train_score:.4f}")
+    print(f"  Test accuracy: {test_score:.4f}")
+    print(f"  Gap: {abs(train_score - test_score):.4f}")
+    print()</code></pre>
+                            </div>
+                            
+                            <p>In this example, we:</p>
+                            <ol>
+                                <li>Create three models with different complexities: one that underfits, one that has a good fit, and one that overfits</li>
+                                <li>Plot learning curves to visualize how training and validation scores change with the number of training examples</li>
+                                <li>Evaluate each model on both training and test data to quantify the performance gap</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-demo mt-4">
+                        <h5><i class="fas fa-flask me-2"></i>Interactive Demo: Overfitting and Underfitting</h5>
+                        <p>Adjust the model complexity to see how it affects overfitting and underfitting:</p>
+                        
+                        <div class="mb-3">
+                            <label for="modelComplexity" class="form-label">Model Complexity: <span id="modelComplexityValue">5</span></label>
+                            <input type="range" class="form-range" id="modelComplexity" min="1" max="10" value="5">
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="fittingChart"></canvas>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="alert alert-primary">
+                                    <i class="fas fa-chart-line me-2"></i>Training Accuracy: <span id="trainingAccuracy">85.0%</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-chart-line me-2"></i>Validation Accuracy: <span id="validationAccuracy">75.0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i><span id="fittingStatus">Good Fit: The model has an appropriate level of complexity.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Engineering Section -->
+        <section id="feature" class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Feature Engineering</h2>
+                    <p>Feature engineering is the process of using domain knowledge to select, transform, and create features that make machine learning algorithms work better. It's often said that feature engineering is more important than the choice of algorithm.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">The Feature Engineering Process</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="svg-container">
+                                <svg width="700" height="400" viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect width="700" height="400" fill="#f8f9fc" rx="10" ry="10"/>
+                                    
+                                    <!-- Title -->
+                                    <text x="350" y="30" text-anchor="middle" font-weight="bold" font-size="18">Feature Engineering Process</text>
+                                    
+                                    <!-- Boxes -->
+                                    <rect x="50" y="60" width="150" height="80" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                                    <rect x="50" y="170" width="150" height="80" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                    <rect x="50" y="280" width="150" height="80" rx="5" ry="5" fill="#36b9cc" opacity="0.8"/>
+                                    
+                                    <rect x="275" y="60" width="150" height="80" rx="5" ry="5" fill="#f6c23e" opacity="0.8"/>
+                                    <rect x="275" y="170" width="150" height="80" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                                    <rect x="275" y="280" width="150" height="80" rx="5" ry="5" fill="#858796" opacity="0.8"/>
+                                    
+                                    <rect x="500" y="60" width="150" height="80" rx="5" ry="5" fill="#5a5c69" opacity="0.8"/>
+                                    <rect x="500" y="170" width="150" height="80" rx="5" ry="5" fill="#5a5c69" opacity="0.8"/>
+                                    <rect x="500" y="280" width="150" height="80" rx="5" ry="5" fill="#5a5c69" opacity="0.8"/>
+                                    
+                                    <!-- Text -->
+                                    <text x="125" y="105" text-anchor="middle" fill="white" font-weight="bold">Raw</text>
+                                    <text x="125" y="125" text-anchor="middle" fill="white" font-size="12">Features</text>
+                                    
+                                    <text x="125" y="215" text-anchor="middle" fill="white" font-weight="bold">Feature</text>
+                                    <text x="125" y="235" text-anchor="middle" fill="white" font-size="12">Selection</text>
+                                    
+                                    <text x="125" y="325" text-anchor="middle" fill="white" font-weight="bold">Feature</text>
+                                    <text x="125" y="345" text-anchor="middle" fill="white" font-size="12">Scaling</text>
+                                    
+                                    <text x="350" y="105" text-anchor="middle" fill="white" font-weight="bold">Handling</text>
+                                    <text x="350" y="125" text-anchor="middle" fill="white" font-size="12">Missing Values</text>
+                                    
+                                    <text x="350" y="215" text-anchor="middle" fill="white" font-weight="bold">Feature</text>
+                                    <text x="350" y="235" text-anchor="middle" fill="white" font-size="12">Creation</text>
+                                    
+                                    <text x="350" y="325" text-anchor="middle" fill="white" font-weight="bold">Encoding</text>
+                                    <text x="350" y="345" text-anchor="middle" fill="white" font-size="12">Categorical</text>
+                                    
+                                    <text x="575" y="105" text-anchor="middle" fill="white" font-weight="bold">Dimensionality</text>
+                                    <text x="575" y="125" text-anchor="middle" fill="white" font-size="12">Reduction</text>
+                                    
+                                    <text x="575" y="215" text-anchor="middle" fill="white" font-weight="bold">Feature</text>
+                                    <text x="575" y="235" text-anchor="middle" fill="white" font-size="12">Extraction</text>
+                                    
+                                    <text x="575" y="325" text-anchor="middle" fill="white" font-weight="bold">Feature</text>
+                                    <text x="575" y="345" text-anchor="middle" fill="white" font-size="12">Importance</text>
+                                    
+                                    <!-- Arrows -->
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#5a5c69"/>
+                                        </marker>
+                                    </defs>
+                                    
+                                    <!-- Horizontal arrows -->
+                                    <line x1="200" y1="100" x2="270" y2="100" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="200" y1="210" x2="270" y2="210" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="200" y1="320" x2="270" y2="320" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <line x1="425" y1="100" x2="495" y2="100" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="425" y1="210" x2="495" y2="210" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="425" y1="320" x2="495" y2="320" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Vertical arrows -->
+                                    <line x1="125" y1="140" x2="125" y2="165" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="125" y1="250" x2="125" y2="275" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <line x1="350" y1="140" x2="350" y2="165" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="350" y1="250" x2="350" y2="275" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <line x1="575" y1="140" x2="575" y2="165" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    <line x1="575" y1="250" x2="575" y2="275" stroke="#5a5c69" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    
+                                    <!-- Feedback loop -->
+                                    <path d="M 575 360 Q 575 390, 350 390 Q 125 390, 125 360" stroke="#5a5c69" stroke-width="2" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+                                    <text x="350" y="385" text-anchor="middle" fill="#5a5c69" font-size="12">Iterative Process</text>
+                                </svg>
+                            </div>
+                            
+                            <p class="mt-3">Feature engineering is an iterative process that involves several steps:</p>
+                            <ol>
+                                <li><strong>Feature Selection:</strong> Selecting the most relevant features for the model</li>
+                                <li><strong>Handling Missing Values:</strong> Dealing with missing or incomplete data</li>
+                                <li><strong>Feature Creation:</strong> Creating new features from existing ones</li>
+                                <li><strong>Encoding Categorical Variables:</strong> Converting categorical data into numerical format</li>
+                                <li><strong>Feature Scaling:</strong> Normalizing or standardizing features</li>
+                                <li><strong>Dimensionality Reduction:</strong> Reducing the number of features</li>
+                                <li><strong>Feature Extraction:</strong> Creating new features through transformation</li>
+                                <li><strong>Feature Importance:</strong> Evaluating which features are most important</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Feature Selection Techniques</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Feature selection is the process of selecting a subset of relevant features for use in model construction. It helps to reduce overfitting, improve accuracy, and reduce training time.</p>
+                                    
+                                    <div class="feature-card">
+                                        <h5>Filter Methods</h5>
+                                        <p>These methods select features based on their statistical properties, independent of any machine learning algorithm.</p>
+                                        <ul>
+                                            <li>Correlation coefficients</li>
+                                            <li>Chi-squared test</li>
+                                            <li>Information gain</li>
+                                            <li>Variance threshold</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="feature-card">
+                                        <h5>Wrapper Methods</h5>
+                                        <p>These methods use a specific machine learning algorithm to evaluate the usefulness of features.</p>
+                                        <ul>
+                                            <li>Forward selection</li>
+                                            <li>Backward elimination</li>
+                                            <li>Recursive feature elimination</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="feature-card">
+                                        <h5>Embedded Methods</h5>
+                                        <p>These methods perform feature selection as part of the model construction process.</p>
+                                        <ul>
+                                            <li>LASSO (L1 regularization)</li>
+                                            <li>Ridge (L2 regularization)</li>
+                                            <li>Decision tree-based feature importance</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Feature Creation and Transformation</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Feature creation involves generating new features from existing ones to improve model performance. Feature transformation changes the scale or distribution of features.</p>
+                                    
+                                    <div class="feature-card">
+                                        <h5>Feature Creation</h5>
+                                        <p>Creating new features that capture important information not explicitly present in the original features.</p>
+                                        <ul>
+                                            <li>Polynomial features</li>
+                                            <li>Interaction features</li>
+                                            <li>Binning or discretization</li>
+                                            <li>Domain-specific features</li>
+                                            <li>Date/time features</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="feature-card">
+                                        <h5>Feature Transformation</h5>
+                                        <p>Transforming features to improve their distribution or relationship with the target variable.</p>
+                                        <ul>
+                                            <li>Normalization (Min-Max scaling)</li>
+                                            <li>Standardization (Z-score scaling)</li>
+                                            <li>Log transformation</li>
+                                            <li>Box-Cox transformation</li>
+                                            <li>Power transformation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Code Example: Feature Engineering</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Here's how to implement various feature engineering techniques using Python and scikit-learn:</p>
+                            <div class="code-container">
+                                <pre><code class="language-python"># Import necessary libraries
+import numpy as np
+import pandas as pd
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, OneHotEncoder, LabelEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.feature_selection import SelectKBest, f_classif, RFE
+from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+
+# Load the Titanic dataset as an example
+titanic = fetch_openml('titanic', version=1, as_frame=True)
+df = titanic.frame
+
+# Select a subset of features for demonstration
+features = ['pclass', 'sex', 'age', 'sibsp', 'parch', 'fare', 'embarked']
+target = 'survived'
+
+# Create a new dataframe with selected features
+X = df[features]
+y = df[target]
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Identify numerical and categorical features
+numerical_features = ['age', 'sibsp', 'parch', 'fare']
+categorical_features = ['pclass', 'sex', 'embarked']
+
+# Create transformers for numerical features
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),  # Handle missing values
+    ('scaler', StandardScaler())  # Standardize features
+])
+
+# Create transformers for categorical features
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),  # Handle missing values
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))  # One-hot encoding
+])
+
+# Combine transformers using ColumnTransformer
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+# Feature Creation: Create a new feature 'family_size'
+X_train['family_size'] = X_train['sibsp'] + X_train['parch'] + 1
+X_test['family_size'] = X_test['sibsp'] + X_test['parch'] + 1
+
+# Update the numerical features list
+numerical_features.append('family_size')
+
+# Update the preprocessor
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+# Apply preprocessing
+X_train_processed = preprocessor.fit_transform(X_train)
+X_test_processed = preprocessor.transform(X_test)
+
+# Feature Selection: Select top 10 features using ANOVA F-value
+selector = SelectKBest(f_classif, k=10)
+X_train_selected = selector.fit_transform(X_train_processed, y_train)
+X_test_selected = selector.transform(X_test_processed)
+
+# Get selected feature names
+feature_names = []
+for name, transformer, columns in preprocessor.transformers_:
+    if name == 'cat':
+        # For categorical features, get the one-hot encoded feature names
+        feature_names.extend(transformer.named_steps['onehot'].get_feature_names_out(columns))
+    else:
+        feature_names.extend(columns)
+
+selected_features = [feature_names[i] for i in selector.get_support(indices=True)]
+print("Selected features:", selected_features)
+
+# Dimensionality Reduction: Apply PCA
+pca = PCA(n_components=5)
+X_train_pca = pca.fit_transform(X_train_processed)
+X_test_pca = pca.transform(X_test_processed)
+
+print(f"Original number of features: {X_train_processed.shape[1]}")
+print(f"Number of features after selection: {X_train_selected.shape[1]}")
+print(f"Number of features after PCA: {X_train_pca.shape[1]}")
+
+# Train a model with original features
+model_original = RandomForestClassifier(random_state=42)
+model_original.fit(X_train_processed, y_train)
+score_original = model_original.score(X_test_processed, y_test)
+print(f"Model accuracy with original features: {score_original:.4f}")
+
+# Train a model with selected features
+model_selected = RandomForestClassifier(random_state=42)
+model_selected.fit(X_train_selected, y_train)
+score_selected = model_selected.score(X_test_selected, y_test)
+print(f"Model accuracy with selected features: {score_selected:.4f}")
+
+# Train a model with PCA features
+model_pca = RandomForestClassifier(random_state=42)
+model_pca.fit(X_train_pca, y_train)
+score_pca = model_pca.score(X_test_pca, y_test)
+print(f"Model accuracy with PCA features: {score_pca:.4f}")</code></pre>
+                            </div>
+                            
+                            <p>In this example, we:</p>
+                            <ol>
+                                <li>Load the Titanic dataset</li>
+                                <li>Handle missing values using imputation</li>
+                                <li>Encode categorical variables using one-hot encoding</li>
+                                <li>Scale numerical features using standardization</li>
+                                <li>Create a new feature 'family_size'</li>
+                                <li>Select the top 10 features using ANOVA F-value</li>
+                                <li>Apply PCA for dimensionality reduction</li>
+                                <li>Compare model performance with different feature sets</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-demo mt-4">
+                        <h5><i class="fas fa-flask me-2"></i>Interactive Demo: Feature Engineering</h5>
+                        <p>Explore how different feature engineering techniques affect model performance:</p>
+                        
+                        <ul class="nav nav-pills mb-3" id="featureTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="scaling-tab" data-bs-toggle="tab" data-bs-target="#scaling" type="button" role="tab" aria-controls="scaling" aria-selected="true">Feature Scaling</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="selection-tab" data-bs-toggle="tab" data-bs-target="#selection" type="button" role="tab" aria-controls="selection" aria-selected="false">Feature Selection</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="creation-tab" data-bs-toggle="tab" data-bs-target="#creation" type="button" role="tab" aria-controls="creation" aria-selected="false">Feature Creation</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content" id="featureTabsContent">
+                            <div class="tab-pane fade show active" id="scaling" role="tabpanel" aria-labelledby="scaling-tab">
+                                <div class="mb-3">
+                                    <label for="scalingMethod" class="form-label">Scaling Method</label>
+                                    <select class="form-select" id="scalingMethod">
+                                        <option value="none">No Scaling</option>
+                                        <option value="standard">Standardization (Z-score)</option>
+                                        <option value="minmax">Min-Max Scaling</option>
+                                        <option value="robust">Robust Scaling</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="chart-container">
+                                    <canvas id="scalingChart"></canvas>
+                                </div>
+                                
+                                <div class="alert alert-info mt-3">
+                                    <i class="fas fa-info-circle me-2"></i>Model accuracy with <span id="scalingMethodResult">No Scaling</span>: <span id="scalingAccuracy">75.0%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="selection" role="tabpanel" aria-labelledby="selection-tab">
+                                <div class="mb-3">
+                                    <label for="numFeatures" class="form-label">Number of Features to Select: <span id="numFeaturesValue">5</span></label>
+                                    <input type="range" class="form-range" id="numFeatures" min="1" max="10" value="5">
+                                </div>
+                                
+                                <div class="chart-container">
+                                    <canvas id="selectionChart"></canvas>
+                                </div>
+                                
+                                <div class="alert alert-info mt-3">
+                                    <i class="fas fa-info-circle me-2"></i>Model accuracy with <span id="numFeaturesResult">5</span> features: <span id="selectionAccuracy">80.0%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="creation" role="tabpanel" aria-labelledby="creation-tab">
+                                <div class="mb-3">
+                                    <label for="featureType" class="form-label">Feature to Create</label>
+                                    <select class="form-select" id="featureType">
+                                        <option value="none">No Additional Features</option>
+                                        <option value="polynomial">Polynomial Features</option>
+                                        <option value="interaction">Interaction Features</option>
+                                        <option value="binning">Binned Features</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="chart-container">
+                                    <canvas id="creationChart"></canvas>
+                                </div>
+                                
+                                <div class="alert alert-info mt-3">
+                                    <i class="fas fa-info-circle me-2"></i>Model accuracy with <span id="featureTypeResult">No Additional Features</span>: <span id="creationAccuracy">75.0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Applied Machine Learning</h5>
+                    <p>A comprehensive guide to model training, evaluation, and feature engineering.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>© 2023 Applied Machine Learning Guide. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Train/Test Split Interactive Demo
+        const testSizeSlider = document.getElementById('testSize');
+        const testSizeValue = document.getElementById('testSizeValue');
+        const trainSamples = document.getElementById('trainSamples');
+        const testSamples = document.getElementById('testSamples');
+        
+        testSizeSlider.addEventListener('input', function() {
+            const testSize = this.value;
+            testSizeValue.textContent = testSize;
+            
+            const totalSamples = 150; // Assuming Iris dataset size
+            const trainCount = Math.round(totalSamples * (100 - testSize) / 100);
+            const testCount = totalSamples - trainCount;
+            
+            trainSamples.textContent = trainCount;
+            testSamples.textContent = testCount;
+            
+            // Update the SVG
+            const trainTestVisual = document.getElementById('trainTestVisual');
+            const trainWidth = 600 * (100 - testSize) / 100;
+            const testWidth = 600 - trainWidth;
+            
+            trainTestVisual.innerHTML = `
+                <!-- Background -->
+                <rect width="700" height="200" fill="#f8f9fc" rx="10" ry="10"/>
+                
+                <!-- Original Dataset -->
+                <rect x="50" y="50" width="600" height="40" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                <text x="350" y="75" text-anchor="middle" fill="white" font-weight="bold">Original Dataset (100%)</text>
+                
+                <!-- Split Datasets -->
+                <rect x="50" y="120" width="${trainWidth}" height="40" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                <text x="${50 + trainWidth/2}" y="145" text-anchor="middle" fill="white" font-weight="bold">Training Set (${100 - testSize}%)</text>
+                
+                <rect x="${50 + trainWidth}" y="120" width="${testWidth}" height="40" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                <text x="${50 + trainWidth + testWidth/2}" y="145" text-anchor="middle" fill="white" font-weight="bold">Test Set (${testSize}%)</text>
+            `;
+        });
+        
+        // Cross-validation Interactive Demo
+        const numFoldsSlider = document.getElementById('numFolds');
+        const numFoldsValue = document.getElementById('numFoldsValue');
+        const numFoldsInfo = document.getElementById('numFoldsInfo');
+        const foldSizeInfo = document.getElementById('foldSizeInfo');
+        const cvVisualization = document.getElementById('cvVisualization');
+        
+        function generateCVVisualization(numFolds) {
+            const foldWidth = 600 / numFolds;
+            let svg = `
+                <svg width="700" height="300" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect width="700" height="300" fill="#f8f9fc" rx="10" ry="10"/>
+                    
+                    <!-- Title -->
+                    <text x="350" y="30" text-anchor="middle" font-weight="bold" font-size="18">${numFolds}-Fold Cross-validation</text>
+                    
+                    <!-- Folds -->
+            `;
+            
+            // Draw the folds
+            for (let i = 0; i < numFolds; i++) {
+                const x = 50 + i * foldWidth;
+                svg += `<rect x="${x}" y="60" width="${foldWidth}" height="30" rx="5" ry="5" fill="#4e73df" opacity="0.8"/>
+                        <text x="${x + foldWidth/2}" y="80" text-anchor="middle" fill="white" font-weight="bold">Fold ${i+1}</text>`;
+            }
+            
+            // Draw the first 3 iterations (or fewer if there are less than 3 folds)
+            const iterations = Math.min(3, numFolds);
+            for (let iter = 0; iter < iterations; iter++) {
+                const y = 120 + iter * 50;
+                svg += `<text x="50" y="${y - 10}" font-weight="bold">Iteration ${iter+1}:</text>`;
+                
+                for (let i = 0; i < numFolds; i++) {
+                    const x = 50 + i * foldWidth;
+                    if (i === iter) {
+                        svg += `<rect x="${x}" y="${y}" width="${foldWidth}" height="30" rx="5" ry="5" fill="#e74a3b" opacity="0.8"/>
+                                <text x="${x + foldWidth/2}" y="${y + 20}" text-anchor="middle" fill="white" font-weight="bold">Test</text>`;
+                    } else {
+                        svg += `<rect x="${x}" y="${y}" width="${foldWidth}" height="30" rx="5" ry="5" fill="#1cc88a" opacity="0.8"/>
+                                <text x="${x + foldWidth/2}" y="${y + 20}" text-anchor="middle" fill="white" font-weight="bold">Train</text>`;
+                    }
+                }
+            }
+            
+            // Legend
+            svg += `
+                <rect x="50" y="270" width="20" height="15" rx="2" ry="2" fill="#1cc88a" opacity="0.8"/>
+                <text x="80" y="282" font-size="12">Training Data</text>
+                
+                <rect x="200" y="270" width="20" height="15" rx="2" ry="2" fill="#e74a3b" opacity="0.8"/>
+                <text x="230" y="282" font-size="12">Test Data</text>
+            `;
+            
+            if (numFolds > 3) {
+                svg += `<text x="350" y="282" text-anchor="middle" font-size="12" font-style="italic">Showing first 3 of ${numFolds} iterations</text>`;
+            }
+            
+            svg += `</svg>`;
+            return svg;
+        }
+        
+        numFoldsSlider.addEventListener('input', function() {
+            const numFolds = this.value;
+            numFoldsValue.textContent = numFolds;
+            numFoldsInfo.textContent = numFolds;
+            
+            const totalSamples = 150; // Assuming Iris dataset size
+            const foldSize = Math.round(totalSamples / numFolds);
+            foldSizeInfo.textContent = foldSize;
+            
+            cvVisualization.innerHTML = generateCVVisualization(numFolds);
+        });
+        
+        // Initialize the CV visualization
+        cvVisualization.innerHTML = generateCVVisualization(5);
+        
+        // Evaluation Metrics Interactive Demo
+        const tpInput = document.getElementById('tpValue');
+        const fpInput = document.getElementById('fpValue');
+        const fnInput = document.getElementById('fnValue');
+        const tnInput = document.getElementById('tnValue');
+        
+        const accuracyValue = document.getElementById('accuracyValue');
+        const precisionValue = document.getElementById('precisionValue');
+        const recallValue = document.getElementById('recallValue');
+        const f1Value = document.getElementById('f1Value');
+        
+        function updateMetrics() {
+            const tp = parseInt(tpInput.value) || 0;
+            const fp = parseInt(fpInput.value) || 0;
+            const fn = parseInt(fnInput.value) || 0;
+            const tn = parseInt(tnInput.value) || 0;
+            
+            // Calculate metrics
+            const accuracy = (tp + tn) / (tp + tn + fp + fn);
+            const precision = tp / (tp + fp);
+            const recall = tp / (tp + fn);
+            const f1 = 2 * (precision * recall) / (precision + recall);
+            
+            // Update display
+            accuracyValue.textContent = (accuracy * 100).toFixed(1) + '%';
+            precisionValue.textContent = (precision * 100).toFixed(1) + '%';
+            recallValue.textContent = (recall * 100).toFixed(1) + '%';
+            f1Value.textContent = (f1 * 100).toFixed(1) + '%';
+        }
+        
+        tpInput.addEventListener('input', updateMetrics);
+        fpInput.addEventListener('input', updateMetrics);
+        fnInput.addEventListener('input', updateMetrics);
+        tnInput.addEventListener('input', updateMetrics);
+        
+        // Initialize metrics
+        updateMetrics();
+        
+        // ROC Chart
+        const rocCtx = document.getElementById('rocChart').getContext('2d');
+        const rocChart = new Chart(rocCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 100}, (_, i) => i / 100),
+                datasets: [
+                    {
+                        label: 'Good Model (AUC = 0.85)',
+                        data: Array.from({length: 100}, (_, i) => {
+                            const x = i / 100;
+                            // Generate a curve that looks like a good ROC curve
+                            return Math.pow(x, 0.3) * 0.9 + Math.pow(x, 3) * 0.1;
+                        }),
+                        borderColor: '#1cc88a',
+                        backgroundColor: 'rgba(28, 200, 138, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Random Model (AUC = 0.50)',
+                        data: Array.from({length: 100}, (_, i) => i / 100),
+                        borderColor: '#858796',
+                        borderDash: [5, 5],
+                        fill: false
+                    },
+                    {
+                        label: 'Poor Model (AUC = 0.25)',
+                        data: Array.from({length: 100}, (_, i) => {
+                            const x = i / 100;
+                            // Generate a curve that looks like a poor ROC curve
+                            return Math.pow(x, 2) * 0.5;
+                        }),
+                        borderColor: '#e74a3b',
+                        backgroundColor: 'rgba(231, 74, 59, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'False Positive Rate'
+                        },
+                        min: 0,
+                        max: 1
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'True Positive Rate'
+                        },
+                        min: 0,
+                        max: 1
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'ROC Curves'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+        
+        // Overfitting/Underfitting Interactive Demo
+        const modelComplexitySlider = document.getElementById('modelComplexity');
+        const modelComplexityValue = document.getElementById('modelComplexityValue');
+        const trainingAccuracy = document.getElementById('trainingAccuracy');
+        const validationAccuracy = document.getElementById('validationAccuracy');
+        const fittingStatus = document.getElementById('fittingStatus');
+        
+        const fittingCtx = document.getElementById('fittingChart').getContext('2d');
+        
+        function generateFittingData(complexity) {
+            // Generate synthetic data points
+            const dataPoints = [];
+            for (let i = 0; i < 50; i++) {
+                const x = i / 10;
+                // True function with some noise
+                const y = Math.sin(x) + Math.random.normalDistribution() * 0.2;
+                dataPoints.push({x, y});
+            }
+            
+            // Generate model predictions based on complexity
+            const predictions = [];
+            for (let i = 0; i < 100; i++) {
+                const x = i / 10;
+                let y;
+                
+                if (complexity <= 3) {
+                    // Underfitting: simple linear model
+                    y = 0.1 * x;
+                } else if (complexity <= 7) {
+                    // Good fit: captures the sine function reasonably well
+                    y = Math.sin(x);
+                } else {
+                    // Overfitting: complex model that fits the noise
+                    y = Math.sin(x) + 0.3 * Math.sin(5 * x) + 0.1 * Math.sin(10 * x);
+                }
+                
+                predictions.push({x, y});
+            }
+            
+            return {dataPoints, predictions};
+        }
+        
+        function updateFittingChart() {
+            const complexity = parseInt(modelComplexitySlider.value);
+            modelComplexityValue.textContent = complexity;
+            
+            const {dataPoints, predictions} = generateFittingData(complexity);
+            
+            // Calculate accuracies (simulated)
+            let trainAcc, valAcc;
+            
+            if (complexity <= 3) {
+                // Underfitting
+                trainAcc = 65 + complexity * 3;
+                valAcc = 60 + complexity * 3;
+            } else if (complexity <= 7) {
+                // Good fit
+                trainAcc = 75 + (complexity - 3) * 2;
+                valAcc = 72 + (complexity - 3) * 2;
+            } else {
+                // Overfitting
+                trainAcc = 85 + (complexity - 7) * 2;
+                valAcc = 80 - (complexity - 7) * 3;
+            }
+            
+            trainingAccuracy.textContent = trainAcc.toFixed(1) + '%';
+            validationAccuracy.textContent = valAcc.toFixed(1) + '%';
+            
+            // Update status
+            if (complexity <= 3) {
+                fittingStatus.textContent = 'Underfitting: The model is too simple to capture the patterns in the data.';
+            } else if (complexity <= 7) {
+                fittingStatus.textContent = 'Good Fit: The model has an appropriate level of complexity.';
+            } else {
+                fittingStatus.textContent = 'Overfitting: The model is too complex and is memorizing the training data.';
+            }
+            
+            // Update chart
+            if (window.fittingChart) {
+                window.fittingChart.destroy();
+            }
+            
+            window.fittingChart = new Chart(fittingCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Data Points',
+                            data: dataPoints,
+                            backgroundColor: '#4e73df',
+                            pointRadius: 5
+                        },
+                        {
+                            label: 'Model Prediction',
+                            data: predictions,
+                            type: 'line',
+                            borderColor: '#e74a3b',
+                            backgroundColor: 'rgba(231, 74, 59, 0.1)',
+                            fill: false,
+                            pointRadius: 0,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'X'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Y'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Model Complexity: ${complexity}`
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+        
+        modelComplexitySlider.addEventListener('input', updateFittingChart);
+        
+        // Initialize the fitting chart
+        updateFittingChart();
+        
+        // Feature Engineering Interactive Demo
+        const scalingMethodSelect = document.getElementById('scalingMethod');
+        const scalingMethodResult = document.getElementById('scalingMethodResult');
+        const scalingAccuracy = document.getElementById('scalingAccuracy');
+        
+        const numFeaturesSlider = document.getElementById('numFeatures');
+        const numFeaturesValue = document.getElementById('numFeaturesValue');
+        const numFeaturesResult = document.getElementById('numFeaturesResult');
+        const selectionAccuracy = document.getElementById('selectionAccuracy');
+        
+        const featureTypeSelect = document.getElementById('featureType');
+        const featureTypeResult = document.getElementById('featureTypeResult');
+        const creationAccuracy = document.getElementById('creationAccuracy');
+        
+        // Scaling Chart
+        const scalingCtx = document.getElementById('scalingChart').getContext('2d');
+        const scalingChart = new Chart(scalingCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Model A', 'Model B', 'Model C'],
+                datasets: [{
+                    label: 'Accuracy',
+                    data: [75, 80, 70],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(75, 192, 192)',
+                        'rgb(255, 159, 64)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Accuracy (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Model Performance with Different Scaling Methods'
+                    }
+                }
+            }
+        });
+        
+        scalingMethodSelect.addEventListener('change', function() {
+            const method = this.value;
+            scalingMethodResult.textContent = this.options[this.selectedIndex].text;
+            
+            // Simulate different accuracies based on scaling method
+            let accuracy;
+            switch(method) {
+                case 'none':
+                    accuracy = 75.0;
+                    break;
+                case 'standard':
+                    accuracy = 82.5;
+                    break;
+                case 'minmax':
+                    accuracy = 80.0;
+                    break;
+                case 'robust':
+                    accuracy = 81.2;
+                    break;
+            }
+            
+            scalingAccuracy.textContent = accuracy.toFixed(1) + '%';
+            
+            // Update chart
+            scalingChart.data.datasets[0].data = [
+                accuracy,
+                accuracy + (Math.random() * 10 - 5),
+                accuracy + (Math.random() * 10 - 5)
+            ];
+            scalingChart.update();
+        });
+        
+        // Selection Chart
+        const selectionCtx = document.getElementById('selectionChart').getContext('2d');
+        const selectionChart = new Chart(selectionCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 10}, (_, i) => i + 1),
+                datasets: [{
+                    label: 'Accuracy',
+                    data: [65, 72, 78, 82, 85, 86, 86.5, 86.7, 86.8, 86.8],
+                    borderColor: '#4e73df',
+                    backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Number of Features'
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        min: 60,
+                        max: 90,
+                        title: {
+                            display: true,
+                            text: 'Accuracy (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Model Performance vs. Number of Features'
+                    }
+                }
+            }
+        });
+        
+        numFeaturesSlider.addEventListener('input', function() {
+            const numFeatures = this.value;
+            numFeaturesValue.textContent = numFeatures;
+            numFeaturesResult.textContent = numFeatures;
+            
+            // Get accuracy from the chart data
+            const accuracy = selectionChart.data.datasets[0].data[numFeatures - 1];
+            selectionAccuracy.textContent = accuracy.toFixed(1) + '%';
+            
+            // Highlight the selected point
+            selectionChart.data.datasets[0].pointBackgroundColor = Array(10).fill('rgba(78, 115, 223, 0.1)');
+            selectionChart.data.datasets[0].pointBackgroundColor[numFeatures - 1] = '#e74a3b';
+            selectionChart.data.datasets[0].pointRadius = Array(10).fill(3);
+            selectionChart.data.datasets[0].pointRadius[numFeatures - 1] = 6;
+            selectionChart.update();
+        });
+        
+        // Creation Chart
+        const creationCtx = document.getElementById('creationChart').getContext('2d');
+        const creationChart = new Chart(creationCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Base Model', 'With New Features'],
+                datasets: [{
+                    label: 'Accuracy',
+                    data: [75, 75],
+                    backgroundColor: [
+                        'rgba(78, 115, 223, 0.7)',
+                        'rgba(28, 200, 138, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgb(78, 115, 223)',
+                        'rgb(28, 200, 138)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Accuracy (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Impact of Feature Creation on Model Performance'
+                    }
+                }
+            }
+        });
+        
+        featureTypeSelect.addEventListener('change', function() {
+            const featureType = this.value;
+            featureTypeResult.textContent = this.options[this.selectedIndex].text;
+            
+            // Simulate different accuracies based on feature type
+            let accuracy;
+            switch(featureType) {
+                case 'none':
+                    accuracy = 75.0;
+                    break;
+                case 'polynomial':
+                    accuracy = 82.0;
+                    break;
+                case 'interaction':
+                    accuracy = 80.5;
+                    break;
+                case 'binning':
+                    accuracy = 78.5;
+                    break;
+            }
+            
+            creationAccuracy.textContent = accuracy.toFixed(1) + '%';
+            
+            // Update chart
+            creationChart.data.datasets[0].data = [75.0, accuracy];
+            creationChart.update();
+        });
+        
+        // Add normal distribution to Math object for random number generation
+        Math.normalDistribution = function() {
+            let u = 0, v = 0;
+            while(u === 0) u = Math.random(); // Converting [0,1) to (0,1)
+            while(v === 0) v = Math.random();
+            return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+        };
+    </script>
+</body>
+</html>

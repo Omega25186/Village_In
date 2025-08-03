@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math & Stats Essentials - Complete Interactive Guide</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --code-bg: #2c3e50;
+            --math-bg: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        nav {
+            background-color: var(--dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .section-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+        
+        h2 {
+            color: var(--dark);
+            font-size: 2rem;
+        }
+        
+        .subsection {
+            margin: 2rem 0;
+        }
+        
+        h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .card h4 {
+            color: var(--dark);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        .code-box, .math-box {
+            background-color: var(--code-bg);
+            color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow: auto;
+            max-height: 400px;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .math-box {
+            background-color: var(--math-bg);
+            color: var(--dark);
+            border: 1px solid #ddd;
+            font-family: 'Times New Roman', serif;
+            overflow: auto;
+            max-height: 400px;
+            padding: 2rem;
+        }
+        
+        .interactive-demo {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid #dee2e6;
+        }
+        
+        .demo-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .control-group label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, select, button {
+            padding: 0.7rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1.5rem 0;
+        }
+        
+        .business-case {
+            background-color: #fffbea;
+            border-left: 4px solid #f1c40f;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .business-case h4 {
+            color: #d35400;
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: rgba(46, 204, 113, 0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .prompt-box {
+            background-color: #e8f4f8;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .prompt-box h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .step {
+            background-color: #fffbea;
+            border-left: 4px solid #f1c40f;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .step h4 {
+            color: #d35400;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .nav-links li {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔹 Math & Stats Essentials – Learn by Doing</h1>
+            <p class="subtitle">Master the mathematical foundations of data science through interactive examples and real-world applications</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Math & Stats</div>
+            <ul class="nav-links">
+                <li><a href="#linear-algebra">Linear Algebra</a></li>
+                <li><a href="#probability">Probability</a></li>
+                <li><a href="#calculus">Calculus</a></li>
+                <li><a href="#optimization">Optimization</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- Linear Algebra Section -->
+        <section id="linear-algebra" class="section">
+            <div class="section-header">
+                <div class="section-icon">🧮</div>
+                <h2>Linear Algebra</h2>
+            </div>
+            
+            <div class="subsection">
+                <h3>What to Learn</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <h4>Vectors</h4>
+                        <p>Vectors are quantities with both magnitude and direction, represented as arrays of numbers. They're fundamental in representing data points, features, and directions in space.</p>
+                        <div class="math-box">
+\[
+\vec{v} = \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix}
+\]
+
+Example: Customer preferences vector
+\[
+\vec{p} = \begin{bmatrix} 0.8 \\ 0.3 \\ 0.6 \\ 0.9 \end{bmatrix}
+\]
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Dot Product</h4>
+                        <p>The dot product measures the similarity between two vectors. It's calculated as the sum of products of corresponding elements.</p>
+                        <div class="math-box">
+\[
+\vec{a} \cdot \vec{b} = \sum_{i=1}^{n} a_i b_i
+\]
+
+Geometric interpretation:
+\[
+\vec{a} \cdot \vec{b} = \|\vec{a}\| \|\vec{b}\| \cos(\theta)
+\]
+
+Where θ is the angle between vectors.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Matrix Multiplication</h4>
+                        <p>Matrix multiplication combines two matrices to produce a third matrix. It's fundamental in transformations and solving systems of equations.</p>
+                        <div class="math-box">
+\[
+(AB)_{ij} = \sum_{k} A_{ik}B_{kj}
+\]
+
+Example:
+\[
+\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} = \begin{bmatrix} 19 & 22 \\ 43 & 50 \end{bmatrix}
+\]
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Eigenvectors</h4>
+                        <p>Eigenvectors are special vectors that don't change direction when a linear transformation is applied. They're crucial in PCA, quantum mechanics, and vibration analysis.</p>
+                        <div class="math-box">
+\[
+A\vec{v} = \lambda \vec{v}
+\]
+
+Where:
+- A is a square matrix
+- v is the eigenvector
+- λ (lambda) is the eigenvalue
+
+Eigenvalues tell us how much the eigenvector is stretched or compressed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="prompt-box">
+                    <h4>🎯 Prompt</h4>
+                    <p>Simulate customer purchase behavior using a vector of product preferences. Use matrix operations to recommend products based on past behavior (collaborative filtering concept).</p>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Customer Purchase Behavior Simulation</h4>
+                    <p>Adjust customer preferences and see how product recommendations change using matrix operations.</p>
+                    
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label for="customer1">Customer 1 Preferences</label>
+                            <input type="range" id="customer1" min="0" max="10" value="7">
+                            <span id="customer1-value">7</span>
+                        </div>
+                        <div class="control-group">
+                            <label for="customer2">Customer 2 Preferences</label>
+                            <input type="range" id="customer2" min="0" max="10" value="3">
+                            <span id="customer2-value">3</span>
+                        </div>
+                        <div class="control-group">
+                            <label for="customer3">Customer 3 Preferences</label>
+                            <input type="range" id="customer3" min="0" max="10" value="8">
+                            <span id="customer3-value">8</span>
+                        </div>
+                        <button id="update-recommendations">Update Recommendations</button>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="recommendation-chart"></canvas>
+                    </div>
+                    
+                    <div class="code-box">
+// Customer preference vectors
+let customer1 = [7, 3, 5, 8, 2];
+let customer2 = [3, 8, 4, 2, 7];
+let customer3 = [8, 2, 9, 4, 6];
+
+// Product-customer matrix
+let productMatrix = [
+  [5, 2, 7],  // Product 1 ratings
+  [3, 8, 1],  // Product 2 ratings
+  [6, 4, 9],  // Product 3 ratings
+  [7, 3, 5],  // Product 4 ratings
+  [2, 7, 4]   // Product 5 ratings
+];
+
+// Calculate recommendations using matrix multiplication
+function getRecommendations(customerPrefs) {
+  let recommendations = [];
+  
+  for (let i = 0; i < productMatrix.length; i++) {
+    let score = 0;
+    for (let j = 0; j < customerPrefs.length; j++) {
+      score += customerPrefs[j] * productMatrix[i][j];
+    }
+    recommendations.push(score);
+  }
+  
+  return recommendations;
+}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="business-case">
+                <h4>💼 Business Case</h4>
+                <p>Recommender system for an e-commerce platform (like Amazon). By analyzing customer purchase vectors and using matrix operations, we can predict which products a customer is likely to buy next. This increases sales through personalized recommendations and improves customer satisfaction by showing relevant products.</p>
+                
+                <div class="step">
+                    <h4>Implementation Steps</h4>
+                    <ol>
+                        <li>Collect customer purchase history and create preference vectors</li>
+                        <li>Build a product-customer interaction matrix</li>
+                        <li>Use matrix multiplication to calculate recommendation scores</li>
+                        <li>Rank products by score and show top recommendations</li>
+                        <li>Continuously update the matrix with new purchase data</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Probability & Statistics Section -->
+        <section id="probability" class="section">
+            <div class="section-header">
+                <div class="section-icon">🎲</div>
+                <h2>Probability & Statistics</h2>
+            </div>
+            
+            <div class="subsection">
+                <h3>What to Learn</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <h4>Conditional Probability</h4>
+                        <p>Conditional probability measures the probability of an event given that another event has already occurred. It's fundamental in understanding dependencies between events.</p>
+                        <div class="math-box">
+\[
+P(A|B) = \frac{P(A \cap B)}{P(B)}
+\]
+
+Where:
+- P(A|B) is the probability of A given B
+- P(A ∩ B) is the probability of both A and B occurring
+- P(B) is the probability of B occurring
+
+Example: Probability of churn given high support contacts
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Bayes Theorem</h4>
+                        <p>Bayes' theorem describes the probability of an event based on prior knowledge of conditions that might be related to the event. It's the foundation of Bayesian statistics and machine learning.</p>
+                        <div class="math-box">
+\[
+P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}
+\]
+
+Expanded form:
+\[
+P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B|A) \cdot P(A) + P(B|\neg A) \cdot P(\neg A)}
+\]
+
+This allows us to update our beliefs with new evidence.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Distributions</h4>
+                        <p>Probability distributions describe how the values of a random variable are distributed. They're essential for modeling real-world phenomena and making predictions.</p>
+                        <div class="math-box">
+Normal Distribution:
+\[
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+\]
+
+Binomial Distribution:
+\[
+P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}
+\]
+
+Poisson Distribution:
+\[
+P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+\]
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Sampling</h4>
+                        <p>Sampling is the process of selecting a subset of individuals from a population to estimate characteristics of the whole population. It's crucial when working with large datasets.</p>
+                        <div class="math-box">
+Sample Mean:
+\[
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
+\]
+
+Sample Variance:
+\[
+s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})^2
+\]
+
+Central Limit Theorem:
+\[
+\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right) \text{ as } n \to \infty
+\]
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="prompt-box">
+                    <h4>🎯 Prompt</h4>
+                    <p>Analyze churn probability of telecom customers using conditional probabilities. If a customer contacts support more than 3 times a month, what's the likelihood they'll churn?</p>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Customer Churn Probability Analysis</h4>
+                    <p>Adjust parameters to see how support contacts affect churn probability.</p>
+                    
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label for="support-contacts">Support Contacts/Month</label>
+                            <input type="range" id="support-contacts" min="0" max="10" value="4">
+                            <span id="support-value">4</span>
+                        </div>
+                        <div class="control-group">
+                            <label for="contract-length">Contract Length (months)</label>
+                            <input type="range" id="contract-length" min="1" max="24" value="12">
+                            <span id="contract-value">12</span>
+                        </div>
+                        <div class="control-group">
+                            <label for="monthly-bill">Monthly Bill ($)</label>
+                            <input type="range" id="monthly-bill" min="20" max="200" value="80">
+                            <span id="bill-value">80</span>
+                        </div>
+                        <button id="calculate-churn">Calculate Churn Probability</button>
+                    </div>
+                    
+                    <div id="churn-result" style="margin-top: 1.5rem; font-size: 1.2rem; font-weight: bold;"></div>
+                    
+                    <div class="chart-container">
+                        <canvas id="churn-chart"></canvas>
+                    </div>
+                    
+                    <div class="math-box">
+Churn Probability Calculation using Bayes' Theorem:
+
+Given:
+- P(Churn) = 0.15 (15% of customers churn)
+- P(>3 Support Contacts | Churn) = 0.75
+- P(>3 Support Contacts | No Churn) = 0.20
+
+We want to find P(Churn | >3 Support Contacts):
+
+\[
+P(\text{Churn} | >3 \text{ Contacts}) = \frac{P(>3 \text{ Contacts} | \text{Churn}) \cdot P(\text{Churn})}{P(>3 \text{ Contacts})}
+\]
+
+Where:
+\[
+P(>3 \text{ Contacts}) = P(>3 \text{ Contacts} | \text{Churn}) \cdot P(\text{Churn}) + P(>3 \text{ Contacts} | \text{No Churn}) \cdot P(\text{No Churn})
+\]
+
+\[
+P(>3 \text{ Contacts}) = (0.75 \times 0.15) + (0.20 \times 0.85) = 0.1125 + 0.17 = 0.2825
+\]
+
+\[
+P(\text{Churn} | >3 \text{ Contacts}) = \frac{0.75 \times 0.15}{0.2825} = \frac{0.1125}{0.2825} \approx 0.398
+\]
+
+So, if a customer contacts support more than 3 times a month, there's approximately a <span class="highlight">39.8%</span> probability they will churn.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="business-case">
+                <h4>💼 Business Case</h4>
+                <p>Customer retention analysis in telecom or SaaS. By understanding the conditional probabilities of churn based on customer behavior, companies can proactively reach out to high-risk customers and offer incentives to retain them, significantly reducing customer acquisition costs.</p>
+                
+                <div class="step">
+                    <h4>Implementation Steps</h4>
+                    <ol>
+                        <li>Collect historical data on customer behavior and churn outcomes</li>
+                        <li>Calculate conditional probabilities for different behavior patterns</li>
+                        <li>Build a predictive model using Bayes' theorem or logistic regression</li>
+                        <li>Identify high-risk customers based on their behavior</li>
+                        <li>Implement targeted retention strategies for at-risk customers</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Calculus Section -->
+        <section id="calculus" class="section">
+            <div class="section-header">
+                <div class="section-icon">∂</div>
+                <h2>Calculus</h2>
+            </div>
+            
+            <div class="subsection">
+                <h3>What to Learn</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <h4>Derivatives</h4>
+                        <p>Derivatives measure how a function changes as its input changes. They represent the rate of change or slope of a function at any point.</p>
+                        <div class="math-box">
+Definition:
+\[
+f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
+\]
+
+Common derivatives:
+\[
+\frac{d}{dx}(x^n) = nx^{n-1}
+\]
+\[
+\frac{d}{dx}(e^x) = e^x
+\]
+\[
+\frac{d}{dx}(\sin x) = \cos x
+\]
+
+Product rule:
+\[
+\frac{d}{dx}[u(x)v(x)] = u'(x)v(x) + u(x)v'(x)
+\]
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Gradients</h4>
+                        <p>Gradients extend derivatives to multivariable functions. They point in the direction of steepest ascent and are fundamental in optimization.</p>
+                        <div class="math-box">
+For a function f(x,y,z):
+\[
+\nabla f = \begin{bmatrix} \frac{\partial f}{\partial x} \\ \frac{\partial f}{\partial y} \\ \frac{\partial f}{\partial z} \end{bmatrix}
+\]
+
+General form:
+\[
+\nabla f = \left[ \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \ldots, \frac{\partial f}{\partial x_n} \right]
+\]
+
+The gradient points in the direction of greatest increase of the function.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Optimization</h4>
+                        <p>Optimization involves finding the minimum or maximum values of functions. In machine learning, we typically minimize loss functions.</p>
+                        <div class="math-box">
+For a function f(x), find critical points:
+\[
+f'(x) = 0
+\]
+
+Second derivative test:
+- If f''(x) > 0: Local minimum
+- If f''(x) < 0: Local maximum
+- If f''(x) = 0: Test inconclusive
+
+For multivariable functions:
+\[
+\nabla f = 0 \text{ and } H_f \text{ is positive definite}
+\]
+
+Where H_f is the Hessian matrix of second derivatives.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Chain Rule</h4>
+                        <p>The chain rule allows us to compute derivatives of composite functions. It's essential in backpropagation for neural networks.</p>
+                        <div class="math-box">
+Single variable:
+\[
+\frac{d}{dx}[f(g(x))] = f'(g(x)) \cdot g'(x)
+\]
+
+Multivariable:
+\[
+\frac{\partial z}{\partial x} = \frac{\partial z}{\partial u} \cdot \frac{\partial u}{\partial x} + \frac{\partial z}{\partial v} \cdot \frac{\partial v}{\partial x}
+\]
+
+Example for z = f(u,v) where u = g(x,y) and v = h(x,y):
+\[
+\frac{\partial z}{\partial x} = \frac{\partial f}{\partial u} \frac{\partial g}{\partial x} + \frac{\partial f}{\partial v} \frac{\partial h}{\partial x}
+\]
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="prompt-box">
+                    <h4>🎯 Prompt</h4>
+                    <p>Visualize how a loss function (e.g., MSE) changes with different model parameters. Use gradient descent to find the minimum.</p>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Loss Function Visualization & Gradient Descent</h4>
+                    <p>Adjust parameters to see how the Mean Squared Error (MSE) loss function changes and observe gradient descent in action.</p>
+                    
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label for="learning-rate">Learning Rate</label>
+                            <input type="range" id="learning-rate" min="0.01" max="0.5" step="0.01" value="0.1">
+                            <span id="lr-value">0.1</span>
+                        </div>
+                        <div class="control-group">
+                            <label for="iterations">Iterations</label>
+                            <input type="range" id="iterations" min="10" max="200" value="50">
+                            <span id="iter-value">50</span>
+                        </div>
+                        <button id="run-gradient-descent">Run Gradient Descent</button>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="loss-chart"></canvas>
+                    </div>
+                    
+                    <div class="math-box">
+Mean Squared Error (MSE) Loss Function:
+
+\[
+J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
+\]
+
+Where:
+- \( J(\theta) \) is the loss function
+- \( m \) is the number of training examples
+- \( h_\theta(x) \) is the hypothesis function
+- \( y \) is the actual value
+
+Gradient Descent Update Rule:
+
+\[
+\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta)
+\]
+
+For linear regression with one variable:
+
+\[
+\frac{\partial}{\partial \theta_j} J(\theta) = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}
+\]
+
+So the update rules become:
+
+\[
+\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})
+\]
+
+\[
+\theta_1 := \theta_1 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x^{(i)}
+\]
+                    </div>
+                </div>
+            </div>
+            
+            <div class="business-case">
+                <h4>💼 Business Case</h4>
+                <p>Minimize error in a sales forecast model. By using calculus to optimize model parameters, businesses can create more accurate sales predictions, leading to better inventory management, resource allocation, and financial planning.</p>
+                
+                <div class="step">
+                    <h4>Implementation Steps</h4>
+                    <ol>
+                        <li>Collect historical sales data and relevant features</li>
+                        <li>Define a loss function (e.g., MSE) to measure prediction error</li>
+                        <li>Compute gradients of the loss function with respect to model parameters</li>
+                        <li>Apply gradient descent to iteratively update parameters and minimize loss</li>
+                        <li>Validate the model on test data and deploy for sales forecasting</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Optimization Section -->
+        <section id="optimization" class="section">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2>Optimization</h2>
+            </div>
+            
+            <div class="subsection">
+                <h3>What to Learn</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <h4>Gradient Descent</h4>
+                        <p>Gradient descent is an iterative optimization algorithm used to find the minimum of a function. It's the workhorse of machine learning optimization.</p>
+                        <div class="math-box">
+Update rule:
+\[
+\theta_{new} = \theta_{old} - \alpha \nabla J(\theta_{old})
+\]
+
+Where:
+- θ are the parameters to optimize
+- α (alpha) is the learning rate
+- ∇J(θ) is the gradient of the loss function
+
+Batch Gradient Descent:
+\[
+\theta_j := \theta_j - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}
+\]
+
+Stochastic Gradient Descent (SGD):
+\[
+\theta_j := \theta_j - \alpha (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}
+\]
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Loss Surfaces</h4>
+                        <p>Loss surfaces visualize how the loss function changes across different parameter values. They help us understand optimization landscapes and challenges.</p>
+                        <div class="math-box">
+For a 2D parameter space:
+\[
+J(\theta_0, \theta_1) = \text{loss value}
+\]
+
+Convex loss surface:
+- Single global minimum
+- No local minima
+- Gradient descent always finds the global minimum
+
+Non-convex loss surface:
+- Multiple local minima
+- Saddle points
+- Gradient descent may get stuck in local minima
+
+Visualization techniques:
+- Contour plots
+- 3D surface plots
+- Heat maps
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Learning Rate</h4>
+                        <p>The learning rate controls how much we adjust the parameters with respect to the gradient. It's a critical hyperparameter in optimization.</p>
+                        <div class="math-box">
+Effects of learning rate:
+
+Too small (α ≈ 0.001):
+- Slow convergence
+- Many iterations needed
+- May get stuck in local minima
+
+Too large (α ≈ 1.0):
+- May overshoot the minimum
+- Divergence (loss increases)
+- Oscillation around minimum
+
+Just right (α ≈ 0.1):
+- Steady convergence
+- Efficient optimization
+- Reaches minimum in reasonable time
+
+Adaptive learning rates:
+- AdaGrad: α per parameter based on historical gradients
+- RMSprop: Exponential moving average of squared gradients
+- Adam: Combines momentum and RMSprop
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Convexity</h4>
+                        <p>Convexity is a property of functions where any local minimum is also a global minimum. Convex optimization problems are easier to solve.</p>
+                        <div class="math-box">
+Definition of convex function:
+\[
+f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda)f(y)
+\]
+for all x, y and λ ∈ [0,1]
+
+Properties of convex functions:
+- Any local minimum is a global minimum
+- Gradient descent converges to global minimum
+- No saddle points
+- Well-behaved optimization landscape
+
+Second-order condition:
+\[
+f''(x) \geq 0 \text{ for all } x
+\]
+
+For multivariate functions:
+\[
+\nabla^2 f(x) \succeq 0 \text{ (positive semidefinite)}
+\]
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="prompt-box">
+                    <h4>🎯 Prompt</h4>
+                    <p>Implement simple gradient descent to predict house prices using 1 feature (e.g., square footage). Visualize the cost function and convergence.</p>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>House Price Prediction with Gradient Descent</h4>
+                    <p>Adjust parameters to see how gradient descent learns to predict house prices based on square footage.</p>
+                    
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label for="sqft">Square Footage</label>
+                            <input type="range" id="sqft" min="500" max="5000" value="2000">
+                            <span id="sqft-value">2000</span> sqft
+                        </div>
+                        <div class="control-group">
+                            <label for="alpha">Learning Rate (α)</label>
+                            <input type="range" id="alpha" min="0.00000001" max="0.0001" step="0.00000001" value="0.00000005">
+                            <span id="alpha-value">0.00000005</span>
+                        </div>
+                        <button id="predict-price">Predict Price</button>
+                    </div>
+                    
+                    <div id="price-result" style="margin-top: 1.5rem; font-size: 1.2rem; font-weight: bold;"></div>
+                    
+                    <div class="chart-container">
+                        <canvas id="price-chart"></canvas>
+                    </div>
+                    
+                    <div class="code-box">
+// House price prediction using gradient descent
+// Dataset: square footage vs price
+
+const houseData = [
+  {sqft: 1400, price: 245000},
+  {sqft: 1600, price: 312000},
+  {sqft: 1700, price: 279000},
+  {sqft: 1875, price: 308000},
+  {sqft: 1100, price: 199000},
+  {sqft: 1550, price: 219000},
+  {sqft: 2350, price: 405000},
+  {sqft: 2450, price: 324000},
+  {sqft: 1425, price: 319000},
+  {sqft: 1700, price: 255000}
+];
+
+// Initialize parameters
+let theta0 = 0; // Intercept
+let theta1 = 0; // Slope
+const learningRate = 0.00000005;
+const iterations = 1000;
+
+// Feature scaling (normalize square footage)
+const maxSqft = Math.max(...houseData.map(h => h.sqft));
+const normalizedData = houseData.map(h => ({
+  sqft: h.sqft / maxSqft,
+  price: h.price
+}));
+
+// Gradient descent
+for (let i = 0; i < iterations; i++) {
+  let sumTheta0 = 0;
+  let sumTheta1 = 0;
+  
+  // Calculate gradients
+  for (let j = 0; j < normalizedData.length; j++) {
+    const prediction = theta0 + theta1 * normalizedData[j].sqft;
+    const error = prediction - normalizedData[j].price;
+    
+    sumTheta0 += error;
+    sumTheta1 += error * normalizedData[j].sqft;
+  }
+  
+  // Update parameters
+  theta0 -= learningRate * sumTheta0 / normalizedData.length;
+  theta1 -= learningRate * sumTheta1 / normalizedData.length;
+}
+
+// Prediction function
+function predictPrice(sqft) {
+  const normalizedSqft = sqft / maxSqft;
+  return theta0 + theta1 * normalizedSqft;
+}
+
+// Predict price for 2000 sqft house
+const predictedPrice = predictPrice(2000);
+console.log(`Predicted price for 2000 sqft house: $${predictedPrice.toFixed(2)}`);
+                    </div>
+                </div>
+            </div>
+            
+            <div class="business-case">
+                <h4>💼 Business Case</h4>
+                <p>Real estate price prediction. By using optimization techniques like gradient descent, real estate companies can create accurate pricing models that help agents set competitive prices, investors identify undervalued properties, and buyers make informed decisions.</p>
+                
+                <div class="step">
+                    <h4>Implementation Steps</h4>
+                    <ol>
+                        <li>Collect historical house sales data with features (square footage, bedrooms, location, etc.)</li>
+                        <li>Preprocess data: handle missing values, normalize features, split into train/test sets</li>
+                        <li>Initialize model parameters (weights and bias)</li>
+                        <li>Apply gradient descent to minimize the cost function (MSE)</li>
+                        <li>Evaluate model performance and deploy for price predictions</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Math & Stats Essentials - Learn by Doing | Interactive Educational Platform</p>
+        </div>
+    </footer>
+    
+    <script>
+        // MathJax configuration
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+        
+        // Linear Algebra: Customer Recommendations
+        const customer1Slider = document.getElementById('customer1');
+        const customer2Slider = document.getElementById('customer2');
+        const customer3Slider = document.getElementById('customer3');
+        const customer1Value = document.getElementById('customer1-value');
+        const customer2Value = document.getElementById('customer2-value');
+        const customer3Value = document.getElementById('customer3-value');
+        const updateRecBtn = document.getElementById('update-recommendations');
+        
+        // Update slider values
+        customer1Slider.addEventListener('input', () => {
+            customer1Value.textContent = customer1Slider.value;
+        });
+        
+        customer2Slider.addEventListener('input', () => {
+            customer2Value.textContent = customer2Slider.value;
+        });
+        
+        customer3Slider.addEventListener('input', () => {
+            customer3Value.textContent = customer3Slider.value;
+        });
+        
+        // Recommendation chart
+        const recCtx = document.getElementById('recommendation-chart').getContext('2d');
+        let recChart = new Chart(recCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Product 1', 'Product 2', 'Product 3', 'Product 4', 'Product 5'],
+                datasets: [{
+                    label: 'Recommendation Score',
+                    data: [0, 0, 0, 0, 0],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Recommendation Score'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Update recommendations
+        updateRecBtn.addEventListener('click', () => {
+            const c1 = parseInt(customer1Slider.value);
+            const c2 = parseInt(customer2Slider.value);
+            const c3 = parseInt(customer3Slider.value);
+            
+            // Product-customer matrix
+            const productMatrix = [
+                [5, 2, 7],  // Product 1
+                [3, 8, 1],  // Product 2
+                [6, 4, 9],  // Product 3
+                [7, 3, 5],  // Product 4
+                [2, 7, 4]   // Product 5
+            ];
+            
+            // Calculate recommendations
+            const recommendations = [];
+            for (let i = 0; i < productMatrix.length; i++) {
+                const score = c1 * productMatrix[i][0] + c2 * productMatrix[i][1] + c3 * productMatrix[i][2];
+                recommendations.push(score);
+            }
+            
+            // Update chart
+            recChart.data.datasets[0].data = recommendations;
+            recChart.update();
+        });
+        
+        // Probability: Churn Analysis
+        const supportSlider = document.getElementById('support-contacts');
+        const contractSlider = document.getElementById('contract-length');
+        const billSlider = document.getElementById('monthly-bill');
+        const supportValue = document.getElementById('support-value');
+        const contractValue = document.getElementById('contract-value');
+        const billValue = document.getElementById('bill-value');
+        const calculateChurnBtn = document.getElementById('calculate-churn');
+        const churnResult = document.getElementById('churn-result');
+        
+        // Update slider values
+        supportSlider.addEventListener('input', () => {
+            supportValue.textContent = supportSlider.value;
+        });
+        
+        contractSlider.addEventListener('input', () => {
+            contractValue.textContent = contractSlider.value;
+        });
+        
+        billSlider.addEventListener('input', () => {
+            billValue.textContent = billSlider.value;
+        });
+        
+        // Churn chart
+        const churnCtx = document.getElementById('churn-chart').getContext('2d');
+        let churnChart = new Chart(churnCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 11}, (_, i) => i),
+                datasets: [{
+                    label: 'Churn Probability',
+                    data: [0.05, 0.08, 0.12, 0.18, 0.28, 0.35, 0.42, 0.48, 0.53, 0.57, 0.60],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Support Contacts per Month'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 1,
+                        title: {
+                            display: true,
+                            text: 'Churn Probability'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return (value * 100).toFixed(0) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Calculate churn probability
+        calculateChurnBtn.addEventListener('click', () => {
+            const supportContacts = parseInt(supportSlider.value);
+            const contractLength = parseInt(contractSlider.value);
+            const monthlyBill = parseInt(billSlider.value);
+            
+            // Base churn probability
+            let churnProb = 0.15;
+            
+            // Adjust based on support contacts
+            if (supportContacts > 3) {
+                churnProb += 0.25 * (supportContacts - 3) / 7;
+            }
+            
+            // Adjust based on contract length
+            churnProb -= 0.01 * (contractLength - 12) / 12;
+            
+            // Adjust based on monthly bill
+            churnProb += 0.005 * (monthlyBill - 80) / 120;
+            
+            // Ensure probability is between 0 and 1
+            churnProb = Math.max(0, Math.min(1, churnProb));
+            
+            churnResult.innerHTML = `Churn Probability: <span style="color: ${churnProb > 0.3 ? '#e74c3c' : '#2ecc71'}">${(churnProb * 100).toFixed(1)}%</span>`;
+            
+            // Update chart to highlight current point
+            const newData = Array.from({length: 11}, (_, i) => {
+                if (i === supportContacts) {
+                    return churnProb;
+                }
+                return 0.05 + 0.05 * i;
+            });
+            
+            churnChart.data.datasets[0].data = newData;
+            churnChart.update();
+        });
+        
+        // Calculus: Loss Function & Gradient Descent
+        const lrSlider = document.getElementById('learning-rate');
+        const iterSlider = document.getElementById('iterations');
+        const lrValue = document.getElementById('lr-value');
+        const iterValue = document.getElementById('iter-value');
+        const runGradientBtn = document.getElementById('run-gradient-descent');
+        
+        // Update slider values
+        lrSlider.addEventListener('input', () => {
+            lrValue.textContent = lrSlider.value;
+        });
+        
+        iterSlider.addEventListener('input', () => {
+            iterValue.textContent = iterSlider.value;
+        });
+        
+        // Loss chart
+        const lossCtx = document.getElementById('loss-chart').getContext('2d');
+        let lossChart = new Chart(lossCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Loss Value',
+                    data: [],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Iteration'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Loss Value'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Run gradient descent
+        runGradientBtn.addEventListener('click', () => {
+            const learningRate = parseFloat(lrSlider.value);
+            const iterations = parseInt(iterSlider.value);
+            
+            // Simple linear regression problem
+            // y = 2x + 3 + noise
+            const X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            const y = [5.1, 7.2, 9.3, 11.4, 13.5, 15.6, 17.7, 19.8, 21.9, 24.0];
+            
+            // Initialize parameters
+            let theta0 = 0;
+            let theta1 = 0;
+            
+            // Store loss values
+            const lossValues = [];
+            const iterationLabels = [];
+            
+            // Gradient descent
+            for (let i = 0; i < iterations; i++) {
+                let sumTheta0 = 0;
+                let sumTheta1 = 0;
+                let loss = 0;
+                
+                // Calculate gradients and loss
+                for (let j = 0; j < X.length; j++) {
+                    const prediction = theta0 + theta1 * X[j];
+                    const error = prediction - y[j];
+                    
+                    sumTheta0 += error;
+                    sumTheta1 += error * X[j];
+                    loss += error * error;
+                }
+                
+                // Update parameters
+                theta0 -= learningRate * sumTheta0 / X.length;
+                theta1 -= learningRate * sumTheta1 / X.length;
+                
+                // Store loss every 5 iterations
+                if (i % 5 === 0 || i === iterations - 1) {
+                    lossValues.push(loss / (2 * X.length));
+                    iterationLabels.push(i);
+                }
+            }
+            
+            // Update chart
+            lossChart.data.labels = iterationLabels;
+            lossChart.data.datasets[0].data = lossValues;
+            lossChart.update();
+        });
+        
+        // Optimization: House Price Prediction
+        const sqftSlider = document.getElementById('sqft');
+        const alphaSlider = document.getElementById('alpha');
+        const sqftValue = document.getElementById('sqft-value');
+        const alphaValue = document.getElementById('alpha-value');
+        const predictPriceBtn = document.getElementById('predict-price');
+        const priceResult = document.getElementById('price-result');
+        
+        // Update slider values
+        sqftSlider.addEventListener('input', () => {
+            sqftValue.textContent = sqftSlider.value;
+        });
+        
+        alphaSlider.addEventListener('input', () => {
+            alphaValue.textContent = parseFloat(alphaSlider.value).toExponential(2);
+        });
+        
+        // House data
+        const houseData = [
+            {sqft: 1400, price: 245000},
+            {sqft: 1600, price: 312000},
+            {sqft: 1700, price: 279000},
+            {sqft: 1875, price: 308000},
+            {sqft: 1100, price: 199000},
+            {sqft: 1550, price: 219000},
+            {sqft: 2350, price: 405000},
+            {sqft: 2450, price: 324000},
+            {sqft: 1425, price: 319000},
+            {sqft: 1700, price: 255000}
+        ];
+        
+        // Price chart
+        const priceCtx = document.getElementById('price-chart').getContext('2d');
+        let priceChart = new Chart(priceCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'House Data',
+                    data: houseData.map(h => ({x: h.sqft, y: h.price})),
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    pointRadius: 6
+                }, {
+                    label: 'Regression Line',
+                    data: [],
+                    type: 'line',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Square Footage'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Price ($)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Train model and predict price
+        predictPriceBtn.addEventListener('click', () => {
+            const sqft = parseInt(sqftSlider.value);
+            const alpha = parseFloat(alphaSlider.value);
+            
+            // Feature scaling
+            const maxSqft = Math.max(...houseData.map(h => h.sqft));
+            const normalizedData = houseData.map(h => ({
+                sqft: h.sqft / maxSqft,
+                price: h.price
+            }));
+            
+            // Initialize parameters
+            let theta0 = 0;
+            let theta1 = 0;
+            const iterations = 1000;
+            
+            // Gradient descent
+            for (let i = 0; i < iterations; i++) {
+                let sumTheta0 = 0;
+                let sumTheta1 = 0;
+                
+                for (let j = 0; j < normalizedData.length; j++) {
+                    const prediction = theta0 + theta1 * normalizedData[j].sqft;
+                    const error = prediction - normalizedData[j].price;
+                    
+                    sumTheta0 += error;
+                    sumTheta1 += error * normalizedData[j].sqft;
+                }
+                
+                theta0 -= alpha * sumTheta0 / normalizedData.length;
+                theta1 -= alpha * sumTheta1 / normalizedData.length;
+            }
+            
+            // Predict price
+            const normalizedSqft = sqft / maxSqft;
+            const predictedPrice = theta0 + theta1 * normalizedSqft;
+            
+            priceResult.innerHTML = `Predicted Price for ${sqft} sqft: <span style="color: #2ecc71">$${predictedPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`;
+            
+            // Update regression line
+            const regressionData = [];
+            for (let s = 1000; s <= 3000; s += 100) {
+                const normalizedS = s / maxSqft;
+                const price = theta0 + theta1 * normalizedS;
+                regressionData.push({x: s, y: price});
+            }
+            
+            priceChart.data.datasets[1].data = regressionData;
+            priceChart.update();
+        });
+        
+        // Initialize all charts with default values
+        updateRecBtn.click();
+        calculateChurnBtn.click();
+        runGradientBtn.click();
+        predictPriceBtn.click();
+    </script>
+</body>
+</html>

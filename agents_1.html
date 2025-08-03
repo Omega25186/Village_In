@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangChain AI Agents - Complete Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav {
+            background: #34495e;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            page-break-inside: avoid;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        .section h3 {
+            color: #34495e;
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .section h4 {
+            color: #555;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .flow-box {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin: 0.5rem;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .flow-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #3498db;
+            margin: 0 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .feature-card h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .comparison-table tr:hover {
+            background: #e3f2fd;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #ffc107;
+            padding: 0.5rem;
+            border-radius: 50%;
+            font-size: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .step-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 5px solid #28a745;
+        }
+
+        .step-number {
+            background: #28a745;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .architecture-diagram {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .component-box {
+            display: inline-block;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            margin: 1rem;
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.3);
+            position: relative;
+        }
+
+        .component-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 0;
+            height: 0;
+            border-left: 20px solid #8e44ad;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            transform: translateY(-50%);
+        }
+
+        .toc {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .toc h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .toc li {
+            margin: 0.5rem 0;
+        }
+
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .results-showcase {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .workflow-step {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .workflow-step::before {
+            content: attr(data-step);
+            background: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-weight: bold;
+        }
+
+        @media print {
+            .nav { display: none; }
+            .section { page-break-inside: avoid; }
+            body { background: white; }
+            .container { box-shadow: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav ul { flex-direction: column; gap: 0.5rem; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .header h1 { font-size: 2rem; }
+            .content { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🤖 LangChain AI Agents</h1>
+            <p class="subtitle">Complete Guide to Building Intelligent Autonomous Systems</p>
+        </header>
+
+        <nav class="nav">
+            <div class="nav-container">
+                <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#problems">Business Problems</a></li>
+                    <li><a href="#implementation">Implementation</a></li>
+                    <li><a href="#concepts">Core Concepts</a></li>
+                    <li><a href="#case-study">Case Study</a></li>
+                    <li><a href="#patterns">Advanced Patterns</a></li>
+                    <li><a href="#troubleshooting">Troubleshooting</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content">
+            <!-- Table of Contents -->
+            <section class="toc">
+                <h3>📚 Complete Documentation Guide</h3>
+                <ul>
+                    <li><a href="#overview">1. Executive Overview & Value Proposition</a></li>
+                    <li><a href="#problems">2. Business Problems & Previous Solutions</a></li>
+                    <li><a href="#architecture">3. Agent Architecture & Design Patterns</a></li>
+                    <li><a href="#implementation">4. Step-by-Step Implementation Guide</a></li>
+                    <li><a href="#concepts">5. Core Concepts & Components</a></li>
+                    <li><a href="#tools">6. Tool Integration & Custom Development</a></li>
+                    <li><a href="#memory">7. Memory Systems & Context Management</a></li>
+                    <li><a href="#agent-types">8. Agent Types & Selection Guide</a></li>
+                    <li><a href="#case-study">9. Enterprise Case Study: Supply Chain</a></li>
+                    <li><a href="#patterns">10. Advanced Patterns & Best Practices</a></li>
+                    <li><a href="#scaling">11. Scaling & Production Deployment</a></li>
+                    <li><a href="#troubleshooting">12. Troubleshooting & Debugging</a></li>
+                    <li><a href="#security">13. Security & Compliance</a></li>
+                    <li><a href="#monitoring">14. Monitoring & Analytics</a></li>
+                    <li><a href="#resources">15. Additional Resources & Next Steps</a></li>
+                </ul>
+            </section>
+
+            <!-- Section 1: Overview -->
+            <section id="overview" class="section">
+                <h2>1. Executive Overview & Value Proposition</h2>
+                
+                <div class="highlight-box">
+                    <h4>What Are AI Agents?</h4>
+                    <p>AI agents are autonomous systems that can perceive their environment, make decisions, and take actions to achieve specific goals. Unlike traditional chatbots or static ML models, agents can reason through complex multi-step tasks, use tools dynamically, and adapt to changing conditions.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">85%</span>
+                        <span>Reduction in Manual Tasks</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">60%</span>
+                        <span>Faster Decision Making</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">$2.4M</span>
+                        <span>Average Annual Savings</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">24/7</span>
+                        <span>Autonomous Operation</span>
+                    </div>
+                </div>
+
+                <h3>Key Capabilities</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🧠 Advanced Reasoning</h4>
+                        <p>Process unstructured data, understand context, and make informed decisions across complex scenarios.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔧 Dynamic Tool Usage</h4>
+                        <p>Automatically select and use appropriate tools, APIs, and databases based on task requirements.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>💬 Context-Aware Conversations</h4>
+                        <p>Maintain conversation history and context across multi-turn interactions and extended workflows.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔄 Autonomous Error Recovery</h4>
+                        <p>Detect failures, analyze problems, and implement alternative approaches without human intervention.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Business Problems -->
+            <section id="problems" class="section">
+                <h2>2. Business Problems & Previous Solutions</h2>
+
+                <h3>Problems AI Agents Solve</h3>
+                <p>AI agents address critical business challenges that traditional systems couldn't handle effectively:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Complex Decision Making</h4>
+                        <p>Tasks requiring reasoning across multiple data sources, understanding context, and making nuanced decisions that rule-based systems couldn't handle.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Dynamic Workflows</h4>
+                        <p>Processes that change based on conditions, require real-time adaptation, and involve multiple tools and systems.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Scale & Consistency</h4>
+                        <p>Need for 24/7 operation with consistent quality, handling peak loads without proportional staffing increases.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Integration Complexity</h4>
+                        <p>Coordinating multiple systems, APIs, and data sources in a coherent, intelligent workflow.</p>
+                    </div>
+                </div>
+
+                <h3>Previous Solution Limitations</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Solution Type</th>
+                            <th>Capabilities</th>
+                            <th>Limitations</th>
+                            <th>Cost Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Rule-Based Systems</strong></td>
+                            <td>Deterministic logic, fast execution</td>
+                            <td>Brittle, can't handle edge cases, requires manual updates</td>
+                            <td>High maintenance overhead</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Simple Chatbots</strong></td>
+                            <td>Basic Q&A, keyword matching</td>
+                            <td>Single-turn only, no tool integration, limited context</td>
+                            <td>Low functionality value</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Manual Workflows</strong></td>
+                            <td>Human expertise, flexibility</td>
+                            <td>Slow, expensive, inconsistent, error-prone</td>
+                            <td>High labor costs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Static ML Models</strong></td>
+                            <td>Pattern recognition, prediction</td>
+                            <td>Requires retraining, no reasoning, single-purpose</td>
+                            <td>High development cycles</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="diagram">
+                    <h4>Traditional Customer Support Flow</h4>
+                    <div class="workflow-step" data-step="1">
+                        <strong>Customer Query</strong><br>
+                        Customer contacts support with issue
+                    </div>
+                    <div class="arrow">↓</div>
+                    <div class="workflow-step" data-step="2">
+                        <strong>Keyword Match?</strong><br>
+                        System checks for predefined responses
+                    </div>
+                    <div class="arrow">↓</div>
+                    <div class="workflow-step" data-step="3">
+                        <strong>Yes: Predefined Answer</strong><br>
+                        <strong>No: 30-min wait for Human Agent</strong><br>
+                        Inconsistent responses, long wait times
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Architecture -->
+            <section id="architecture" class="section">
+                <h2>3. Agent Architecture & Design Patterns</h2>
+
+                <div class="architecture-diagram">
+                    <h3>Core Agent Architecture</h3>
+                    <div class="component-box">LLM Brain</div>
+                    <div class="component-box">Memory</div>
+                    <div class="component-box">Tools</div>
+                    <div class="component-box">Executor</div>
+                    <br><br>
+                    <div style="font-size: 1.2rem; color: #555;">
+                        🔄 <strong>Continuous Action Loop</strong><br>
+                        Perception → Reasoning → Action → Learning
+                    </div>
+                </div>
+
+                <h3>Component Interactions</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🧠 LLM Brain</h4>
+                        <p><strong>Role:</strong> Central decision-making engine</p>
+                        <p><strong>Functions:</strong> Reasoning, planning, tool selection, response generation</p>
+                        <p><strong>Models:</strong> GPT-4, Claude, Gemini</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🧰 Tools</h4>
+                        <p><strong>Role:</strong> Agent's hands in the world</p>
+                        <p><strong>Types:</strong> APIs, databases, calculators, search engines</p>
+                        <p><strong>Integration:</strong> Dynamic selection based on context</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>💾 Memory</h4>
+                        <p><strong>Role:</strong> Context and history management</p>
+                        <p><strong>Types:</strong> Short-term, long-term, semantic</p>
+                        <p><strong>Benefits:</strong> Continuity, learning, personalization</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚙️ Executor</h4>
+                        <p><strong>Role:</strong> Orchestration and flow control</p>
+                        <p><strong>Functions:</strong> Action loop, error handling, state management</p>
+                        <p><strong>Patterns:</strong> ReAct, Plan-and-Execute, Multi-agent</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Implementation -->
+            <section id="implementation" class="section">
+                <h2>4. Step-by-Step Implementation Guide</h2>
+
+                <div class="step-container">
+                    <span class="step-number">1</span>
+                    <h4>Environment Setup</h4>
+                    <p>Install required dependencies and configure your development environment.</p>
+                    <div class="code-block">
+                        <pre># Install core dependencies
+pip install langchain openai python-dotenv
+
+# Optional: Advanced features
+pip install langchain-experimental langchain-community
+
+# Create environment file
+echo "OPENAI_API_KEY=your_key_here" > .env</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">2</span>
+                    <h4>LLM Configuration</h4>
+                    <p>Set up your language model with optimal parameters for agent tasks.</p>
+                    <div class="code-block">
+                        <pre>from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Configure LLM for agent use
+llm = ChatOpenAI(
+    model="gpt-4-turbo",     # High reasoning capability
+    temperature=0,           # Deterministic for consistent behavior
+    max_tokens=2000,         # Sufficient for complex reasoning
+    openai_api_key=os.getenv("OPENAI_API_KEY")
+)
+
+# Test LLM connection
+response = llm.predict("Test connection")
+print(f"LLM Ready: {response}")</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">3</span>
+                    <h4>Tool Definition</h4>
+                    <p>Create tools that give your agent capabilities to interact with external systems.</p>
+                    <div class="code-block">
+                        <pre>from langchain.tools import Tool
+from langchain.utilities import SerpAPIWrapper, WikipediaAPIWrapper
+from langchain.chains import LLMMathChain
+
+# Tool 1: Web Search
+search = SerpAPIWrapper()
+search_tool = Tool(
+    name="Search",
+    func=search.run,
+    description="Searches the web for current information about any topic"
+)
+
+# Tool 2: Calculator
+math_chain = LLMMathChain.from_llm(llm=llm)
+calculator = Tool(
+    name="Calculator",
+    func=math_chain.run,
+    description="Performs mathematical calculations and solves equations"
+)
+
+# Tool 3: Wikipedia
+wikipedia = WikipediaAPIWrapper()
+wiki_tool = Tool(
+    name="Wikipedia",
+    func=wikipedia.run,
+    description="Searches Wikipedia for factual information"
+)
+
+# Combine all tools
+tools = [search_tool, calculator, wiki_tool]</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">4</span>
+                    <h4>Memory Configuration</h4>
+                    <p>Set up memory systems to maintain context across interactions.</p>
+                    <div class="code-block">
+                        <pre>from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationSummaryBufferMemory
+
+# Option 1: Buffer Memory (keeps full history)
+memory = ConversationBufferMemory(
+    memory_key="chat_history",
+    return_messages=True,
+    output_key="output"
+)
+
+# Option 2: Summary Memory (for longer conversations)
+summary_memory = ConversationSummaryBufferMemory(
+    llm=llm,
+    memory_key="chat_history",
+    return_messages=True,
+    max_token_limit=1000
+)
+
+# Use buffer memory for most cases
+agent_memory = memory</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">5</span>
+                    <h4>Agent Assembly</h4>
+                    <p>Combine all components into a functional agent system.</p>
+                    <div class="code-block">
+                        <pre>from langchain.agents import initialize_agent, AgentType
+
+# Create the agent
+agent = initialize_agent(
+    tools=tools,
+    llm=llm,
+    agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+    memory=agent_memory,
+    verbose=True,
+    handle_parsing_errors=True,
+    agent_kwargs={
+        "prefix": """You are an AI assistant with access to various tools. 
+                    Use these tools to solve complex tasks step by step.
+                    Always explain your reasoning before taking actions.""",
+        "suffix": """Begin! Remember to think step by step and use tools when needed.""",
+        "format_instructions": "Use the following format for your responses..."
+    }
+)
+
+print("🎉 Agent successfully created and ready for tasks!")</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">6</span>
+                    <h4>Task Execution</h4>
+                    <p>Execute complex tasks and observe the agent's reasoning process.</p>
+                    <div class="code-block">
+                        <pre># Example: Complex multi-step task
+task = """
+Find Tesla's current stock price, calculate what a 15% increase would be,
+then search for recent news about Tesla's performance to contextualize
+whether this increase is likely.
+"""
+
+# Execute the task
+response = agent.run(task)
+print(f"Agent Response: {response}")
+
+# The agent will:
+# 1. Search for Tesla stock price
+# 2. Use calculator for 15% increase
+# 3. Search for recent Tesla news
+# 4. Synthesize findings into a coherent response</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Core Concepts -->
+            <section id="concepts" class="section">
+                <h2>5. Core Concepts & Components Deep Dive</h2>
+
+                <h3>1. LLM (The Brain)</h3>
+                <div class="feature-card">
+                    <h4>Role & Responsibilities</h4>
+                    <p>The LLM serves as the central decision-making engine, responsible for understanding tasks, planning actions, selecting tools, and generating responses.</p>
+                    
+                    <h4>Key Parameters</h4>
+                    <div class="code-block">
+                        <pre>ChatOpenAI(
+    model="gpt-4-turbo",      # Reasoning capability
+    temperature=0,             # Deterministic output (0-1)
+    max_tokens=2000,          # Response length control
+    top_p=1,                  # Token selection diversity
+    frequency_penalty=0,      # Repetition control
+    presence_penalty=0        # Topic diversity
+)</pre>
+                    </div>
+
+                    <p><strong>Model Selection Guide:</strong></p>
+                    <ul style="margin-left: 2rem;">
+                        <li><strong>GPT-4 Turbo:</strong> Best for complex reasoning, high accuracy</li>
+                        <li><strong>GPT-3.5 Turbo:</strong> Faster, cost-effective for simpler tasks</li>
+                        <li><strong>Claude:</strong> Excellent for analysis, long contexts</li>
+                        <li><strong>Gemini:</strong> Strong multimodal capabilities</li>
+                    </ul>
+                </div>
+
+                <h3>2. Tools (The Hands)</h3>
+                <div class="feature-card">
+                    <h4>Tool Categories</h4>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Examples</th>
+                                <th>Use Cases</th>
+                                <th>Implementation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Information Retrieval</strong></td>
+                                <td>Search, Wikipedia, Database queries</td>
+                                <td>Research, fact-checking, data lookup</td>
+                                <td>API wrappers, SQL connectors</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Computation</strong></td>
+                                <td>Calculator, Statistical analysis</td>
+                                <td>Math operations, data analysis</td>
+                                <td>Python functions, NumPy/Pandas</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Communication</strong></td>
+                                <td>Email, Slack, SMS</td>
+                                <td>Notifications, updates, alerts</td>
+                                <td>Service APIs, webhooks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Business Systems</strong></td>
+                                <td>CRM, ERP, Inventory</td>
+                                <td>Data updates, process automation</td>
+                                <td>REST APIs, SDK integration</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Custom Tool Development</h4>
+                    <div class="code-block">
+                        <pre># Custom API Tool Example
+import requests
+from typing import Optional
+
+def custom_api_tool(query: str, endpoint: str) -> str:
+    """Custom tool for specific API integration"""
+    try:
+        response = requests.get(f"{endpoint}?q={query}")
+        return response.json()
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Wrap as LangChain Tool
+api_tool = Tool(
+    name="CustomAPI",
+    func=lambda x: custom_api_tool(x, "https://api.example.com"),
+    description="Queries our custom business API for specific data"
+)
+
+# Tool with multiple parameters
+from langchain.tools import BaseTool
+from pydantic import BaseModel, Field
+
+class DatabaseQueryInput(BaseModel):
+    table: str = Field(description="Database table name")
+    condition: str = Field(description="WHERE clause condition")
+
+class DatabaseTool(BaseTool):
+    name = "database_query"
+    description = "Query database with table and conditions"
+    args_schema = DatabaseQueryInput
+    
+    def _run(self, table: str, condition: str) -> str:
+        # Implement database query logic
+        query = f"SELECT * FROM {table} WHERE {condition}"
+        # Execute query safely...
+        return "Query results..."</pre>
+                    </div>
+                </div>
+
+                <h3>3. Memory Systems (The Context)</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>ConversationBufferMemory</h4>
+                        <p><strong>Best for:</strong> Short conversations, high accuracy needs</p>
+                        <p><strong>Stores:</strong> Complete conversation history</p>
+                        <p><strong>Limitation:</strong> Token limit can be reached quickly</p>
+                        <div class="code-block">
+                            <pre>memory = ConversationBufferMemory(
+    memory_key="chat_history",
+    return_messages=True
+)</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>ConversationSummaryMemory</h4>
+                        <p><strong>Best for:</strong> Long conversations, cost optimization</p>
+                        <p><strong>Stores:</strong> Summarized conversation history</p>
+                        <p><strong>Benefit:</strong> Constant memory size</p>
+                        <div class="code-block">
+                            <pre>memory = ConversationSummaryBufferMemory(
+    llm=llm,
+    memory_key="chat_history",
+    max_token_limit=1000
+)</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>VectorStoreMemory</h4>
+                        <p><strong>Best for:</strong> Knowledge retrieval, semantic search</p>
+                        <p><strong>Stores:</strong> Embeddings of past interactions</p>
+                        <p><strong>Advantage:</strong> Retrieves relevant context automatically</p>
+                        <div class="code-block">
+                            <pre>from langchain.memory import VectorStoreRetrieverMemory
+from langchain.vectorstores import FAISS
+
+vectorstore = FAISS.from_texts(["Initial context"])
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+memory = VectorStoreRetrieverMemory(retriever=retriever)</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>4. Executor Patterns</h3>
+                <div class="diagram">
+                    <h4>ReAct Pattern (Reasoning + Acting)</h4>
+                    <div class="workflow-step" data-step="Thought">
+                        <strong>Reasoning Step</strong><br>
+                        Agent analyzes the current situation and decides what to do next
+                    </div>
+                    <div class="arrow">↓</div>
+                    <div class="workflow-step" data-step="Action">
+                        <strong>Action Step</strong><br>
+                        Agent executes the planned action using available tools
+                    </div>
+                    <div class="arrow">↓</div>
+                    <div class="workflow-step" data-step="Observation">
+                        <strong>Observation Step</strong><br>
+                        Agent observes the results and updates its understanding
+                    </div>
+                    <div class="arrow">↓</div>
+                    <div style="text-align: center; font-style: italic;">Repeat until task is complete</div>
+                </div>
+            </section>
+
+            <!-- Section 6: Tools Deep Dive -->
+            <section id="tools" class="section">
+                <h2>6. Tool Integration & Custom Development</h2>
+
+                <h3>Built-in Tool Library</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🔍 Search Tools</h4>
+                        <ul style="margin-left: 1rem;">
+                            <li>SerpAPI (Google Search)</li>
+                            <li>DuckDuckGo Search</li>
+                            <li>Bing Search</li>
+                            <li>Wikipedia</li>
+                        </ul>
+                        <div class="code-block">
+                            <pre>from langchain.utilities import SerpAPIWrapper
+search = SerpAPIWrapper()
+search_tool = Tool(
+    name="Search",
+    func=search.run,
+    description="Search the web"
+)</pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🧮 Computation Tools</h4>
+                        <ul style="margin-left: 1rem;">
+                            <li>Math Calculator</li>
+                            <li>Python REPL</li>
+                            <li>Wolfram Alpha</li>
+                            <li>Pandas DataFrames</li>
+                        </ul>
+                        <div class="code-block">
+                            <pre>from langchain.tools import PythonREPLTool
+python_repl = PythonREPLTool()
+calc_tool = Tool(
+    name="Python",
+    func=python_repl.run,
+    description="Execute Python code"
+)</pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>💾 Database Tools</h4>
+                        <ul style="margin-left: 1rem;">
+                            <li>SQL Database</li>
+                            <li>Vector Stores</li>
+                            <li>Document Loaders</li>
+                            <li>CSV/Excel Readers</li>
+                        </ul>
+                        <div class="code-block">
+                            <pre>from langchain.tools.sql_database.tool import QuerySQLDataBaseTool
+from langchain.sql_database import SQLDatabase
+
+db = SQLDatabase.from_uri("sqlite:///example.db")
+db_tool = QuerySQLDataBaseTool(db=db)</pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🌐 API Integration</h4>
+                        <ul style="margin-left: 1rem;">
+                            <li>REST API Calls</li>
+                            <li>GraphQL Queries</li>
+                            <li>Webhook Triggers</li>
+                            <li>File Operations</li>
+                        </ul>
+                        <div class="code-block">
+                            <pre>def api_call_tool(endpoint: str, params: dict) -> str:
+    response = requests.get(endpoint, params=params)
+    return response.json()
+
+api_tool = Tool(
+    name="APICall",
+    func=api_call_tool,
+    description="Make API calls"
+)</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Custom Tool Development Patterns</h3>
+                <div class="code-block">
+                    <pre># Pattern 1: Simple Function Tool
+def weather_tool(location: str) -> str:
+    """Get weather information for a location"""
+    api_key = os.getenv("WEATHER_API_KEY")
+    url = f"http://api.openweathermap.org/data/2.5/weather"
+    params = {"q": location, "appid": api_key, "units": "metric"}
+    
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+        return f"Weather in {location}: {data['weather'][0]['description']}, {data['main']['temp']}°C"
+    except Exception as e:
+        return f"Error getting weather: {str(e)}"
+
+# Pattern 2: Class-based Tool with Validation
+from pydantic import BaseModel, Field, validator
+
+class EmailInput(BaseModel):
+    to: str = Field(description="Email recipient")
+    subject: str = Field(description="Email subject")
+    body: str = Field(description="Email body")
+    
+    @validator('to')
+    def validate_email(cls, v):
+        if '@' not in v:
+            raise ValueError('Invalid email address')
+        return v
+
+class EmailTool(BaseTool):
+    name = "send_email"
+    description = "Send an email to specified recipient"
+    args_schema = EmailInput
+    
+    def _run(self, to: str, subject: str, body: str) -> str:
+        # Implement email sending logic
+        # Use SMTP, SendGrid, etc.
+        return f"Email sent to {to} with subject: {subject}"
+
+# Pattern 3: Async Tool for Better Performance
+from langchain.tools import BaseTool
+import asyncio
+
+class AsyncDatabaseTool(BaseTool):
+    name = "async_db_query"
+    description = "Query database asynchronously"
+    
+    async def _arun(self, query: str) -> str:
+        # Async database operation
+        result = await async_db.execute(query)
+        return str(result)
+    
+    def _run(self, query: str) -> str:
+        # Sync wrapper
+        return asyncio.run(self._arun(query))</pre>
+                </div>
+            </section>
+
+            <!-- Section 7: Memory Systems -->
+            <section id="memory" class="section">
+                <h2>7. Memory Systems & Context Management</h2>
+
+                <h3>Memory Type Comparison</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Memory Type</th>
+                            <th>Storage Method</th>
+                            <th>Best Use Case</th>
+                            <th>Token Efficiency</th>
+                            <th>Retrieval Accuracy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Buffer Memory</strong></td>
+                            <td>Full conversation history</td>
+                            <td>Short sessions, high accuracy needs</td>
+                            <td>Low (grows linearly)</td>
+                            <td>High (complete context)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Summary Memory</strong></td>
+                            <td>Condensed summaries</td>
+                            <td>Long conversations, cost optimization</td>
+                            <td>High (constant size)</td>
+                            <td>Medium (lossy compression)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vector Store Memory</strong></td>
+                            <td>Semantic embeddings</td>
+                            <td>Knowledge retrieval, large contexts</td>
+                            <td>High (selective retrieval)</td>
+                            <td>High (semantic matching)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Knowledge Graph</strong></td>
+                            <td>Entity relationships</td>
+                            <td>Complex domain knowledge</td>
+                            <td>Very High (structured)</td>
+                            <td>Very High (precise)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Advanced Memory Patterns</h3>
+                <div class="code-block">
+                    <pre># Pattern 1: Hierarchical Memory
+from langchain.memory import CombinedMemory
+
+# Short-term: Buffer for recent context
+short_term = ConversationBufferMemory(
+    memory_key="recent_history",
+    input_key="input",
+    return_messages=True
+)
+
+# Long-term: Vector store for semantic retrieval
+long_term = VectorStoreRetrieverMemory(
+    retriever=vectorstore.as_retriever(),
+    memory_key="relevant_history"
+)
+
+# Combine both
+combined_memory = CombinedMemory(memories=[short_term, long_term])
+
+# Pattern 2: Custom Memory with Business Logic
+class BusinessContextMemory(BaseMemory):
+    """Custom memory that tracks business-specific context"""
+    
+    def __init__(self):
+        self.customer_data = {}
+        self.transaction_history = []
+        self.preferences = {}
+    
+    def save_context(self, inputs: Dict[str, Any], outputs: Dict[str, str]):
+        # Extract and store business-relevant information
+        if "customer_id" in inputs:
+            self.update_customer_context(inputs["customer_id"], outputs)
+    
+    def load_memory_variables(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        # Return relevant business context
+        customer_id = inputs.get("customer_id")
+        if customer_id and customer_id in self.customer_data:
+            return {
+                "customer_context": self.customer_data[customer_id],
+                "recent_transactions": self.get_recent_transactions(customer_id)
+            }
+        return {}
+
+# Pattern 3: Memory with Retention Policies
+class RetentionMemory(ConversationBufferMemory):
+    """Memory with automatic cleanup based on retention policies"""
+    
+    def __init__(self, retention_days=30, max_messages=100, **kwargs):
+        super().__init__(**kwargs)
+        self.retention_days = retention_days
+        self.max_messages = max_messages
+    
+    def save_context(self, inputs, outputs):
+        super().save_context(inputs, outputs)
+        self._cleanup_old_messages()
+    
+    def _cleanup_old_messages(self):
+        # Remove messages older than retention period
+        # Keep only last max_messages
+        pass</pre>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Memory Selection Guide</h4>
+                    <p><strong>Use Buffer Memory when:</strong> Conversations are short (&lt;20 exchanges), accuracy is critical, token cost is not a concern.</p>
+                    <p><strong>Use Summary Memory when:</strong> Conversations are long, cost optimization is important, some context loss is acceptable.</p>
+                    <p><strong>Use Vector Memory when:</strong> Need semantic retrieval, working with large knowledge bases, context relevance is more important than chronology.</p>
+                </div>
+            </section>
+
+            <!-- Section 8: Agent Types -->
+            <section id="agent-types" class="section">
+                <h2>8. Agent Types & Selection Guide</h2>
+
+                <h3>Agent Type Matrix</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Agent Type</th>
+                            <th>Complexity</th>
+                            <th>Use Case</th>
+                            <th>Planning Capability</th>
+                            <th>Tool Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ZERO_SHOT_REACT</strong></td>
+                            <td>Low</td>
+                            <td>Simple, single-step tasks</td>
+                            <td>Minimal</td>
+                            <td>Basic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>STRUCTURED_CHAT</strong></td>
+                            <td>Medium</td>
+                            <td>Multi-step, conversational</td>
+                            <td>Step-by-step</td>
+                            <td>Advanced</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PLAN_AND_EXECUTE</strong></td>
+                            <td>High</td>
+                            <td>Complex projects, long-term goals</td>
+                            <td>Strategic planning</td>
+                            <td>Orchestrated</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OPENAI_FUNCTIONS</strong></td>
+                            <td>Medium</td>
+                            <td>Structured outputs, API integration</td>
+                            <td>Function-driven</td>
+                            <td>Structured</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Implementation Examples</h3>
+
+                <div class="step-container">
+                    <span class="step-number">1</span>
+                    <h4>Zero-Shot ReAct Agent</h4>
+                    <div class="code-block">
+                        <pre># Best for: Simple Q&A, basic tool usage
+agent = initialize_agent(
+    tools=tools,
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True
+)
+
+# Example usage
+response = agent.run("What's the weather in Tokyo and what's 25% of 800?")
+# Agent will use search tool and calculator independently</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">2</span>
+                    <h4>Structured Chat Agent</h4>
+                    <div class="code-block">
+                        <pre># Best for: Conversational interfaces, multi-step reasoning
+agent = initialize_agent(
+    tools=tools,
+    llm=llm,
+    agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+    memory=memory,
+    verbose=True,
+    agent_kwargs={
+        "prefix": """You are a helpful assistant with access to tools.
+                    Think step by step and explain your reasoning.""",
+        "suffix": """Begin! Remember to use tools when needed and maintain context."""
+    }
+)
+
+# Example: Multi-turn conversation with context
+agent.run("Find information about Tesla's latest earnings")
+agent.run("Now calculate the percentage change from last quarter")
+agent.run("Based on this data, what's your assessment?")</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">3</span>
+                    <h4>Plan and Execute Agent</h4>
+                    <div class="code-block">
+                        <pre># Best for: Complex projects, strategic planning
+from langchain.experimental.plan_and_execute import PlanAndExecute, load_agent_executor, load_chat_planner
+
+# Create planner and executor
+planner = load_chat_planner(llm)
+executor = load_agent_executor(llm, tools, verbose=True)
+
+# Create plan-and-execute agent
+agent = PlanAndExecute(planner=planner, executor=executor, verbose=True)
+
+# Example: Complex multi-step project
+task = """
+Analyze our competitor's pricing strategy:
+1. Research competitor prices for our top 5 products
+2. Calculate price differences and market positioning
+3. Identify opportunities for price optimization
+4. Create a strategic recommendation report
+"""
+
+response = agent.run(task)
+# Agent will create a plan, then execute each step systematically</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 9: Case Study -->
+            <section id="case-study" class="section">
+                <h2>9. Enterprise Case Study: Supply Chain Optimization</h2>
+
+                <div class="highlight-box">
+                    <h4>Business Challenge</h4>
+                    <p>A global manufacturer faced significant supply chain inefficiencies:</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>$12M/year in inventory waste</li>
+                        <li>3-week delay in demand forecasting</li>
+                        <li>Manual exception handling causing shipment delays</li>
+                        <li>Reactive rather than proactive supply chain management</li>
+                    </ul>
+                </div>
+
+                <h3>Agent System Architecture</h3>
+                <div class="architecture-diagram">
+                    <div class="component-box">Data Ingestion Agent</div>
+                    <div class="component-box">Forecasting Agent</div>
+                    <div class="component-box">Inventory Agent</div>
+                    <div class="component-box">Logistics Agent</div>
+                    <br><br>
+                    <div class="component-box" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        Central Optimization Engine
+                    </div>
+                </div>
+
+                <h3>Implementation Details</h3>
+
+                <div class="step-container">
+                    <span class="step-number">1</span>
+                    <h4>Data Integration Tools</h4>
+                    <div class="code-block">
+                        <pre># SAP System Connector
+class SAPConnector:
+    def __init__(self, base_url, auth_token):
+        self.base_url = base_url
+        self.headers = {"Authorization": f"Bearer {auth_token}"}
+    
+    def get_inventory_data(self, sku: str) -> dict:
+        response = requests.get(
+            f"{self.base_url}/inventory/{sku}", 
+            headers=self.headers
+        )
+        return response.json()
+    
+    def update_stock_levels(self, sku: str, quantity: int) -> bool:
+        data = {"sku": sku, "quantity": quantity}
+        response = requests.put(
+            f"{self.base_url}/inventory/{sku}", 
+            json=data, 
+            headers=self.headers
+        )
+        return response.status_code == 200
+
+# Weather Impact Tool
+def get_weather_forecast(location: str, days: int = 7) -> dict:
+    """Get weather forecast for supply chain planning"""
+    api_key = os.getenv("WEATHER_API_KEY")
+    url = f"https://api.weatherapi.com/v1/forecast.json"
+    params = {
+        "key": api_key,
+        "q": location,
+        "days": days,
+        "alerts": "yes"
+    }
+    response = requests.get(url, params=params)
+    return response.json()
+
+# Market Data Tool
+def get_market_trends(product_category: str) -> dict:
+    """Fetch market demand trends for forecasting"""
+    # Integration with market data provider
+    trends_data = external_api.get_trends(product_category)
+    return {
+        "demand_trend": trends_data.get("trend"),
+        "seasonality": trends_data.get("seasonal_factors"),
+        "market_events": trends_data.get("upcoming_events")
+    }
+
+# Create tools
+sap_connector = SAPConnector(SAP_URL, SAP_TOKEN)
+tools = [
+    Tool(name="SAP_Inventory", func=sap_connector.get_inventory_data, 
+         description="Get current inventory levels from SAP system"),
+    Tool(name="Weather_Forecast", func=get_weather_forecast,
+         description="Get weather forecast for logistics planning"),
+    Tool(name="Market_Trends", func=get_market_trends,
+         description="Get market demand trends and forecasts")
+]</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">2</span>
+                    <h4>Multi-Agent Coordination</h4>
+                    <div class="code-block">
+                        <pre># Specialized Agent Creation
+def create_specialized_agent(role: str, tools: list, llm) -> AgentExecutor:
+    """Create specialized agent for specific supply chain function"""
+    
+    role_prompts = {
+        "forecaster": """You are a demand forecasting specialist. Use market data, 
+                        weather information, and historical trends to predict demand.""",
+        "inventory": """You are an inventory optimization expert. Minimize waste 
+                       while ensuring adequate stock levels.""",
+        "logistics": """You are a logistics coordinator. Optimize transportation 
+                        routes and manage distribution efficiently."""
+    }
+    
+    return initialize_agent(
+        tools=tools,
+        llm=llm,
+        agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True,
+        agent_kwargs={
+            "prefix": role_prompts[role],
+            "suffix": "Use available tools and provide detailed analysis."
+        }
+    )
+
+# Create specialized agents
+forecast_agent = create_specialized_agent("forecaster", 
+    [weather_tool, market_tool], llm)
+inventory_agent = create_specialized_agent("inventory", 
+    [sap_tool, calculation_tool], llm)
+logistics_agent = create_specialized_agent("logistics", 
+    [routing_tool, tracking_tool], llm)
+
+# Coordinator Agent
+class SupplyChainCoordinator:
+    def __init__(self, agents: dict):
+        self.agents = agents
+        self.coordinator_llm = llm
+    
+    def handle_disruption(self, disruption_type: str, details: dict) -> str:
+        """Coordinate response to supply chain disruption"""
+        
+        # Step 1: Assess impact
+        impact_analysis = self.agents["forecaster"].run(
+            f"Analyze impact of {disruption_type}: {details}"
+        )
+        
+        # Step 2: Generate solutions
+        inventory_response = self.agents["inventory"].run(
+            f"Given this disruption impact: {impact_analysis}, "
+            f"what inventory adjustments are needed?"
+        )
+        
+        logistics_response = self.agents["logistics"].run(
+            f"How should we adjust logistics given: {impact_analysis} "
+            f"and inventory changes: {inventory_response}?"
+        )
+        
+        # Step 3: Coordinate final plan
+        final_plan = self.coordinator_llm.predict(
+            f"Synthesize these specialist recommendations into an action plan:\n"
+            f"Impact: {impact_analysis}\n"
+            f"Inventory: {inventory_response}\n"
+            f"Logistics: {logistics_response}"
+        )
+        
+        return final_plan
+
+coordinator = SupplyChainCoordinator({
+    "forecaster": forecast_agent,
+    "inventory": inventory_agent,
+    "logistics": logistics_agent
+})</pre>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <span class="step-number">3</span>
+                    <h4>Real-World Execution Workflow</h4>
+                    <div class="code-block">
+                        <pre># Hurricane Disruption Response Example
+def handle_hurricane_disruption():
+    """Real example: Hurricane threatens Florida distribution centers"""
+    
+    disruption_details = {
+        "type": "weather",
+        "event": "Category 3 Hurricane",
+        "location": "Florida Gulf Coast",
+        "timeline": "72 hours",
+        "affected_facilities": ["Miami DC", "Tampa DC", "Jacksonville DC"]
+    }
+    
+    # Execute coordinated response
+    response_plan = coordinator.handle_disruption("hurricane", disruption_details)
+    
+    print("🚨 SUPPLY CHAIN ALERT RESPONSE:")
+    print(response_plan)
+    
+    # Actual execution results:
+    return {
+        "inventory_redistributed": "2.3M units moved to Atlanta and Charlotte",
+        "routes_updated": "15 delivery routes redirected",
+        "cost_impact": "$1.2M vs $8.7M without agent intervention",
+        "response_time": "4 hours vs 3-day manual process"
+    }
+
+# Demand Forecasting Example
+def monthly_demand_forecast():
+    """Regular monthly forecasting workflow"""
+    
+    # Multi-step agent coordination
+    forecast = forecast_agent.run("""
+        Analyze next month's demand considering:
+        1. Historical sales data from SAP
+        2. Weather patterns for our key markets
+        3. Upcoming market events and seasonality
+        4. Current inventory levels
+        
+        Provide specific recommendations for top 20 SKUs.
+    """)
+    
+    inventory_plan = inventory_agent.run(f"""
+        Based on this demand forecast: {forecast}
+        
+        Calculate optimal inventory levels for each distribution center.
+        Consider:
+        - Current stock levels
+        - Lead times from suppliers
+        - Storage capacity constraints
+        - Cost of capital
+    """)
+    
+    return {
+        "forecast_accuracy": "94% vs 76% manual",
+        "inventory_optimization": "31% reduction in excess stock",
+        "stockout_prevention": "87% reduction in stockouts"
+    }
+
+# Execute examples
+hurricane_results = handle_hurricane_disruption()
+forecast_results = monthly_demand_forecast()</pre>
+                    </div>
+                </div>
+
+                <div class="results-showcase">
+                    <h3>🎯 Measured Results</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                            <span class="stat-number">42%</span>
+                            <span>Reduction in Inventory Waste</span>
+                        </div>
+                        <div class="stat-card" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                            <span class="stat-number">90%</span>
+                            <span>Faster Disruption Response
